@@ -1,0 +1,31 @@
+{
+  "name": "stepin-template",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview",
+    "deploy": "gh-pages -d dist -b pages -r https://gitee.com/iczer/stepin.git"
+  },
+  "dependencies": {
+    "ant-design-vue": "^2.1.2",
+    "clipboard": "^2.0.8",
+    "stepin": "^2.0.0-beta.4",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.4",
+    "@types/node": "^14.14.37",
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "autoprefixer": "^9",
+    "less": "^4.1.1",
+    "less-loader": "^8.0.0",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "typescript": "^4.1.3",
+    "vite": "^2.1.3",
+    "vue-tsc": "^0.0.8"
+  }
+}
