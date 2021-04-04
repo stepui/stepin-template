@@ -17,4 +17,5 @@ export default defineConfig({
       },
     },
   },
+  // base: 'stepin-template',
 });

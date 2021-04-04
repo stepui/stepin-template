@@ -3,8 +3,8 @@
     <section>
       <h2>Iframe 支持</h2>
       <p>
-        现在，stepin 组件库提供了 IframeBox 组件。<br />在你的路由配置，设置
-        {..., meta: {href: 'https://www.baidu.com'}, component: () =>
+        Stepin 组件库提供了 IframeBox 组件。<br />在你的路由配置，设置 {...,
+        meta: {href: 'https://www.baidu.com'}, component: () =>
         import('stepin/es/iframe-box')} 即可在 Stepin 项目中打开 iframe
         页面。<br />
         同样，iframe 也支持 新窗口、多页签、指定布局模式。
@@ -37,10 +37,10 @@
 </script>
 <style lang="less" scoped>
   section {
-    @apply p-4 bg-gray-100 rounded;
+    @apply p-4 bg-bg-disabled rounded;
   }
   .container {
-    @apply p-8 bg-green-100 rounded;
+    @apply p-8 bg-primary-50 rounded;
   }
   .link {
     @apply block;

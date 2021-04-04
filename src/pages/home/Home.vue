@@ -49,6 +49,10 @@
       如果你有其它任何想要的功能，不妨给我们提
       issue，我们会认真考虑每个用户的需求。
     </p>
+    <p>
+      vue3 框架核心功能基本研发完成，目前处于测试阶段，接下来会逐步补充 demo
+      页面及完善部分功能。
+    </p>
   </section>
 </template>
 <script lang="ts">
@@ -66,6 +70,6 @@
 </script>
 <style lang="less" scoped>
   section {
-    @apply mt-4 bg-gray-100 p-4 rounded;
+    @apply mt-4 bg-bg-disabled p-4 rounded;
   }
 </style>

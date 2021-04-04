@@ -1,11 +1,25 @@
 <template>
   <div class="page-footer">
     <div class="links">
-      <a class="link">Admin 首页</a>
-      <a class="link">
+      <a
+        class="link"
+        href="https://github.com/stepui/stepin-template"
+        target="_balnk"
+        >Stepin 首页</a
+      >
+      <a
+        class="link"
+        href="https://github.com/stepui/stepin-template"
+        target="_balnk"
+      >
         <GithubOutlined />
       </a>
-      <a class="link">Ant Design</a>
+      <a
+        class="link"
+        href="https://www.antdv.com/docs/vue/introduce-cn/"
+        target="_blank"
+        >Ant Design</a
+      >
     </div>
     <div class="copyright">
       Copyright <CopyrightOutlined class="icon-copyright" /> 2020 ICZER

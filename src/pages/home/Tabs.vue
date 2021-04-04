@@ -58,10 +58,10 @@
 </script>
 <style lang="less" scoped>
   section {
-    @apply p-4 bg-gray-100 rounded;
+    @apply p-4 bg-bg-disabled rounded;
   }
   .container {
-    @apply flex mt-4 mb-4 bg-red-100 p-8 rounded;
+    @apply flex mt-4 mb-4 bg-warning-50 p-8 rounded;
     .left,
     .right {
       @apply flex-1;
