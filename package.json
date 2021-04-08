@@ -9,14 +9,19 @@
   },
   "dependencies": {
     "ant-design-vue": "^2.1.2",
+    "axios": "^0.21.1",
     "clipboard": "^2.0.8",
-    "stepin": "^2.0.1-beta",
+    "js-cookie": "^2.2.1",
+    "qs": "^6.10.1",
+    "stepin": "^2.0.2-beta.4",
     "vue": "^3.0.5",
-    "vue-router": "^4.0.5"
+    "vue-router": "^4.0.5",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "@types/node": "^14.14.37",
+    "@types/qs": "^6.9.6",
     "@vitejs/plugin-vue": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^9",

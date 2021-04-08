@@ -6,9 +6,15 @@ import antd from 'ant-design-vue';
 
 import 'ant-design-vue/dist/antd.less';
 import 'stepin/dist/stepin.less';
+import http from '/@/services/http';
+import store from '/@/store';
 
 const app = createApp(App);
-app.use(router);
+
+app.use(store);
+app.use(router, store);
+app.use(http);
 app.use(stepin, { router });
 app.use(antd);
+
 app.mount('#stepin-app');

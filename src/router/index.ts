@@ -1,55 +1,21 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-const routes = [
-  {
-    path: '/',
-    name: '首页',
-    meta: {
-      view: 'admin',
-    },
-    component: () => import('../pages/home'),
-  },
-  {
-    path: '/login',
-    name: '登录',
-    meta: {
-      page: {
-        cacheable: true,
-      },
-    },
-    component: () => import('/@/pages/Login.vue'),
-  },
-  {
-    path: '/:catchAll(.*)',
-    name: '404',
-    component: () => import('/@/pages/Exp404.vue'),
-  },
-  {
-    path: '/',
-    component: () => import('/@/components/layout/BlankView.vue'),
-    children: [
-      {
-        path: 'workplace',
-        name: '工作台',
-        meta: {
-          page: {
-            cacheable: true,
-          },
-        },
-        component: () => import('../pages/Workplace.vue'),
-      },
-      {
-        path: 'iframe/baidu',
-        name: '百度',
-        meta: {
-          href: 'https://www.baidu.com',
-        },
-        component: () => import('stepin/es/iframe-box'),
-      },
-    ],
-  },
-];
+import { createRouter, createWebHashHistory, Router } from 'vue-router';
+import { Plugin, App } from 'vue';
+import routes from './routes';
+import guards from './guards';
+import { AppStore } from '/@/types';
 
-export default createRouter({
+const _router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
+
+const router: Plugin & Router = _router as any;
+const _install = _router.install;
+
+router.install = function (app: App, ...options: any[]) {
+  const store = options[0] as AppStore;
+  _install.apply(this, [app]);
+  app.use(guards, this, store);
+};
+
+export default router;

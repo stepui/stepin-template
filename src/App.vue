@@ -1,14 +1,19 @@
 <template>
   <stepin-view
-    :menu-list="menuList"
     :tabs-mode="true"
     system-name="Stepin Template"
     :logo-src="logoSrc"
-    avatar="https://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png!avatar200"
-    username="iczer"
-    :user-menu-list="[
-      { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
-    ]"
+    :user="{
+      name: 'iczer',
+      avatar:
+        'https://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png',
+      menuList: [
+        { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
+        { title: '设置', key: 'setting', icon: 'SettingOutlined' },
+        { type: 'divider' },
+        { title: '退出登录', key: 'logout', icon: 'LogoutOutlined' },
+      ],
+    }"
     @user-menu-click="userMenuClick"
     @setting-change="onSettingChange"
     @copy-config="onCopyConfig"
@@ -29,7 +34,7 @@
       >
         <img class="gitee-logo" :src="giteeLogo" />
       </a>
-      <div class="action-item" @click="onSettingClick">
+      <div class="action-item setting" @click="onSettingClick">
         <SettingOutlined />
       </div>
     </template>
@@ -37,6 +42,11 @@
       <page-footer />
     </template>
   </stepin-view>
+  <login-modal
+    :visible="!loginStatus && $route.path !== '/login'"
+    @login="onLogin"
+    :loading="loginLoading"
+  />
 </template>
 
 <script lang="ts">
@@ -44,89 +54,51 @@
   import PageFooter from '/@/components/layout/PageFooter.vue';
   import logoSrc from '/@/assets/logo.png';
   import giteeLogo from '/@/assets/gitee.svg';
+  import { LoginModal } from './components/login-box';
+  import { mapState, mapMutations } from 'vuex';
+  import { userService, http } from '/@/services';
 
   export default defineComponent({
     name: 'App',
-    components: { PageFooter },
+    components: { PageFooter, LoginModal },
     data() {
       return {
         collapsed: false,
         logoSrc,
         giteeLogo,
         showSetting: false,
-        menuList: [
-          {
-            title: '首页',
-            path: '/',
-            meta: {
-              badge: 'new',
-              icon: 'HomeOutlined',
-            },
-          },
-          {
-            title: '工作台',
-            path: '/workplace',
-            meta: {
-              icon: 'AimOutlined',
-            },
-          },
-          {
-            title: '系统管理',
-            path: '/system',
-            meta: {
-              icon: 'CompassOutlined',
-            },
-            children: [
-              {
-                title: '权限管理',
-                path: '/system/permission',
-                meta: {
-                  icon: 'CommentOutlined',
-                },
-                children: [
-                  {
-                    title: '角色管理',
-                    path: '/system/permission/role',
-                    meta: {
-                      icon: 'CommentOutlined',
-                      badge: '9',
-                    },
-                  },
-                  {
-                    title: '分组管理',
-                    path: '/system/permission/group',
-                    meta: {
-                      icon: 'CommentOutlined',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: '百度',
-            path: '/iframe/baidu',
-            meta: {
-              badge: 'dot',
-              icon: 'ControlOutlined',
-            },
-          },
-          {
-            title: 'b站',
-            path: '/iframe/bilibili',
-            meta: {
-              target: '_blank',
-              href: 'https://www.bilibili.com',
-              view: 'blank',
-              icon: 'ControlOutlined',
-            },
-          },
-        ],
+        showLogin: false,
+        loginLoading: false,
       };
     },
+    provide: {
+      return() {
+        app: this;
+      },
+    },
+    created() {},
+    computed: {
+      ...mapState(['loginStatus']),
+    },
     methods: {
+      ...mapMutations(['setLogin']),
       userMenuClick(key: string) {
-        console.log(key, 'user-menu-click');
+        switch (key) {
+          case 'setting':
+            this.showSetting = true;
+            break;
+          case 'logout':
+            userService.logout().then((res) => {
+              const { message, code } = res;
+              this.$message.info(message);
+              if (code === 0) {
+                this.$router.push('/login');
+                this.setLogin(false);
+              }
+            });
+          default:
+            console.log(key, 'user-menu-click');
+        }
       },
       onSettingChange(category: string, key: string, value: any) {
         console.log(category, key, value);
@@ -136,6 +108,22 @@
       },
       onSettingClick() {
         this.showSetting = true;
+      },
+      login() {
+        this.showLogin = true;
+      },
+      onLogin({ username, password }: { username: string; password: string }) {
+        this.loginLoading = true;
+        userService.login(username, password).then((res) => {
+          const { message, code } = res;
+          if (code === 0) {
+            this.showLogin = false;
+            http.setAuthorization('steapin-token', 360);
+            this.setLogin(true);
+          }
+          this.loginLoading = false;
+          this.$message.success(message);
+        });
       },
     },
   });
@@ -165,5 +153,9 @@
     line-height: 40px;
     display: flex;
     align-items: center;
+    &.setting {
+      font-size: 18px;
+      color: theme('textColor.text');
+    }
   }
 </style>

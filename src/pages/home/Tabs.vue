@@ -13,14 +13,11 @@
       <div class="container">
         <div class="left">
           <h3>链接方式</h3>
-          <stepin-link :to="'/login'"> 登录页 </stepin-link>
-          <stepin-link :to="'/login'" target="_blank">
+          <stepin-link :to="'/login'" view="admin"> 登录页 </stepin-link>
+          <stepin-link :to="{ path: '/login' }" view="admin" target="_blank">
             登录页（新窗口）
           </stepin-link>
-          <stepin-link
-            :to="{ path: '/login', query: { _to_view: 'blank' } }"
-            target="_blank"
-          >
+          <stepin-link :to="{ path: '/login' }" view="admin" target="_blank">
             登录页（新窗口-不带后台布局）
           </stepin-link>
         </div>
