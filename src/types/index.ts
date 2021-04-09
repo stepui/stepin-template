@@ -1,5 +1,3 @@
-import { type } from 'os';
-
 import { Store } from 'vuex';
 
 export interface AppState {
@@ -7,3 +5,14 @@ export interface AppState {
 }
 
 export type AppStore = Store<AppState>;
+
+export interface LoginForm {
+  username: string;
+  password: string;
+}
+
+export interface Response {
+  message: string;
+  code: number;
+  data?: any;
+}

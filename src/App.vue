@@ -55,8 +55,9 @@
   import logoSrc from '/@/assets/logo.png';
   import giteeLogo from '/@/assets/gitee.svg';
   import { LoginModal } from './components/login-box';
-  import { mapState, mapMutations } from 'vuex';
-  import { userService, http } from '/@/services';
+  import { mapState } from 'vuex';
+  import { userService } from '/@/services';
+  import { LoginForm } from '/@/types';
 
   export default defineComponent({
     name: 'App',
@@ -81,7 +82,6 @@
       ...mapState(['loginStatus']),
     },
     methods: {
-      ...mapMutations(['setLogin']),
       userMenuClick(key: string) {
         switch (key) {
           case 'setting':
@@ -90,10 +90,10 @@
           case 'logout':
             userService.logout().then((res) => {
               const { message, code } = res;
+              // @ts-ignore
               this.$message.info(message);
               if (code === 0) {
                 this.$router.push('/login');
-                this.setLogin(false);
               }
             });
           default:
@@ -112,16 +112,15 @@
       login() {
         this.showLogin = true;
       },
-      onLogin({ username, password }: { username: string; password: string }) {
+      onLogin({ username, password }: LoginForm) {
         this.loginLoading = true;
         userService.login(username, password).then((res) => {
           const { message, code } = res;
           if (code === 0) {
             this.showLogin = false;
-            http.setAuthorization('steapin-token', 360);
-            this.setLogin(true);
           }
           this.loginLoading = false;
+          // @ts-ignore
           this.$message.success(message);
         });
       },
@@ -155,7 +154,6 @@
     align-items: center;
     &.setting {
       font-size: 18px;
-      color: theme('textColor.text');
     }
   }
 </style>

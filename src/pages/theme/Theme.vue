@@ -38,7 +38,6 @@
     </a-steps>
     <div class="global-search-wrapper" style="width: 300px">
       <a-auto-complete
-        v-model:value="value"
         class="global-search"
         style="width: 100%"
         option-label-prop="title"

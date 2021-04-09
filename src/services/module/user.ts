@@ -1,11 +1,12 @@
 import http from '../http';
+import store from '/@/store';
+import { Response } from '/@/types';
 
-interface Response {
-  message: string;
-  code: number;
-  data?: any;
-}
-
+/**
+ * 登录服务
+ * @param username
+ * @param password
+ */
 export async function login(
   username: string,
   password: string
@@ -14,7 +15,10 @@ export async function login(
     console.log(username, password);
     if (username === 'admin' && password === '888888') {
       setTimeout(() => {
-        resolve({ message: '登录成功', code: 0 });
+        http.setAuthorization('stepin-app-token', 1);
+        store.dispatch('setLoginStatus', true).then(() => {
+          resolve({ message: '登录成功', code: 0 });
+        });
       }, 500);
     } else {
       setTimeout(() => {
@@ -24,9 +28,14 @@ export async function login(
   });
 }
 
+/**
+ * 注销登录服务
+ */
 export async function logout(): Promise<Response> {
   return new Promise((resolve) => {
     http.removeAuthorization();
-    resolve({ message: '已注销登录', code: 0 });
+    store.dispatch('setLoginStatus', false).then(() => {
+      resolve({ message: '已注销登录', code: 0 });
+    });
   });
 }

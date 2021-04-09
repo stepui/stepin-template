@@ -52,11 +52,10 @@
         userService.login(username, password).then((res) => {
           const { message, code } = res;
           if (code === 0) {
-            http.setAuthorization('stepin-token', 360);
-            this.setLogin(true);
             this.$router.push('/');
           }
           this.loginLoading = false;
+          // @ts-ignore
           this.$message.info(message);
         });
       },

@@ -13,6 +13,11 @@ const store = createStore<AppState>({
       state.loginStatus = value;
     },
   },
+  actions: {
+    setLoginStatus({ commit }, status) {
+      commit('setLogin', status);
+    },
+  },
 });
 
 export default store;

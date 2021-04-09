@@ -14,14 +14,27 @@
   import { defineComponent } from 'vue';
   import LoginBox from './LoginBox.vue';
   import { ModalAble } from '/@/components/abstract';
+  import { LoginForm } from '/@/types';
 
   export default defineComponent({
     name: 'LoginModal',
     extends: ModalAble,
     components: { LoginBox },
-    emits: ['login'],
+    emits: {
+      login({ username, password }: LoginForm) {
+        if (username && password) {
+          return true;
+        }
+        return false;
+      },
+    },
     props: {
       loading: Boolean,
+    },
+    methods: {
+      onLogin(params: LoginForm) {
+        this.$emit('login', params);
+      },
     },
   });
 </script>

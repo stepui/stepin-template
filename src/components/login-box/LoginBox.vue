@@ -19,16 +19,16 @@
       <a-form-item :required="true" name="username">
         <a-input
           v-model:value="form.username"
-          autocomplete="username"
-          placeholder="请输入用户名或邮箱"
+          autocomplete="new-username"
+          placeholder="请输入用户名或邮箱: admin"
           class="login-input"
         />
       </a-form-item>
       <a-form-item :required="true" name="password">
         <a-input
           v-model:value="form.password"
-          autocomplete="current-password"
-          placeholder="请输入登录密码"
+          autocomplete="new-password"
+          placeholder="请输入登录密码: 888888"
           class="login-input"
           type="password"
         />
@@ -53,8 +53,8 @@
   </div>
 </template>
 <script lang="ts">
-  import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
   import { defineComponent } from 'vue';
+  import { LoginForm } from '/@/types';
 
   export interface LoginFormProps {
     username: string;
@@ -80,7 +80,7 @@
         // @ts-ignore
         this.$refs.form.validateFields();
       },
-      onSubmit(values: LoginFormProps) {
+      onSubmit(values: LoginForm) {
         this.$emit('login', values);
       },
     },
@@ -91,7 +91,7 @@
     .login-form {
       height: fit-content;
       width: 460px;
-      @apply border-border pl-10 pr-10 p-6 rounded-lg text-text bg-content;
+      @apply border-border pl-10 pr-10 p-6 rounded-base text-text bg-content;
       .third-platform {
         .third-title {
           @apply text-left mb-md;
@@ -116,7 +116,7 @@
       }
       .login-input,
       .login-button {
-        @apply rounded-lg;
+        @apply rounded-base;
         margin-top: 16px;
         height: 40px;
         width: 100%;
