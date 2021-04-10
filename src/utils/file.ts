@@ -12,7 +12,7 @@ export function readEnvFile(filePath: string) {
       .split('\n')
       .map((kv) => kv.split('='))
       .filter(([k, v]) => k != undefined && v != undefined)
-      .map(([k, v]) => ({ [k]: v }))
+      .map(([k, v]) => ({ [k]: v.replace(/\r\n/, '').replace(/\r/, '') }))
       .reduce((p, c) => ({ ...p, ...c }));
   } catch (err) {}
   return {};
