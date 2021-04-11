@@ -53,10 +53,10 @@
           const { message, code } = res;
           if (code === 0) {
             this.$router.push('/');
+            // @ts-ignore
+            this.$message.success(message);
           }
           this.loginLoading = false;
-          // @ts-ignore
-          this.$message.info(message);
         });
       },
     },

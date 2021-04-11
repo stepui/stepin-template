@@ -3,7 +3,7 @@ import { App, Plugin } from 'vue';
 import interceptors from './interceptors';
 
 const _http = StepinHttp.create({
-  baseURL: '/stepin-app',
+  baseURL: '/stepin-api',
   xsrfHeaderName: 'token',
   xsrfCookieName: 'token',
 });
@@ -11,6 +11,7 @@ const _http = StepinHttp.create({
 const http: Plugin & _StepinHttp = _http as any;
 
 http.install = function (app: App) {
+  app.config.globalProperties.$http = this;
   app.use(interceptors, this);
 };
 

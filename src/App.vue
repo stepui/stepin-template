@@ -1,6 +1,5 @@
 <template>
   <stepin-view
-    :tabs-mode="true"
     system-name="Stepin Template"
     :logo-src="logoSrc"
     :user="{
@@ -90,10 +89,10 @@
           case 'logout':
             userService.logout().then((res) => {
               const { message, code } = res;
-              // @ts-ignore
-              this.$message.info(message);
               if (code === 0) {
                 this.$router.push('/login');
+                // @ts-ignore
+                this.$message.success(message);
               }
             });
           default:
@@ -118,10 +117,10 @@
           const { message, code } = res;
           if (code === 0) {
             this.showLogin = false;
+            // @ts-ignore
+            this.$message.success(message);
           }
           this.loginLoading = false;
-          // @ts-ignore
-          this.$message.success(message);
         });
       },
     },
@@ -129,6 +128,23 @@
 </script>
 
 <style lang="less">
+  ::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 4px;
+    background-color: theme('colors.primary.500');
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: theme('colors.primary.400');
+    &:hover {
+      background-color: theme('colors.primary.500');
+    }
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    background: theme('backgroundColor.base');
+  }
   html {
     height: 100vh;
     overflow-y: hidden;

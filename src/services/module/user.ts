@@ -1,6 +1,7 @@
 import http from '../http';
 import store from '/@/store';
 import { Response } from '/@/types';
+import API from '../api';
 
 /**
  * 登录服务
@@ -11,31 +12,36 @@ export async function login(
   username: string,
   password: string
 ): Promise<Response> {
-  return new Promise((resolve, reject) => {
-    console.log(username, password);
-    if (username === 'admin' && password === '888888') {
-      setTimeout(() => {
-        http.setAuthorization('stepin-app-token', 1);
-        store.dispatch('setLoginStatus', true).then(() => {
-          resolve({ message: '登录成功', code: 0 });
-        });
-      }, 500);
-    } else {
-      setTimeout(() => {
-        resolve({ message: '用户名或密码错误', code: -1 });
-      }, 500);
-    }
-  });
+  return http
+    .request(API.LOGIN, 'POST_JSON', { username, password })
+    .then((res: any) => {
+      const { message, code, data } = res.data;
+      if (code === 0) {
+        const { token, expires } = data;
+        http.setAuthorization(token, expires);
+        store.dispatch('setLoginStatus', true);
+      }
+      return { code, message };
+    });
 }
 
 /**
  * 注销登录服务
  */
 export async function logout(): Promise<Response> {
-  return new Promise((resolve) => {
-    http.removeAuthorization();
-    store.dispatch('setLoginStatus', false).then(() => {
-      resolve({ message: '已注销登录', code: 0 });
-    });
+  return http.request(API.LOGOUT, 'POST_JSON').then((res: any) => {
+    const { message, code } = res.data;
+    if (code === 0) {
+      http.removeAuthorization();
+      store.dispatch('setLoginStatus', false);
+    }
+    return { message, code };
   });
+}
+
+/**
+ * 获取路由配置
+ */
+export async function getRoutes(): Promise<Response> {
+  return http.request(API.ROUTES, 'GET').then((res: any) => res.data);
 }

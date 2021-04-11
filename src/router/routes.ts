@@ -2,6 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/front',
+    name: '前端',
     meta: {
       renderMenu: false,
     },
@@ -35,6 +36,10 @@ const routes: RouteRecordRaw[] = [
     name: '首页',
     meta: {
       icon: 'HomeOutlined',
+      page: {
+        closeable: false,
+        cacheable: false,
+      },
     },
     component: () => import('../pages/home'),
   },
@@ -44,7 +49,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       icon: 'ClearOutlined',
       page: {
-        cacheable: false,
+        cacheable: true,
       },
     },
     component: () => import('/@/pages/theme'),
@@ -59,25 +64,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('stepin/es/iframe-box'),
   },
   {
-    path: '/admin',
-    name: '多级菜单',
+    path: '/async/routes',
+    name: '异步路由',
     meta: {
       icon: 'FundProjectionScreenOutlined',
     },
-    component: () => import('/@/components/layout/BlankView.vue'),
-    children: [
-      {
-        path: 'workplace',
-        name: '工作台',
-        meta: {
-          target: '_blank',
-          page: {
-            cacheable: true,
-          },
-        },
-        component: () => import('/@/pages/Workplace.vue'),
-      },
-    ],
+    component: () => import('/@/pages/AsyncRoutes.vue'),
   },
 ];
 

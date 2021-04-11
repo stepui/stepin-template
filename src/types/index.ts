@@ -1,5 +1,4 @@
 import { Store } from 'vuex';
-
 export interface AppState {
   loginStatus: boolean;
 }
