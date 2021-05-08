@@ -21,7 +21,7 @@ const loginGuard = function (
 const guards: Plugin = {
   install(app: App) {
     const router = app.config.globalProperties.$router as Router;
-    router.beforeEach((to, from, next) => loginGuard(to, from, next));
+    router.beforeEach(loginGuard);
   },
 };
 

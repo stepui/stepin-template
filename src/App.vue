@@ -1,51 +1,53 @@
 <template>
-  <stepin-view
-    system-name="Stepin Template"
-    :logo-src="logoSrc"
-    :user="{
-      name: 'iczer',
-      avatar:
-        'https://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png',
-      menuList: [
-        { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
-        { title: '设置', key: 'setting', icon: 'SettingOutlined' },
-        { type: 'divider' },
-        { title: '退出登录', key: 'logout', icon: 'LogoutOutlined' },
-      ],
-    }"
-    @user-menu-click="userMenuClick"
-    @setting-change="onSettingChange"
-    @copy-config="onCopyConfig"
-    v-model:show-setting="showSetting"
-  >
-    <template #headerActions>
-      <a
-        class="action-item"
-        href="https://github.com/stepui/stepin-template"
-        target="_balnk"
-      >
-        <GithubOutlined />
-      </a>
-      <a
-        class="action-item"
-        href="https://gitee.com/stepui/stepin-template"
-        target="_blank"
-      >
-        <img class="gitee-logo" :src="giteeLogo" />
-      </a>
-      <div class="action-item setting" @click="onSettingClick">
-        <SettingOutlined />
-      </div>
-    </template>
-    <template #pageFooter>
-      <page-footer />
-    </template>
-  </stepin-view>
-  <login-modal
-    :visible="!loginStatus && $route.path !== '/login'"
-    @login="onLogin"
-    :loading="loginLoading"
-  />
+  <stepin-config-provider :theme-config="nightTheme">
+    <stepin-view
+      system-name="Stepin Template"
+      :logo-src="logoSrc"
+      :user="{
+        name: 'iczer',
+        avatar:
+          'https://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png',
+        menuList: [
+          { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
+          { title: '设置', key: 'setting', icon: 'SettingOutlined' },
+          { type: 'divider' },
+          { title: '退出登录', key: 'logout', icon: 'LogoutOutlined' },
+        ],
+      }"
+      @user-menu-click="userMenuClick"
+      @setting-change="onSettingChange"
+      @copy-config="onCopyConfig"
+      v-model:show-setting="showSetting"
+    >
+      <template #headerActions>
+        <a
+          class="action-item"
+          href="https://github.com/stepui/stepin-template"
+          target="_balnk"
+        >
+          <GithubOutlined />
+        </a>
+        <a
+          class="action-item"
+          href="https://gitee.com/stepui/stepin-template"
+          target="_blank"
+        >
+          <img class="gitee-logo" :src="giteeLogo" />
+        </a>
+        <div class="action-item setting" @click="onSettingClick">
+          <SettingOutlined />
+        </div>
+      </template>
+      <template #pageFooter>
+        <page-footer />
+      </template>
+    </stepin-view>
+    <login-modal
+      :visible="!loginStatus && $route.path !== '/login'"
+      @login="onLogin"
+      :loading="loginLoading"
+    />
+  </stepin-config-provider>
 </template>
 
 <script lang="ts">
@@ -57,6 +59,7 @@
   import { mapState } from 'vuex';
   import { userService } from '/@/services';
   import { LoginForm } from '/@/types';
+  import { nightTheme, lightTheme, defaultTheme } from 'stepin/es/theme';
 
   export default defineComponent({
     name: 'App',
@@ -69,6 +72,9 @@
         showSetting: false,
         showLogin: false,
         loginLoading: false,
+        nightTheme,
+        lightTheme,
+        defaultTheme,
       };
     },
     provide: {
@@ -76,7 +82,6 @@
         app: this;
       },
     },
-    created() {},
     computed: {
       ...mapState(['loginStatus']),
     },
