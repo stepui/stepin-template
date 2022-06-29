@@ -1,6 +1,8 @@
 <template>
   <div class="tabs">
     <section>
+      <code-sandbox :code="`123`" title="基本用法" describe="基本用法">
+      </code-sandbox>
       <h2>多页签视图</h2>
       <p>
         多页签开启方式更灵活，你可以随意的为任意页面开启页签视图（区别于vue2版本，现在无需在路由配置视图布局）；

@@ -1,5 +1,5 @@
 <template>
-  <stepin-config-provider :theme-config="nightTheme">
+  <stepin-config-provider :theme-config="customTheme">
     <stepin-view
       system-name="Stepin Template"
       :logo-src="logoSrc"
@@ -20,6 +20,11 @@
       v-model:show-setting="showSetting"
     >
       <template #headerActions>
+        <a-input placeholder="开始搜索...">
+          <template #prefix>
+            <search-outlined />
+          </template>
+        </a-input>
         <a
           class="action-item"
           href="https://github.com/stepui/stepin-template"
@@ -60,6 +65,7 @@
   import { userService } from '/@/services';
   import { LoginForm } from '/@/types';
   import { nightTheme, lightTheme, defaultTheme } from 'stepin/es/theme';
+  import { customTheme } from '/@/theme';
 
   export default defineComponent({
     name: 'App',
@@ -75,6 +81,7 @@
         nightTheme,
         lightTheme,
         defaultTheme,
+        customTheme,
       };
     },
     provide: {
@@ -85,18 +92,23 @@
     computed: {
       ...mapState(['loginStatus']),
     },
+    created() {
+      console.log(this.customTheme);
+    },
     methods: {
       userMenuClick(key: string) {
         switch (key) {
           case 'setting':
+            const str = key ?? '';
+            console.log(str);
+
             this.showSetting = true;
             break;
           case 'logout':
             userService.logout().then((res) => {
               const { message, code } = res;
               if (code === 0) {
-                this.$router.push('/login');
-                // @ts-ignore
+                this.$router?.push('/login');
                 this.$message.success(message);
               }
             });
