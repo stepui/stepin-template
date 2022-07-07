@@ -1,0 +1,33 @@
+.stepin-app {
+  .stepin-view {
+    .content .stepin-view-main {
+      transition: all 0.25s ease-in;
+      .stepin-tabs-view-content {
+        @apply pr-0 mr-0;
+      }
+      .stepin-tabs-view-content-main {
+        transition: all 0.25s ease-in;
+      }
+    }
+    &.unbounded {
+      .stepin-tabs-view .ant-tabs-top .ant-tabs-nav {
+        @apply bg-content px-xs;
+        .ant-tabs-tab {
+          @apply rounded-md;
+          outline: 1px solid theme('colors.gray.400');
+          outline-offset: -1px;
+          &-active {
+            outline: 1px solid theme('colors.primary.500');
+          }
+        }
+        
+      }
+      .content .stepin-view-main {
+        @apply px-0 pt-0;
+        .stepin-tabs-view-content-main {
+          @apply bg-transparent;
+        }
+      }
+    }
+  }
+}

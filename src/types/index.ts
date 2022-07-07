@@ -1,6 +1,7 @@
 import { Store } from 'vuex';
 export interface AppState {
   loginStatus: boolean;
+  theme: string;
 }
 
 export type AppStore = Store<AppState>;

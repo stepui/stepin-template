@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './layout.less';
+@import './component.less';
+
+.row {
+  &.gap-4 {
+    .col-1\/2 {
+      width: calc(50% - theme('padding.4'))
+    }
+  }
+}
+

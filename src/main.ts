@@ -4,6 +4,7 @@ import router from '/@/router';
 import stepin from 'stepin/components';
 import antd from 'ant-design-vue';
 
+import '/@/theme/style/index.less';
 import 'ant-design-vue/dist/antd.less';
 import 'stepin/components/style';
 import http from '/@/services/http';

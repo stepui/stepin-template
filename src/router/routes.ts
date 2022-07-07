@@ -32,6 +32,17 @@ const routes: RouteRecordRaw[] = [
     component: () => import('/@/pages/Exp404.vue'),
   },
   {
+    path: '/workplace',
+    name: '工作台',
+    meta: {
+      icon: 'DashboardOutlined',
+      page: {
+        cacheable: true,
+      },
+    },
+    component: () => import('/@/pages/workplace'),
+  },
+  {
     path: '/',
     name: '首页',
     meta: {
@@ -41,7 +52,7 @@ const routes: RouteRecordRaw[] = [
         cacheable: false,
       },
     },
-    component: () => import('../pages/home'),
+    component: () => import('/@/pages/home'),
   },
   {
     path: '/theme',

@@ -3,6 +3,7 @@
     <stepin-view
       system-name="Stepin Template"
       :logo-src="logoSrc"
+      :class="`${theme}`"
       :user="{
         name: 'iczer',
         avatar:
@@ -90,7 +91,7 @@
       },
     },
     computed: {
-      ...mapState(['loginStatus']),
+      ...mapState(['loginStatus', 'theme']),
     },
     created() {
       console.log(this.customTheme);
