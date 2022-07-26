@@ -27,6 +27,7 @@ const routes: RouteRecordRaw[] = [
     path: '/:catchAll(.*)',
     name: '404',
     meta: {
+      icon: 'CreditCardOutlined',
       renderMenu: false,
     },
     component: () => import('/@/pages/Exp404.vue'),
@@ -36,23 +37,23 @@ const routes: RouteRecordRaw[] = [
     name: '工作台',
     meta: {
       icon: 'DashboardOutlined',
+      badge: 1,
       page: {
-        cacheable: true,
+        cacheable: false,
       },
     },
     component: () => import('/@/pages/workplace'),
   },
   {
-    path: '/',
-    name: '首页',
+    path: '/billing',
+    name: '账单',
     meta: {
-      icon: 'HomeOutlined',
+      icon: 'CreditCardOutlined',
       page: {
-        closeable: false,
-        cacheable: false,
+        cacheable: true,
       },
     },
-    component: () => import('/@/pages/home'),
+    component: () => import('/@/pages/billing'),
   },
   {
     path: '/theme',
