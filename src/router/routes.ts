@@ -83,6 +83,14 @@ const routes: RouteRecordRaw[] = [
     },
     component: () => import('/@/pages/AsyncRoutes.vue'),
   },
+  {
+    path: '/test',
+    name: '测试',
+    meta: {
+      icon: 'FundProjectionScreenOutlined',
+    },
+    component: () => import('/@/pages/Test.vue'),
+  },
 ];
 
 export default routes;
