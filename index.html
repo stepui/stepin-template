@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta lang="zh-cn" />
-    <meta http-equiv="pragram" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Vite + Vue + TS</title>
   </head>
   <body>
     <div id="stepin-app"></div>
     <script type="module" src="/src/main.ts"></script>
-    <script> global = globalThis</script>
+    <script>
+      if (!global) {
+        var global = globalThis;
+      }
+    </script>
   </body>
 </html>

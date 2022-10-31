@@ -1,15 +1,14 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
-import { getEnv } from './src/utils/file';
 
 const timestamp = new Date().getTime();
 
 // vite 配置
 export default ({ command, mode }) => {
   // 获取环境变量
-  // 因为 vite 配置文件不能直接使用 import.meta 获取环境变量，需要自己读取
-  const env = getEnv(path.resolve(__dirname), command, mode);
+  const env = loadEnv(mode, process.cwd());
+
   return defineConfig({
     resolve: {
       alias: {
@@ -39,7 +38,6 @@ export default ({ command, mode }) => {
           },
         },
       },
-      cleanCssOptions: {},
     },
     plugins: [vue()],
     css: {

@@ -1,12 +1,12 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from '/@/router';
-import stepin from 'stepin/components';
+import stepin from 'stepin';
 import antd from 'ant-design-vue';
 
 import '/@/theme/style/index.less';
 import 'ant-design-vue/dist/antd.less';
-import 'stepin/components/style';
+import 'stepin/es/style';
 import http from '/@/services/http';
 import store from '/@/store';
 import '/@/mock';

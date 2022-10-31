@@ -9,3 +9,4 @@ dist-ssr
 *.log
 package-lock.json
 docs
+yarn.lock
