@@ -1,5 +1,5 @@
 import Mock from 'mockjs';
-import { Response } from '/@/types';
+import { Response } from '@/types';
 
 // 登录模拟
 Mock.mock(
@@ -26,14 +26,10 @@ Mock.mock(
 );
 
 // 注销登录
-Mock.mock(
-  '/stepin-api/logout',
-  'post',
-  (): Response => {
-    return {
-      code: 0,
-      message: '已注销登录',
-      data: true,
-    };
-  }
-);
+Mock.mock('/stepin-api/logout', 'post', (): Response => {
+  return {
+    code: 0,
+    message: '已注销登录',
+    data: true,
+  };
+});

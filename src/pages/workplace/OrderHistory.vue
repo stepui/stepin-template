@@ -41,8 +41,8 @@
 </template>
 <script lang="ts">
   import { defineComponent, reactive, ref } from 'vue';
-  import OverviewTitle from '/@/components/statistic/OverviewTitle.vue';
-  import { formatThousand } from '/@/utils/formatter';
+  import OverviewTitle from '@/components/statistic/OverviewTitle.vue';
+  import { formatThousand } from '@/utils/formatter';
 
   export default defineComponent({
     components: { OverviewTitle },

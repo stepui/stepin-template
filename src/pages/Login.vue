@@ -33,8 +33,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import LoginBox from '/@/components/login-box';
-  import { userService, http } from '/@/services';
+  import LoginBox from '@/components/login-box';
+  import { userService, http } from '@/services';
   import { mapMutations } from 'vuex';
 
   export default defineComponent({

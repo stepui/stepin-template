@@ -1,6 +1,6 @@
 import http from '../http';
-import store from '/@/store';
-import { Response } from '/@/types';
+import store from '@/store';
+import { Response } from '@/types';
 import API from '../api';
 
 /**

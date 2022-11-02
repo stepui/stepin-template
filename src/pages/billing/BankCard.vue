@@ -18,14 +18,14 @@
         ></a-statistic>
       </div>
       <div class="logo">
-        <img style="width: 60px" src="/@/assets/image/union-pay-logo-1.jpg" />
+        <img style="width: 60px" src="assets/image/union-pay-logo-1.jpg" />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import Splitter from '/@/components/format/Splitter.vue';
+  import Splitter from '@/components/format/Splitter.vue';
 
   export default defineComponent({
     name: 'BankCard',

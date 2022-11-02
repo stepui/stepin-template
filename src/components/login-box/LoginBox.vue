@@ -54,7 +54,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { LoginForm } from '/@/types';
+  import { LoginForm } from '@/types';
 
   export interface LoginFormProps {
     username: string;

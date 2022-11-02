@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mini-statistic-card bg-content inline-flex items-center justify-between drop-shadow-lg p-md border-border rounded-lg"
+    class="mini-statistic-card bg-content inline-flex items-center justify-between drop-shadow-md p-md border-border rounded-lg"
   >
     <div class="statistic-main flex-1">
       <div class="statistic-title text-subtext text-xs">{{ title }}</div>

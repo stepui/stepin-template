@@ -13,8 +13,8 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import LoginBox from './LoginBox.vue';
-  import { ModalAble } from '/@/components/abstract';
-  import { LoginForm } from '/@/types';
+  import { ModalAble } from '@/components/abstract';
+  import { LoginForm } from '@/types';
 
   export default defineComponent({
     name: 'LoginModal',

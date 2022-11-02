@@ -12,7 +12,7 @@ export default ({ command, mode }) => {
   return defineConfig({
     resolve: {
       alias: {
-        '/@': path.resolve(__dirname, 'src'),
+        '@': path.resolve(__dirname, 'src'),
       },
     },
     esbuild: {
@@ -39,7 +39,17 @@ export default ({ command, mode }) => {
         },
       },
     },
-    plugins: [vue()],
+    plugins: [
+      vue({
+        template: {
+          transformAssetUrls: {
+            img: ['src'],
+            'a-avatar': ['src'],
+            'stepin-view': ['logo-src'],
+          },
+        },
+      }),
+    ],
     css: {
       preprocessorOptions: {
         less: {

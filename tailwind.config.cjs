@@ -5,6 +5,9 @@ module.exports = {
   presets: [stepinTheme],
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class', // or 'media' or 'class'
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
     extend: {
       fontSize: {

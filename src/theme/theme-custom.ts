@@ -13,7 +13,7 @@ const customTheme = {
     success: '#10B981',
     warning: '#F59E0B',
     error: '#EF4444',
-    'bg-base': '#e5e7eb',
+    'bg-base': '#f9f9f9',
     'bg-header': '#ffffff',
     'bg-header-dark': '#ffffff',
     'bg-side': '#FFFFFF',

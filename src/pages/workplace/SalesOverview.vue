@@ -6,8 +6,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import LineChart from '/@/components/chart/LineChart.vue';
-  import OverviewTitle from '/@/components/statistic/OverviewTitle.vue';
+  import LineChart from '@/components/chart/LineChart.vue';
+  import OverviewTitle from '@/components/statistic/OverviewTitle.vue';
 
   export default defineComponent({
     components: { LineChart, OverviewTitle },

@@ -1,15 +1,16 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from '/@/router';
-import stepin from 'stepin';
+import router from '@/router';
+import stepin from 'stepin/components';
 import antd from 'ant-design-vue';
 
-import '/@/theme/style/index.less';
+import '@/theme/style/index.less';
 import 'ant-design-vue/dist/antd.less';
-import 'stepin/es/style';
-import http from '/@/services/http';
-import store from '/@/store';
-import '/@/mock';
+import 'stepin/components/style';
+import http from '@/services/http';
+import store from '@/store';
+import '@/mock';
+import 'default-passive-events';
 
 const app = createApp(App);
 

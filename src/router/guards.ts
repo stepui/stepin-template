@@ -4,8 +4,8 @@ import {
   Router,
 } from 'vue-router';
 import { App, Plugin } from 'vue';
-import http from '/@/services/http';
-import store from '/@/store';
+import http from '@/services/http';
+import store from '@/store';
 
 const loginGuard = function (
   to: RouteLocationNormalized,

@@ -1,8 +1,6 @@
 <template>
   <div class="about-us grid grid-cols-12 gap-4">
-    <div
-      class="card p-md col-span-12 lgx:col-span-7 flex justify-between items-stretch"
-    >
+    <div class="card p-md col-span-12 lgx:col-span-7 flex justify-between items-stretch">
       <div class="flex flex-col justify-between">
         <div class="">
           <div class="text-subtext font-bold mb-1">
@@ -17,19 +15,10 @@
         </div>
         <a class="">了解更多 ></a>
       </div>
-      <img
-        class="rounded-lg"
-        style="width: 200px"
-        src="/@/assets/image/step.jpg"
-      />
+      <img class="rounded-lg" style="width: 200px" src="@/assets/image/step.jpg" />
     </div>
-    <div
-      style="min-height: 232px"
-      class="card p-md col-span-12 lgx:col-span-5 text-inverse"
-    >
-      <div
-        class="work-with-us w-full h-full p-lg rounded-lg flex flex-col justify-between"
-      >
+    <div style="min-height: 232px" class="card p-md col-span-12 lgx:col-span-5 text-inverse">
+      <div class="work-with-us w-full h-full p-lg rounded-lg flex flex-col justify-between">
         <div class="main">
           <h2 class="text-title-inverse text-xl mb-4 font-bold">
             和优秀的人一起成长
@@ -41,16 +30,10 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
-
-  export default defineComponent({
-    name: 'AboutUs',
-    setup(props, { attrs, slots, emit }) {},
-  });
+<script lang="ts" setup>
 </script>
 <style lang="less" scoped>
-  .work-with-us {
-    background: linear-gradient(35deg, #844efd, #2533b2, #09b3ef);
-  }
+.work-with-us {
+  background: linear-gradient(35deg, #844efd, #2533b2, #09b3ef);
+}
 </style>

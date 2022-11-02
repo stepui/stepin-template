@@ -32,8 +32,8 @@
 </template>
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
-  import BarChart from '/@/components/chart/BarChart.vue';
-  import OverviewTitle from '/@/components/statistic/OverviewTitle.vue';
+  import BarChart from '@/components/chart/BarChart.vue';
+  import OverviewTitle from '@/components/statistic/OverviewTitle.vue';
 
   export default defineComponent({
     name: 'ActiveUsers',

@@ -1,6 +1,6 @@
 import { createStore, Store } from 'vuex';
 
-import { AppState } from '/@/types';
+import { AppState } from 'types';
 
 const store = createStore<AppState>({
   state() {

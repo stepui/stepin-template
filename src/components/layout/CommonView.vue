@@ -3,7 +3,7 @@
     <div class="common-header">
       <div class="common-header-main">
         <div class="logo">
-          <img class="img" :src="logo" />
+          <img class="img" src="@/assets/logo.png" />
         </div>
         <div class="navigation">
           <div class="nav-item">
@@ -31,19 +31,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import logo from '/@/assets/logo.png';
-
-  export default defineComponent({
-    name: 'CommonView',
-    data() {
-      return {
-        logo,
-      };
-    },
-  });
-</script>
+<script lang="ts" setup></script>
 <style scoped lang="less">
   .common-view {
     display: grid;

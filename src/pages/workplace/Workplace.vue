@@ -33,7 +33,7 @@
 <script lang="ts">
   import { defineComponent, reactive, ref } from 'vue';
   import { mapActions } from 'vuex';
-  import MiniStatisticCard from '/@/components/statistic/MiniStatisticCard.vue';
+  import MiniStatisticCard from '@/components/statistic/MiniStatisticCard.vue';
   import ActiveUsers from './ActiveUsers.vue';
   import SalesOverview from './SalesOverview.vue';
   import Projects from './Projects.vue';

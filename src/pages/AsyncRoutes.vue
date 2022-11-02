@@ -6,8 +6,8 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import RouterUtil from 'stepin/es/utils/router';
-  import { userService } from '/@/services';
-  import componentMap from '/@/router/component.map';
+  import { userService } from '@/services';
+  import componentMap from '@/router/component.map';
 
   export default defineComponent({
     name: 'AsyncRoute',
@@ -20,7 +20,6 @@
           const { message, code, data } = res;
           if (code === 0) {
             RouterUtil.loadRoutes(data, this.$router, componentMap);
-            // @ts-ignore
             this.$message.success('路由加载成功');
           }
         });

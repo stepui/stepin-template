@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       renderMenu: false,
     },
-    component: () => import('/@/components/layout/CommonView.vue'),
+    component: () => import('@/components/layout/CommonView.vue'),
     children: [
       {
         path: '/login',
@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
             cacheable: true,
           },
         },
-        component: () => import('/@/pages/Login.vue'),
+        component: () => import('@/pages/Login.vue'),
       },
     ],
   },
@@ -30,7 +30,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'CreditCardOutlined',
       renderMenu: false,
     },
-    component: () => import('/@/pages/Exp404.vue'),
+    component: () => import('@/pages/Exp404.vue'),
   },
   {
     path: '/workplace',
@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
         cacheable: false,
       },
     },
-    component: () => import('/@/pages/workplace'),
+    component: () => import('@/pages/workplace'),
   },
   {
     path: '/billing',
@@ -53,7 +53,7 @@ const routes: RouteRecordRaw[] = [
         cacheable: true,
       },
     },
-    component: () => import('/@/pages/billing'),
+    component: () => import('@/pages/billing'),
   },
   {
     path: '/theme',
@@ -64,7 +64,7 @@ const routes: RouteRecordRaw[] = [
         cacheable: true,
       },
     },
-    component: () => import('/@/pages/theme'),
+    component: () => import('@/pages/theme'),
   },
   {
     path: '/baidu',
@@ -81,7 +81,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       icon: 'FundProjectionScreenOutlined',
     },
-    component: () => import('/@/pages/AsyncRoutes.vue'),
+    component: () => import('@/pages/AsyncRoutes.vue'),
   },
   {
     path: '/test',
@@ -89,7 +89,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       icon: 'FundProjectionScreenOutlined',
     },
-    component: () => import('/@/pages/Test.vue'),
+    component: () => import('@/pages/Test.vue'),
   },
 ];
 
