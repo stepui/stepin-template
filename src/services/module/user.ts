@@ -1,5 +1,5 @@
 import http from '../http';
-import store from '@/store';
+import { useAppStore } from '@/store';
 import { Response } from '@/types';
 import API from '../api';
 
@@ -12,6 +12,7 @@ export async function login(
   username: string,
   password: string
 ): Promise<Response> {
+  const appStore = useAppStore();
   return http
     .request(API.LOGIN, 'POST_JSON', { username, password })
     .then((res: any) => {
@@ -19,7 +20,7 @@ export async function login(
       if (code === 0) {
         const { token, expires } = data;
         http.setAuthorization(token, expires);
-        store.dispatch('setLoginStatus', true);
+        appStore.setLoginStatus(true);
       }
       return { code, message };
     });
@@ -29,11 +30,12 @@ export async function login(
  * 注销登录服务
  */
 export async function logout(): Promise<Response> {
-  return http.request(API.LOGOUT, 'POST_JSON').then((res: any) => {
-    const { message, code } = res.data;
+  const appStore = useAppStore();
+  return http.request(API.LOGOUT, 'POST_JSON').then((res) => {
+    const { message, code } = res.data as Response;
     if (code === 0) {
       http.removeAuthorization();
-      store.dispatch('setLoginStatus', false);
+      appStore.setLoginStatus(false);
     }
     return { message, code };
   });

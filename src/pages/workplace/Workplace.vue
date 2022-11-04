@@ -19,12 +19,20 @@
       </mini-statistic-card>
     </div>
     <div class="overview grid grid-cols-12 gap-4">
-      <active-users class="col-span-12 xlx:col-span-6 xxlx:col-span-5" />
-      <sales-overview class="col-span-12 xlx:col-span-6 xxlx:col-span-7" />
+      <active-users
+        class="col-span-12 xlx:col-span-6 xxlx:col-span-5 drop-shadow-sm"
+      />
+      <sales-overview
+        class="col-span-12 xlx:col-span-6 xxlx:col-span-7 drop-shadow-sm"
+      />
     </div>
     <div class="project-list grid grid-cols-12 gap-4">
-      <projects class="col-span-12 xlx:col-span-7 xxlx:col-span-8" />
-      <order-history class="col-span-12 xlx:col-span-5 xxlx:col-span-4" />
+      <projects
+        class="col-span-12 xlx:col-span-7 xxlx:col-span-8 drop-shadow-sm"
+      />
+      <order-history
+        class="col-span-12 xlx:col-span-5 xxlx:col-span-4 drop-shadow-sm"
+      />
     </div>
     <about-us />
   </div>
@@ -32,7 +40,7 @@
 
 <script lang="ts">
   import { defineComponent, reactive, ref } from 'vue';
-  import { mapActions } from 'vuex';
+  import { useAppStore } from '@/store';
   import MiniStatisticCard from '@/components/statistic/MiniStatisticCard.vue';
   import ActiveUsers from './ActiveUsers.vue';
   import SalesOverview from './SalesOverview.vue';
@@ -77,28 +85,34 @@
           icon: 'shopping-filled',
         },
       ]);
+
+      const appStore = useAppStore();
       return {
         statisticList,
+        appStore,
         title: ref('hello'),
       };
     },
     methods: {
-      ...mapActions(['setTheme']),
       onClick(item: any) {
         item.title = 'test';
       },
     },
     mounted() {
-      this.setTheme('unbounded');
+      this.appStore.setTheme('unbounded');
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
     },
     activated() {
-      this.setTheme('unbounded');
+      this.appStore.setTheme('unbounded');
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
     },
     deactivated() {
-      this.setTheme('common');
+      this.appStore.setTheme('common');
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
     },
     unmounted() {
-      this.setTheme('common');
+      this.appStore.setTheme('common');
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
     },
   });
 </script>

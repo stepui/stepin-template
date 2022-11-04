@@ -1,7 +1,7 @@
 <template>
   <div class="test-page">
     <div>
-      <a-button @click="showGuid = true">新手引导</a-button>
+      <a-button @click="showGuid = true">新手引导1</a-button>
       <a-button class="btn1" ref="btn1" type="primary" @click="target = btn2"
         >button 1</a-button
       >

@@ -339,7 +339,7 @@
       ></div>
       <div
         ref="doc"
-        class="guider-doc flex flex-col justify-between"
+        class="guider-doc flex flex-col justify-between rounded-md"
         :style="`left: ${docPosition.left}px;top:${docPosition.top}px`"
       >
         <div
@@ -400,7 +400,6 @@
     background-color: white;
     position: fixed;
     z-index: 100;
-    border-radius: 2px;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.5);
     padding: 6px 8px;
 

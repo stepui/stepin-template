@@ -3,18 +3,18 @@ import App from './App.vue';
 import router from '@/router';
 import stepin from 'stepin/components';
 import antd from 'ant-design-vue';
+import pinia from '@/store';
 
 import '@/theme/style/index.less';
 import 'ant-design-vue/dist/antd.less';
 import 'stepin/components/style';
 import http from '@/services/http';
-import store from '@/store';
 import '@/mock';
 import 'default-passive-events';
 
 const app = createApp(App);
 
-app.use(store);
+app.use(pinia);
 app.use(router);
 app.use(http);
 app.use(stepin, { router });

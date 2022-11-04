@@ -1,30 +1,36 @@
-import { createStore, Store } from 'vuex';
+import { defineStore, createPinia } from 'pinia';
 
-import { AppState } from 'types';
+export interface AppState {
+  loginStatus: boolean;
+  theme: string;
+}
 
-const store = createStore<AppState>({
-  state() {
-    return {
-      loginStatus: true,
-      theme: 'common',
-    };
-  },
-  mutations: {
-    setLogin(state: AppState, value) {
-      state.loginStatus = value;
-    },
-    setTheme(state: AppState, value: string) {
-      state.theme = value;
-    },
-  },
-  actions: {
-    setLoginStatus({ commit }, status: boolean) {
-      commit('setLogin', status);
-    },
-    setTheme({ commit }, theme: string) {
-      commit('setTheme', theme);
-    },
-  },
-});
+export type AppActions = {
+  setTheme: (theme: string) => void;
+  setLoginStatus: (status: boolean) => void;
+};
 
-export default store;
+export const useAppStore = defineStore<string, AppState, {}, AppActions>(
+  'app',
+  {
+    state() {
+      return {
+        loginStatus: true,
+        theme: 'common',
+      };
+    },
+    getters: {
+      getAbc() {},
+    },
+    actions: {
+      setLoginStatus(status: boolean) {
+        this.loginStatus = status;
+      },
+      setTheme(theme: string) {
+        this.theme = theme;
+      },
+    },
+  }
+);
+
+export default createPinia();

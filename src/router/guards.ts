@@ -5,15 +5,16 @@ import {
 } from 'vue-router';
 import { App, Plugin } from 'vue';
 import http from '@/services/http';
-import store from '@/store';
+import { useAppStore } from '@/store';
 
 const loginGuard = function (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
+  const appStore = useAppStore();
   if (to.path != '/login' && !http.checkAuthorization()) {
-    store.commit('setLogin', false);
+    appStore.setLoginStatus(false);
   }
   next();
 };

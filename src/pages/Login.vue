@@ -34,8 +34,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import LoginBox from '@/components/login-box';
-  import { userService, http } from '@/services';
-  import { mapMutations } from 'vuex';
+  import { userService } from '@/services';
 
   export default defineComponent({
     components: { LoginBox },
@@ -46,7 +45,6 @@
       };
     },
     methods: {
-      ...mapMutations(['setLogin']),
       onLogin({ username, password }: { username: string; password: string }) {
         this.loginLoading = true;
         userService.login(username, password).then((res) => {

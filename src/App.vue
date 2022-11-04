@@ -3,7 +3,7 @@
     <stepin-view
       system-name="Stepin Template"
       logo-src="@/assets/logo.png"
-      :class="`${theme}`"
+      :class="`${appStore.theme}`"
       :user="{
         name: 'iczer',
         avatar:
@@ -49,7 +49,7 @@
       </template>
     </stepin-view>
     <login-modal
-      :visible="!loginStatus && $route.path !== '/login'"
+      :visible="!appStore.loginStatus && $route.path !== '/login'"
       @login="onLogin"
       :loading="loginLoading"
     />
@@ -60,7 +60,7 @@
   import { defineComponent } from 'vue';
   import PageFooter from './components/layout/PageFooter.vue';
   import { LoginModal } from '@/components/login-box';
-  import { mapState } from 'vuex';
+  import { useAppStore } from '@/store';
   import { userService } from '@/services';
   import { LoginForm } from '@/types';
   import { nightTheme, lightTheme, defaultTheme } from 'stepin/es/theme';
@@ -70,6 +70,7 @@
     name: 'App',
     components: { PageFooter, LoginModal },
     data() {
+      const appStore = useAppStore();
       return {
         collapsed: false,
         showSetting: false,
@@ -79,15 +80,13 @@
         lightTheme,
         defaultTheme,
         customTheme,
+        appStore,
       };
     },
     provide: {
       return() {
         app: this;
       },
-    },
-    computed: {
-      ...mapState(['loginStatus', 'theme']),
     },
     methods: {
       userMenuClick(key: string) {
