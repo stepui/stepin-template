@@ -5,12 +5,12 @@ import stepin from 'stepin/components';
 import antd from 'ant-design-vue';
 import pinia from '@/store';
 
-import '@/theme/style/index.less';
-import 'ant-design-vue/dist/antd.less';
 import 'stepin/components/style';
 import http from '@/services/http';
 import '@/mock';
-import 'default-passive-events';
+// import 'default-passive-events';
+import 'ant-design-vue/dist/antd.less';
+import '@/theme/index.less';
 
 const app = createApp(App);
 

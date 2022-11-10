@@ -31,3 +31,21 @@ export function getEnv(dirname: string, command?: string, mode?: string) {
   const modeEnv = readEnvFile(path.resolve(dirname, `./.env.${environment}`));
   return { ...baseEnv, ...modeEnv };
 }
+
+/**
+ * 获取文件 base64 编码内容
+ * @param file
+ * @returns
+ */
+export async function getBase64(file: Blob): Promise<string> {
+  const promise = new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => resolve(reader.result as string));
+    try {
+      reader.readAsDataURL(file);
+    } catch (e) {
+      reject(e);
+    }
+  });
+  return promise;
+}

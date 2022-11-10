@@ -45,6 +45,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/workplace'),
   },
   {
+    path: '/table',
+    name: ' 表格',
+    meta: {
+      icon: 'TableOutlined',
+    },
+    component: () => import('@/pages/table'),
+  },
+  {
     path: '/billing',
     name: '账单',
     meta: {

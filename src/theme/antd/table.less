@@ -1,0 +1,21 @@
+.ant-table {
+  .ant-table-thead > tr > th {
+    @apply bg-transparent text-subtext font-bold text-xs border-0;
+    &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+      @apply w-0;
+    }
+  }
+  .ant-table-thead {
+    & > tr {
+      @apply border-b border-solid border-red-500 relative;
+      &:after {
+        @apply bg-bg-disabled absolute bottom-0 left-0 w-full;
+        content: '';
+        height: 1px;
+      }
+    }
+  }
+  .ant-table-title {
+    @apply text-lg font-bold;
+  }
+}
