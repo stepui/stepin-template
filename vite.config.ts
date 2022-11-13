@@ -46,6 +46,7 @@ export default ({ command, mode }) => {
             img: ['src'],
             'a-avatar': ['src'],
             'stepin-view': ['logo-src'],
+            'a-card': ['cover'],
           },
         },
       }),
