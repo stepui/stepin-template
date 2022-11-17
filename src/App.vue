@@ -3,18 +3,8 @@
     <stepin-view
       system-name="Stepin Template"
       logo-src="@/assets/logo.png"
-      :class="`${appStore.theme}`"
-      :user="{
-        name: 'iczer',
-        avatar:
-          'https://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png!avatar30',
-        menuList: [
-          { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
-          { title: '设置', key: 'setting', icon: 'SettingOutlined' },
-          { type: 'divider' },
-          { title: '退出登录', key: 'logout', icon: 'LogoutOutlined' },
-        ],
-      }"
+      :class="`${theme}`"
+      :user="user"
       @user-menu-click="userMenuClick"
       @setting-change="onSettingChange"
       @copy-config="onCopyConfig"
@@ -26,114 +16,193 @@
             <search-outlined />
           </template>
         </a-input>
-        <a
-          class="action-item"
-          href="https://github.com/stepui/stepin-template"
-          target="_blank"
-        >
+        <a class="action-item" href="http://github.com/stepui/stepin-template" target="_blank">
           <GithubOutlined />
         </a>
-        <a
-          class="action-item"
-          href="https://gitee.com/stepui/stepin-template"
-          target="_blank"
-        >
+        <a class="action-item" href="http://gitee.com/stepui/stepin-template" target="_blank">
           <img class="gitee-logo" src="@/assets/gitee.svg" />
         </a>
         <div class="action-item setting" @click="onSettingClick">
           <SettingOutlined />
         </div>
+        <a-popover placement="bottomRight">
+          <div class="action-item notice">
+            <BellOutlined />
+          </div>
+          <template #content>
+            <Notice :data-source="noticeList" />
+          </template>
+        </a-popover>
       </template>
       <template #pageFooter>
-        <page-footer />
+        <PageFooter />
       </template>
     </stepin-view>
-    <login-modal
-      :visible="!appStore.loginStatus && $route.path !== '/login'"
-      @login="onLogin"
-      :loading="loginLoading"
-    />
+    <login-modal :visible="!loginStatus && $route.path !== '/login'" @login="onLogin" :loading="loginLoading" />
   </stepin-config-provider>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import PageFooter from './components/layout/PageFooter.vue';
+<script lang="ts" setup>
+  import { reactive, ref, toRefs } from 'vue';
+  import PageFooter from '@/components/layout/PageFooter.vue';
   import { LoginModal } from '@/components/login-box';
   import { useAppStore } from '@/store';
   import { userService } from '@/services';
   import { LoginForm } from '@/types';
-  import { nightTheme, lightTheme, defaultTheme } from 'stepin/es/theme';
   import { customTheme } from '@/theme';
+  import { BellOutlined } from '@ant-design/icons-vue';
+  import { useRouter } from 'vue-router';
+  import { message } from 'ant-design-vue';
+  import Notice from './components/notice/Notice.vue';
 
-  export default defineComponent({
-    name: 'App',
-    components: { PageFooter, LoginModal },
-    data() {
-      const appStore = useAppStore();
-      return {
-        collapsed: false,
-        showSetting: false,
-        showLogin: false,
-        loginLoading: false,
-        nightTheme,
-        lightTheme,
-        defaultTheme,
-        customTheme,
-        appStore,
-      };
-    },
-    provide: {
-      return() {
-        app: this;
-      },
-    },
-    methods: {
-      userMenuClick(key: string) {
-        switch (key) {
-          case 'setting':
-            const str = key ?? '';
-            console.log(str);
+  const showSetting = ref(false);
+  const showLogin = ref(false);
+  const loginLoading = ref(false);
+  const router = useRouter();
+  const appStore = useAppStore();
+  const { theme, loginStatus } = toRefs(appStore);
 
-            this.showSetting = true;
-            break;
-          case 'logout':
-            userService.logout().then((res) => {
-              const { message, code } = res;
-              if (code === 0) {
-                this.$router?.push('/login');
-                this.$message.success(message);
-              }
-            });
-          default:
-            console.log(key, 'user-menu-click');
-        }
-      },
-      onSettingChange(category: string, key: string, value: any) {
-        console.log(category, key, value);
-      },
-      onCopyConfig(config: any) {
-        console.log(config);
-      },
-      onSettingClick() {
-        this.showSetting = true;
-      },
-      login() {
-        this.showLogin = true;
-      },
-      onLogin({ username, password }: LoginForm) {
-        this.loginLoading = true;
-        userService.login(username, password).then((res) => {
-          const { message, code } = res;
-          if (code === 0) {
-            this.showLogin = false;
-            this.$message.success(message);
-          }
-          this.loginLoading = false;
-        });
-      },
-    },
+  const user = reactive({
+    name: 'iczer',
+    avatar: 'http://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png!avatar30',
+    menuList: [
+      { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
+      { title: '设置', key: 'setting', icon: 'SettingOutlined' },
+      { type: 'divider' },
+      { title: '退出登录', key: 'logout', icon: 'LogoutOutlined' },
+    ],
   });
+
+  const noticeList = reactive([
+    {
+      title: '消息',
+      list: [
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          img: 'src/assets/avatar/face-1.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'src/assets/avatar/face-2.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'src/assets/avatar/face-3.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'src/assets/avatar/face-4.jpg',
+          time: 0,
+        },
+      ],
+    },
+    {
+      title: '动态',
+      list: [
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+      ],
+    },
+    {
+      title: '通知',
+      list: [
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+        {
+          title: '影佑',
+          content: 'xxxxxxxxxxxxxxxxxx',
+          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
+          time: 0,
+        },
+      ],
+    },
+  ]);
+
+  function userMenuClick(key: string) {
+    switch (key) {
+      case 'setting':
+        showSetting.value = true;
+        break;
+      case 'logout':
+        userService.logout().then((res) => {
+          const { message: msg, code } = res;
+          if (code === 0) {
+            router.push('/login');
+            message.success(msg);
+          }
+        });
+      default:
+        console.log(key, 'user-menu-click');
+    }
+  }
+  function onSettingChange(category: string, key: string, value: any) {
+    console.log(category, key, value);
+  }
+
+  function onCopyConfig(config: any) {
+    console.log(config);
+  }
+
+  function onSettingClick() {
+    showSetting.value = true;
+  }
+
+  function onLogin({ username, password }: LoginForm) {
+    loginLoading.value = true;
+    userService.login(username, password).then((res) => {
+      const { message: msg, code } = res;
+      if (code === 0) {
+        showLogin.value = false;
+        message.success(msg);
+      }
+      loginLoading.value = false;
+    });
+  }
 </script>
 
 <style lang="less">
@@ -185,6 +254,10 @@
     align-items: center;
 
     &.setting {
+      font-size: 18px;
+    }
+
+    &.notice {
       font-size: 18px;
     }
   }

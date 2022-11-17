@@ -1,11 +1,11 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from '@/router';
-import stepin from 'stepin/components';
+import stepin from 'stepin/es';
 import antd from 'ant-design-vue';
 import pinia from '@/store';
 
-import 'stepin/components/style';
+import 'stepin/es/style';
 import http from '@/services/http';
 import '@/mock';
 // import 'default-passive-events';

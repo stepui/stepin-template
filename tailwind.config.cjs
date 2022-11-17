@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   presets: [stepinTheme],
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class', // or 'media' or 'class'
   corePlugins: {
     preflight: false,
@@ -38,12 +38,14 @@ module.exports = {
         ]);
       };
       const screens = Object.keys(theme('screens'));
-      screens.forEach((name) =>
-        addMedia(
-          `${name}x`,
-          parseInt(theme(`screens.${name}`).replace('px', ''))
-        )
-      );
+      screens.forEach((name) => addMedia(`${name}x1`, parseInt(theme(`screens.${name}`).replace('px', ''))));
     }),
+    plugin(function ({ addVariant }) {
+      addVariant('last-child', [`&:last-child`]);
+      addVariant('first-child', [`&:first-child`]);
+      addVariant('not-last-child', [`&:not(:last-child)`]);
+      addVariant('not-first-child', [`&:not(:first-child)`]);
+    }),
+    require('@tailwindcss/container-queries'),
   ],
 };
