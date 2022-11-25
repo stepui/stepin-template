@@ -10,27 +10,23 @@ export type AppActions = {
   setLoginStatus: (status: boolean) => void;
 };
 
-export const useAppStore = defineStore<string, AppState, {}, AppActions>(
-  'app',
-  {
-    state() {
-      return {
-        loginStatus: true,
-        theme: 'common',
-      };
+export type AppGetters = {};
+
+export const useAppStore = defineStore<string, AppState, AppGetters, AppActions>('app', {
+  state() {
+    return {
+      loginStatus: true,
+      theme: 'common',
+    };
+  },
+  actions: {
+    setLoginStatus(status: boolean) {
+      this.loginStatus = status;
     },
-    getters: {
-      getAbc() {},
+    setTheme(theme: string) {
+      this.theme = theme;
     },
-    actions: {
-      setLoginStatus(status: boolean) {
-        this.loginStatus = status;
-      },
-      setTheme(theme: string) {
-        this.theme = theme;
-      },
-    },
-  }
-);
+  },
+});
 
 export default createPinia();

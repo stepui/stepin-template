@@ -1,5 +1,5 @@
 <template>
-  <stepin-config-provider :theme-config="customTheme">
+  <stepin-config-provider :theme-config="stepinConfig">
     <stepin-view
       system-name="Stepin Template"
       logo-src="@/assets/logo.png"
@@ -54,6 +54,8 @@
   import { useRouter } from 'vue-router';
   import { message } from 'ant-design-vue';
   import Notice from './components/notice/Notice.vue';
+
+  const stepinConfig = reactive(customTheme);
 
   const showSetting = ref(false);
   const showLogin = ref(false);
