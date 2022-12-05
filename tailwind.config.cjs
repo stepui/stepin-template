@@ -38,7 +38,7 @@ module.exports = {
         ]);
       };
       const screens = Object.keys(theme('screens'));
-      screens.forEach((name) => addMedia(`${name}x1`, parseInt(theme(`screens.${name}`).replace('px', ''))));
+      screens.forEach((name) => addMedia(`${name}x`, parseInt(theme(`screens.${name}`).replace('px', ''))));
     }),
     plugin(function ({ addVariant }) {
       addVariant('last-child', [`&:last-child`]);

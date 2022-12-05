@@ -22,22 +22,22 @@ export default ({ command, mode }) => {
     build: {
       sourcemap: true,
       chunkSizeWarningLimit: 4096,
-      rollupOptions: {
-        output: {
-          chunkFileNames: (chunk) => {
-            return 'assets/' + chunk.name + '.[hash]' + '.' + timestamp + '.js';
-          },
-          assetFileNames: (asset) => {
-            const name = asset.name;
-            if (name && (name.endsWith('.css') || name.endsWith('.js'))) {
-              const names = name.split('.');
-              const extname = names.splice(names.length - 1, 1)[0];
-              return `assets/${names.join('.')}.[hash].${timestamp}.${extname}`;
-            }
-            return asset.name;
-          },
-        },
-      },
+      // rollupOptions: {
+      //   output: {
+      //     chunkFileNames: (chunk) => {
+      //       return 'assets/' + chunk.name + '.[hash]' + '.' + timestamp + '.js';
+      //     },
+      //     assetFileNames: (asset) => {
+      //       const name = asset.name;
+      //       if (name && (name.endsWith('.css') || name.endsWith('.js'))) {
+      //         const names = name.split('.');
+      //         const extname = names.splice(names.length - 1, 1)[0];
+      //         return `assets/${names.join('.')}.[hash].${timestamp}.${extname}`;
+      //       }
+      //       return 'assets/' + asset.name;
+      //     },
+      //   },
+      // },
     },
     plugins: [
       vue({

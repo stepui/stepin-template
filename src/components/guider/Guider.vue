@@ -1,34 +1,13 @@
 <script lang="ts" setup>
   import { offsetScreen } from '@/utils/htmlHelper';
-  import {
-    PropType,
-    watch,
-    reactive,
-    ComponentPublicInstance,
-    computed,
-    ref,
-    onMounted,
-    onBeforeUnmount,
-    FunctionalComponent,
-    AsyncComponentOptions,
-    AsyncComponentLoader,
-  } from 'vue';
-
-  export type GuideTarget = HTMLElement | ComponentPublicInstance | String;
-  export type GuiderOption = {
-    target?: GuideTarget;
-    doc?:
-      | GuideTarget
-      | FunctionalComponent
-      | AsyncComponentOptions
-      | AsyncComponentLoader;
-  };
+  import { GuiderOption, GuideTarget } from './interface';
+  import { PropType, watch, reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
   const props = defineProps({
     current: [HTMLElement, Object, String] as PropType<GuideTarget>,
     options: {
       required: true,
-      type: Array as PropType<GuiderOption[]>,
+      type: Array<GuiderOption>,
     },
     show: Boolean,
   });
@@ -40,9 +19,7 @@
       if (!props.current) {
         return index.value;
       }
-      index.value = props.options.findIndex(
-        (item) => item.target === props.current
-      );
+      index.value = props.options.findIndex((item) => item.target === props.current);
       return index.value;
     },
     set(val) {
@@ -112,14 +89,7 @@
       offsetWidth: 0,
       offsetHeight: 0,
     };
-    const {
-      left: tLeft,
-      top: tTop,
-      right: tRight,
-      bottom: tBottom,
-      height: tHeight,
-      width: tWidth,
-    } = location;
+    const { left: tLeft, top: tTop, right: tRight, bottom: tBottom, height: tHeight, width: tWidth } = location;
 
     const p: Placement = {
       main: 'horizontal',
@@ -133,15 +103,9 @@
       p.main = 'horizontal';
       p.sub = 'vertical';
       p.horizontal = tLeft > tRight ? 'left' : 'right';
-      if (
-        tTop + tHeight / 2 < docHeight / 2 &&
-        tBottom + tHeight / 2 > docHeight / 2
-      ) {
+      if (tTop + tHeight / 2 < docHeight / 2 && tBottom + tHeight / 2 > docHeight / 2) {
         p.vertical = 'top';
-      } else if (
-        tTop + tHeight / 2 > docHeight / 2 &&
-        tBottom + tHeight / 2 < docHeight / 2
-      ) {
+      } else if (tTop + tHeight / 2 > docHeight / 2 && tBottom + tHeight / 2 < docHeight / 2) {
         p.vertical = 'bottom';
       } else {
         p.vertical = 'center';
@@ -150,15 +114,9 @@
       p.main = 'vertical';
       p.sub = 'horizontal';
       p.vertical = tTop > tBottom ? 'top' : 'bottom';
-      if (
-        tLeft + tWidth / 2 < docWidth / 2 &&
-        tRight + tWidth / 2 > docWidth / 2
-      ) {
+      if (tLeft + tWidth / 2 < docWidth / 2 && tRight + tWidth / 2 > docWidth / 2) {
         p.horizontal = 'left';
-      } else if (
-        tLeft + tWidth / 2 > docWidth / 2 &&
-        tRight + tWidth / 2 < docWidth / 2
-      ) {
+      } else if (tLeft + tWidth / 2 > docWidth / 2 && tRight + tWidth / 2 < docWidth / 2) {
         p.horizontal = 'right';
       } else {
         p.horizontal = 'center';
@@ -188,10 +146,7 @@
     const sub = place[place.sub];
 
     const margin = 10;
-    const offset =
-      (place.main === 'horizontal'
-        ? doc.value?.offsetWidth
-        : doc.value?.offsetHeight) ?? 0;
+    const offset = (place.main === 'horizontal' ? doc.value?.offsetWidth : doc.value?.offsetHeight) ?? 0;
     p[main] = location[main] - offset - margin;
 
     if (main === 'right') {
@@ -313,29 +268,22 @@
 <template>
   <Teleport to="body">
     <div class="guider" :style="`display: ${show ? 'static' : 'none'}`">
+      <div class="guider-left" :style="`border-left: ${location.left - 2}px solid rgba(0, 0, 0, 0.25);`"></div>
       <div
-        class="guider-left"
-        :style="`border-left: ${
-          location.left - 2
+        class="guider-top"
+        :style="`left: ${location.left - 2}px; width: ${location.width + 4}px; border-top: ${
+          location.top - 2
         }px solid rgba(0, 0, 0, 0.25);`"
       ></div>
       <div
-        class="guider-top"
-        :style="`left: ${location.left - 2}px; width: ${
-          location.width + 4
-        }px; border-top: ${location.top - 2}px solid rgba(0, 0, 0, 0.25);`"
-      ></div>
-      <div
         class="guider-right"
-        :style="`left: ${
-          location.left + location.width + 2
-        }px; background-color: rgba(0, 0, 0, 0.25)`"
+        :style="`left: ${location.left + location.width + 2}px; background-color: rgba(0, 0, 0, 0.25)`"
       ></div>
       <div
         class="guider-bottom"
-        :style="`left: ${location.left - 2}px; width: ${
-          location.width + 4
-        }px; top: ${location.top + location.height + 2}px`"
+        :style="`left: ${location.left - 2}px; width: ${location.width + 4}px; top: ${
+          location.top + location.height + 2
+        }px`"
       ></div>
       <div
         ref="doc"
@@ -344,9 +292,9 @@
       >
         <div
           class="arrow"
-          :style="`left: ${arrowStyle.left}px; top: ${
-            arrowStyle.top
-          }px; border-${placement[placement.main]}-color: white`"
+          :style="`left: ${arrowStyle.left}px; top: ${arrowStyle.top}px; border-${
+            placement[placement.main]
+          }-color: white`"
         ></div>
         <div class="guider-content">
           <h1>第一步</h1>

@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw, RouterView } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/front',
@@ -106,6 +106,26 @@ const routes: RouteRecordRaw[] = [
       icon: 'FundProjectionScreenOutlined',
     },
     component: () => import('@/pages/Test.vue'),
+  },
+  {
+    path: '/system',
+    name: '系统管理',
+    meta: {
+      icon: 'FundProjectionScreenOutlined',
+    },
+    component: () => import('@/components/layout/BlankView.vue'),
+    children: [
+      {
+        path: 'user',
+        name: '用户管理',
+        component: () => import('@/pages/user'),
+      },
+      {
+        path: 'menu',
+        name: '菜单管理',
+        component: () => import('@/pages/system'),
+      },
+    ],
   },
 ];
 

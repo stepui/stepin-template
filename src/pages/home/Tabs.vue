@@ -1,24 +1,16 @@
 <template>
   <div class="tabs">
     <section>
-      <code-sandbox :code="`123`" title="基本用法" describe="基本用法">
-      </code-sandbox>
+      <code-sandbox :code="`123`" title="基本用法" describe="基本用法"> </code-sandbox>
       <h2>多页签视图</h2>
-      <p>
-        多页签开启方式更灵活，你可以随意的为任意页面开启页签视图（区别于vue2版本，现在无需在路由配置视图布局）；
-      </p>
+      <p>多页签开启方式更灵活，你可以随意的为任意页面开启页签视图（区别于vue2版本，现在无需在路由配置视图布局）；</p>
       <p>同个页面现在可以开启多个页签（vue2 版同个路由只能打开一个页签）；</p>
-      <p>
-        缓存，和 vue2
-        版本一样，你可以为每一个页面单独配置缓存设置，或者全局控制缓；
-      </p>
+      <p>缓存，和 vue2 版本一样，你可以为每一个页面单独配置缓存设置，或者全局控制缓；</p>
       <div class="container">
         <div class="left">
           <h3>链接方式</h3>
           <stepin-link :to="'/login'" view="admin"> 登录页 </stepin-link>
-          <stepin-link :to="{ path: '/login' }" view="admin" target="_blank">
-            登录页（新窗口）
-          </stepin-link>
+          <stepin-link :to="{ path: '/login' }" view="admin" target="_blank"> 登录页（新窗口） </stepin-link>
           <stepin-link :to="{ path: '/login' }" view="admin" target="_blank">
             登录页（新窗口-不带后台布局）
           </stepin-link>
@@ -27,13 +19,9 @@
           <h3>函数调用</h3>
           <a-button type="primary" @click="login">登录页</a-button>
           <br />
-          <a-button @click="login(undefined, '_blank')">
-            登录页 （新窗口）
-          </a-button>
+          <a-button @click="login(undefined, '_blank')"> 登录页 （新窗口） </a-button>
           <br />
-          <a-button type="danger" @click="login('blank', '_blank')"
-            >登录页 （新窗口-不带后台布局）
-          </a-button>
+          <a-button danger @click="login('blank', '_blank')">登录页 （新窗口-不带后台布局） </a-button>
         </div>
       </div>
     </section>

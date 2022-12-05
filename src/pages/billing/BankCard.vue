@@ -1,24 +1,14 @@
 <template>
-  <div
-    :class="`bank-card ${theme} p-md text-inverse rounded-xl flex flex-col justify-between`"
-  >
+  <div :class="`bank-card ${theme} p-md text-inverse rounded-xl flex flex-col justify-between`">
     <div class="font-bold" style="font-size: 16px">{{ bankName }}</div>
-    <splitter
-      class="number text-xl font-bold"
-      :value="number"
-      :sensitive="[2, 12]"
-    />
+    <splitter class="number text-xl font-bold" :value="number" :sensitive="[2, 12]" />
     <div class="flex items-end justify-between tab-[12]">
       <div class="flex items-end">
         <a-statistic title="持卡人" :value="name"></a-statistic>
-        <a-statistic
-          class="ml-md"
-          title="到期日期"
-          :value="expires"
-        ></a-statistic>
+        <a-statistic class="ml-md" title="到期日期" :value="expires"></a-statistic>
       </div>
       <div class="logo">
-        <img style="width: 60px" src="assets/image/union-pay-logo-1.jpg" />
+        <img style="width: 60px" src="@/assets/image/union-pay-logo-1.jpg" />
       </div>
     </div>
   </div>
