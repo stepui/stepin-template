@@ -1,4 +1,15 @@
-import { DropdownProps, PaginationProps, ButtonProps, ConfigProviderProps, TabsProps } from 'ant-design-vue';
+import {
+  DropdownProps,
+  PaginationProps,
+  ButtonProps,
+  ConfigProviderProps,
+  TabsProps,
+  SelectProps,
+  FormProps,
+  FormItemProps,
+  ModalProps,
+  paginationProps,
+} from 'ant-design-vue';
 import IconFont from '@/plugins/iconfont/IconFont.vue';
 declare module 'vue' {
   export interface GlobalComponents {
@@ -8,6 +19,11 @@ declare module 'vue' {
     AConfigProvider: ConfigProviderProps;
     ATabs: TabsProps;
     IconFont: typeof IconFont;
+    ASelect: SelectProps;
+    AForm: FormProps;
+    AFormItem: FormItemProps;
+    AModal: ModalProps;
+    APagination: paginationProps;
   }
 }
 export {};

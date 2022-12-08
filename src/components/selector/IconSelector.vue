@@ -1,53 +1,61 @@
 <script lang="ts" setup>
-  import { reactive, ref, PropType, Component, watch } from 'vue';
-  // @ts-ignore
-  import * as icons from '@ant-design/icons-vue/es/icons';
+  import { ref, computed, Ref } from 'vue';
+  import type { Component, PropType } from 'vue';
   import GridList from '../list/GridList.vue';
-  import { PaginationProps } from 'ant-design-vue';
+  import { Col, PaginationProps } from 'ant-design-vue';
   import { debounce } from 'lodash';
+  import useModelValue from '@/utils/useModelValue';
 
-  type IconType = 'outlined' | 'filled' | 'twoTone';
+  export interface IconSelectOption {
+    label?: string;
+    component: string | Component;
+    value: string | number;
+  }
+
+  export interface IconSelectGroup {
+    title: string;
+    key: string | number;
+    list: IconSelectOption[];
+  }
+
   type SelectMode = 'multiple' | 'single';
-
-  const iconMap = {
-    outlined: [] as Component[],
-    filled: [] as Component[],
-    twoTone: [] as Component[],
-  };
 
   const props = defineProps({
     mode: {
       type: String as PropType<SelectMode>,
-      default: 'single',
+      default: 'multiple',
     },
     value: {
-      type: [String, Number, Object, Boolean, Array],
+      type: [Array<string | number>, String, Number],
+      default(rawProps: any) {
+        if (rawProps.mode === 'multiple' || !rawProps.mode) {
+          return undefined;
+        } else {
+          return undefined;
+        }
+      },
+    },
+    column: {
+      type: Number,
+      default: 8,
+    },
+    placeholder: {
+      type: String,
+      default: '选择图标，输入文字搜索...',
+    },
+    options: {
+      type: [Array<IconSelectOption>, Array<IconSelectGroup>],
+      default: [],
     },
   });
 
-  // 分类
-  for (const key in icons as { [key: string]: Component }) {
-    if (key.endsWith('TwoTone')) {
-      iconMap.twoTone.push(icons[key]);
-    } else if (key.endsWith('Outlined')) {
-      iconMap.outlined.push(icons[key]);
-    } else if (key.endsWith('Filled')) {
-      iconMap.filled.push(icons[key]);
-    }
-  }
+  const emit = defineEmits<{
+    (e: 'update:value', args: (string | number)[] | undefined | string | number): void;
+  }>();
 
-  iconMap.twoTone.sort();
-  iconMap.outlined.sort();
-  iconMap.filled.sort();
-
-  const current = reactive({
-    outlined: 1,
-    filled: 1,
-    twoTone: 1,
-  });
-
+  // 分页
   const pageBase: PaginationProps = {
-    pageSize: 40,
+    pageSize: props.column * 5,
     hideOnSinglePage: true,
     showSizeChanger: false,
     size: 'small',
@@ -55,30 +63,59 @@
 
   const visible = ref(false);
 
-  const select = ref<Component[]>([]);
-  const value = {
-    multiple: [] as Array<any>,
-    single: null,
-  };
+  const isMultiple = computed(() => props.mode === 'multiple');
 
-  watch(
-    () => props.value,
-    (val, old) => {
-      value.multiple = props.value;
+  /**
+   * 格式化分组
+   */
+  const groupList = computed<(IconSelectGroup & { _searchList: IconSelectOption[]; _current: Ref<number> })[]>(() => {
+    if (props.options.length === 0 || (props.options as IconSelectGroup[])[0].title !== undefined) {
+      return (props.options as IconSelectGroup[]).map((group) => ({
+        ...group,
+        _current: ref(1),
+        _searchList: group.list,
+      }));
     }
+    return [
+      {
+        title: '全部图标',
+        key: '__dft',
+        list: props.options as IconSelectOption[],
+        _current: ref(1),
+        _searchList: [...props.options] as IconSelectOption[],
+      },
+    ];
+  });
+
+  /**
+   * icon 字典 (方便搜索和查找)
+   */
+  const iconMap = computed(() => {
+    const map = new Map<string | number, IconSelectOption>();
+    groupList.value
+      .flatMap((group) => group.list)
+      .forEach((item) => {
+        map.set(item.value, item);
+      });
+    return map;
+  });
+
+  const { value: select } = useModelValue(
+    () => (Array.isArray(props.value) || props.value === undefined ? props.value : [props.value]),
+    (val) => emit('update:value', isMultiple.value ? val : val?.[0])
   );
 
-  function onSelect(icon: Component) {
-    const index = select.value.indexOf(icon);
-    if (props.mode === 'multiple') {
-      if (index === -1) {
-        select.value.push(icon);
-      } else {
-        select.value.splice(index, 1);
-      }
-    } else {
+  /**
+   * 选中图标
+   * @param icon
+   */
+  function onSelect(icon: IconSelectOption) {
+    const index = select.value?.indexOf(icon.value) ?? -1;
+    if (index === -1) {
+      select.value = isMultiple.value ? [...(select.value ?? []), icon.value] : [icon.value];
+    } else if (isMultiple.value) {
+      remove(icon.value);
     }
-
     searchValue.value = '';
     searchIcon('');
   }
@@ -87,9 +124,11 @@
    * 移除选中
    * @param icon
    */
-  function remove(icon: Component) {
-    const index = select.value.indexOf(icon);
-    select.value.splice(index, 1);
+  function remove(iconKey: string | number) {
+    const index = select.value?.findIndex((icon) => icon === iconKey) ?? -1;
+    if (index >= 0) {
+      select.value = select.value?.filter((icon) => icon !== iconKey);
+    }
   }
 
   /**
@@ -99,22 +138,24 @@
   function searchIcon(keyword: string) {
     const empty = keyword === '';
 
-    const group = groupList.find((item) => item.key === active.value)!;
+    const group = groupList.value.find((item) => item.key === active.value)!;
 
     const reg = new RegExp(keyword.toLowerCase());
 
-    group.iconList = empty
-      ? iconMap[active.value]
-      : iconMap[active.value].filter((icon) => reg.test(icon.name!.toLocaleLowerCase()));
-    group.searchCount = empty ? undefined : group.iconList.length;
+    const filterIcon = (reg: RegExp, list: IconSelectOption[]) => {
+      return list.filter((icon) => reg.test(icon.label!.toLocaleLowerCase()));
+    };
 
-    groupList
-      .filter((item) => item !== group)
-      .forEach((g) => {
-        g.searchCount = empty
-          ? undefined
-          : iconMap[g.key].filter((icon) => reg.test(icon.name!.toLocaleLowerCase())).length;
-      });
+    group._searchList = empty ? [...group.list] : filterIcon(reg, group.list);
+
+    setTimeout(() => {
+      groupList.value
+        .filter((item) => item !== group)
+        .forEach((g) => {
+          g._searchList = empty ? [...g.list] : filterIcon(reg, g.list);
+        });
+    });
+
     loading.value = false;
   }
 
@@ -133,82 +174,70 @@
     _search(value);
   }
 
-  const active = ref<IconType>('outlined');
+  // 当前激活分组
+  const active = ref(groupList.value[0]?.key);
 
+  // 搜索关键字
   const searchValue = ref('');
 
-  type IconGroup = {
-    title: string;
-    key: IconType;
-    searchCount: undefined | number;
-    iconList: Component[];
-  };
-
-  const groupOutlined: IconGroup = reactive({
-    title: '线框风格',
-    key: 'outlined',
-    searchCount: undefined,
-    iconList: iconMap.outlined,
-  });
-  const groupFilled: IconGroup = reactive({
-    title: '实底风格',
-    key: 'filled',
-    searchCount: undefined,
-    iconList: iconMap.filled,
-  });
-  const groupTwoTone: IconGroup = reactive({
-    title: '双色风格',
-    key: 'twoTone',
-    searchCount: undefined,
-    iconList: iconMap.twoTone,
-  });
-
-  const groupList = reactive([groupOutlined, groupFilled, groupTwoTone]);
-
-  function onChange() {
-    searchIcon(searchValue.value);
-  }
-
   const loading = ref(false);
+
+  function selected(icon: IconSelectOption) {
+    return select.value?.includes(icon.value);
+  }
 </script>
 <template>
   <a-select
     @click="() => (visible = true)"
-    mode="multiple"
     :showSearch="true"
+    mode="multiple"
     v-model:value="select"
     :open="visible"
     @blur="() => (visible = false)"
     @search="onSearch"
     :searchValue="searchValue"
+    v-bind="{ placeholder }"
   >
     <template #dropdownRender>
-      <a-spin tip="加载中..." :spinning="loading">
-        <a-tabs @change="onChange" v-model:activeKey="active" class="icon-selector px-base pb-base" @mousedown.prevent>
+      <a-spin tip="搜索中..." :spinning="loading">
+        <a-tabs
+          v-model:activeKey="active"
+          :class="[
+            'icon-selector',
+            'px-base',
+            'pb-base',
+            { 'no-group pt-[12px]': groupList.length === 1 && groupList[0].key === '__dft' },
+          ]"
+          @mousedown.prevent
+        >
           <a-tab-pane :key="group.key" v-for="group in groupList">
             <template #tab>
-              <a-badge :class="{ 'text-primary-500': active === group.key }" :count="group.searchCount" showZero>
+              <a-badge
+                :class="{ 'text-primary-500': active === group.key }"
+                :count="group._searchList.length === group.list.length ? undefined : group._searchList.length"
+                showZero
+              >
                 {{ group.title }}
               </a-badge>
             </template>
             <GridList
               class="icon-container"
-              :dataSource="group.iconList"
-              :column="8"
+              :dataSource="group._searchList"
+              :column="column"
               :pagination="{
                 ...pageBase,
-                current: current[group.key],
-                'onUpdate:current': (val) => (current[group.key] = val),
+                current: group._current.value,
+                'onUpdate:current': (val) => (group._current.value = val),
               }"
             >
               <template #renderItem="{ item }">
                 <div
                   @click="onSelect(item)"
                   :class="`icon-item bg-white cursor-pointer h-10 w-10 flex justify-center items-center ${
-                    select.indexOf(item) !== -1 ? 'bg-primary-100' : ''
+                    selected(item) ? 'bg-primary-100' : ''
                   }`"
                 >
-                  <component class="icon transition" :is="item" />
+                  <component class="icon transition" :is="item.component" />
                 </div>
               </template>
             </GridList>
@@ -218,8 +247,12 @@
     </template>
     <template #tagRender="item">
       <div class="mx-0.5 bg-bg-disabled p-1 rounded-sm flex items-center cursor-pointer">
-        <component :is="item.value" />
-        <CloseOutlined class="text-subtext text-[10px] ml-1 hover:text-text" @click="remove(item.value)" />
+        <component :is="iconMap.get(item.value)?.component" />
+        <CloseOutlined
+          v-if="isMultiple"
+          class="text-subtext text-[10px] ml-1 hover:text-text"
+          @click="remove(item.value)"
+        />
       </div>
     </template>
   </a-select>
@@ -228,14 +261,23 @@
   .icon-selector {
     :deep(.icon-container) {
       @apply p-2 text-xl grid gap-2 bg-gray-100 rounded;
+
       .icon-item {
         @apply rounded-sm border border-solid border-transparent;
+
         &:hover {
           @apply border-primary-500;
+
           .icon {
             @apply scale-125;
           }
         }
+      }
+    }
+
+    &.no-group {
+      :deep(.ant-tabs-nav) {
+        @apply hidden;
       }
     }
   }
