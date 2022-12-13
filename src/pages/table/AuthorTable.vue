@@ -164,28 +164,11 @@
   };
 </script>
 <template>
-  <a-modal
-    :title="form._isNew ? '新增作者' : '编辑作者'"
-    v-model:visible="showModal"
-    @ok="submit"
-    @cancel="cancel"
-  >
-    <a-form
-      ref="formModel"
-      :model="form"
-      :labelCol="{ span: 5 }"
-      :wrapperCol="{ span: 16 }"
-    >
+  <a-modal :title="form._isNew ? '新增作者' : '编辑作者'" v-model:visible="showModal" @ok="submit" @cancel="cancel">
+    <a-form ref="formModel" :model="form" :labelCol="{ span: 5 }" :wrapperCol="{ span: 16 }">
       <a-form-item label="头像" required name="avatar">
-        <a-upload
-          :show-upload-list="false"
-          :beforeUpload="(file: File) => extractImg(file, form)"
-        >
-          <img
-            class="h-8 p-0.5 rounded border border-dashed border-border"
-            v-if="form.avatar"
-            :src="form.avatar"
-          />
+        <a-upload :show-upload-list="false" :beforeUpload="(file: File) => extractImg(file, form)">
+          <img class="h-8 p-0.5 rounded border border-dashed border-border" v-if="form.avatar" :src="form.avatar" />
           <a-button v-else type="dashed">
             <template #icon>
               <UploadOutlined />
@@ -242,7 +225,7 @@
   </a-modal>
 
   <!-- 成员表格 -->
-  <a-table :columns="columns" :dataSource="authors" :pagination="false">
+  <a-table v-bind="$attrs" :columns="columns" :dataSource="authors" :pagination="false">
     <template #title>
       <div class="flex justify-between pr-4">
         <h4>成员表格</h4>

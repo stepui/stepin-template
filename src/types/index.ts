@@ -3,8 +3,8 @@ export interface LoginForm {
   password: string;
 }
 
-export interface Response<T = any> {
+export interface Response<T = never> {
   message: string;
   code: number;
-  data?: T;
+  data: T;
 }
