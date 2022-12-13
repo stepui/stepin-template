@@ -6,7 +6,7 @@ Mock.mock('/stepin-api/routes', 'get', () => {
     message: 'success',
     data: [
       {
-        path: '/async',
+        path: '/test',
         name: '多级菜单',
         meta: {
           icon: 'MenuUnfoldOutlined',
@@ -16,38 +16,38 @@ Mock.mock('/stepin-api/routes', 'get', () => {
           {
             path: 'demo1',
             name: 'demo1',
-            component: 'demo',
+            component: '@/pages/Demo.vue',
             children: [
               {
                 path: 'demo',
                 name: 'demo',
-                component: 'demo',
+                component: '@/pages/Demo.vue',
               },
             ],
           },
           {
             path: 'demo2',
             name: 'demo2',
-            component: 'demo',
+            component: '@/pages/Demo.vue',
           },
         ],
       },
       {
         path: '/bilibili',
         name: 'B站外链',
+        link: 'https://www.bilibili.com',
         meta: {
           icon: 'LinkedinOutlined',
-          href: 'https://www.bilibili.com',
         },
       },
       {
         path: '/bilibili/iframe',
         name: 'B站Iframe',
+        component: 'iframe',
+        props: { src: 'https://www.bilibili.com' },
         meta: {
           icon: 'LinkedinOutlined',
-          href: 'https://www.bilibili.com',
         },
-        component: 'iframe',
       },
     ],
   };

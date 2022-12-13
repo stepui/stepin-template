@@ -5,9 +5,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import RouterUtil from 'stepin/es/utils/router';
   import { userService } from '@/services';
-  import componentMap from '@/router/component.map';
+  import { addRoutes } from '@/router/dynamicRoutes';
 
   export default defineComponent({
     name: 'AsyncRoute',
@@ -17,9 +16,9 @@
     methods: {
       loadRoutes() {
         userService.getRoutes().then((res) => {
-          const { message, code, data } = res;
+          const { code, data: routes } = res;
           if (code === 0) {
-            RouterUtil.loadRoutes(data, this.$router, componentMap);
+            addRoutes(routes);
             this.$message.success('路由加载成功');
           }
         });

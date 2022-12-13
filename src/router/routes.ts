@@ -1,4 +1,4 @@
-import { RouteRecordRaw, RouterView } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/front',
