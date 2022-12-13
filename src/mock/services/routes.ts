@@ -6,7 +6,7 @@ Mock.mock('/stepin-api/routes', 'get', () => {
     message: 'success',
     data: [
       {
-        path: '/test',
+        path: '/async',
         name: '多级菜单',
         meta: {
           icon: 'MenuUnfoldOutlined',

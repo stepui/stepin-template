@@ -61,6 +61,24 @@ function parseRoutes(routes: RouteOption[]): RouteRecordRaw[] {
 }
 
 /**
+ * 提取路由name
+ * @param recordList
+ * @returns
+ */
+const extractRouteNames = (recordList: RouteRecordRaw[]): string[] => {
+  const result: string[] = [];
+  recordList.forEach((record) => {
+    if (typeof record.name === 'string') {
+      result.push(record.name);
+    }
+    if (record.children) {
+      result.push(...extractRouteNames(record.children));
+    }
+  });
+  return result;
+};
+
+/**
  * 合并路由
  * @param target
  * @param source
@@ -69,17 +87,27 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
   interface RouteRecordMap extends Omit<RouteRecordRaw, 'children'> {
     children?: Map<string, RouteRecordMap>;
   }
-  // 转换成 map
-  const toRoutesMap = (routes: readonly RouteRecordRaw[], parentPath?: string): any => {
+
+  type Filter = (record: RouteRecordRaw) => Boolean;
+  /**
+   * 转换成 map
+   * @param routes
+   * @param filter 过滤器
+   * @param parentPath
+   * @returns
+   */
+  const toRoutesMap = (routes: readonly RouteRecordRaw[], filter?: Filter, parentPath?: string): any => {
     parentPath = parentPath ?? '';
 
     const _map = new Map<string, RouteRecordMap>();
     routes.forEach((route) => {
-      const fullPath = /^\//.test(route.path) ? route.path : `${parentPath}/${route.path}`;
-      _map.set(fullPath, {
-        ...route,
-        children: route.children && toRoutesMap(route.children, fullPath),
-      });
+      if (!filter || filter(route)) {
+        const fullPath = /^\//.test(route.path) ? route.path : `${parentPath}/${route.path}`;
+        _map.set(fullPath, {
+          ...route,
+          children: route.children && toRoutesMap(route.children, filter, fullPath),
+        });
+      }
     });
     return _map;
   };
@@ -122,7 +150,8 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
     return _routes;
   };
 
-  const targetMap = toRoutesMap(target);
+  const names = extractRouteNames(source);
+  const targetMap = toRoutesMap(target, (record) => !names.includes(record.name as string));
   const sourceMap = toRoutesMap(source);
   const routesMap = mergeMap(targetMap, sourceMap)!;
 
@@ -137,4 +166,5 @@ export function addRoutes(routes: RouteOption[]) {
   const routesRaw: RouteRecordRaw[] = parseRoutes(routes);
   routesRaw.forEach((routeRaw) => router.addRoute(routeRaw));
   router.options.routes = mergeRoutes(router.options.routes, routesRaw);
+  router.options.routes[0].children?.slice(0, 1);
 }
