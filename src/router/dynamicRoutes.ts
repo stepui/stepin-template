@@ -61,7 +61,7 @@ function parseRoutes(routes: RouteOption[]): RouteRecordRaw[] {
 }
 
 /**
- * 提取路由name
+ * 提取嵌套路由所有name
  * @param recordList
  * @returns
  */
@@ -90,23 +90,29 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
 
   type Filter = (record: RouteRecordRaw) => Boolean;
   /**
-   * 转换成 map
+   * 转换成 map, 不满足过滤条件的 route 值设置为 undefined
    * @param routes
    * @param filter 过滤器
    * @param parentPath
    * @returns
    */
-  const toRoutesMap = (routes: readonly RouteRecordRaw[], filter?: Filter, parentPath?: string): any => {
+  const toRoutesMap = (
+    routes: readonly RouteRecordRaw[],
+    filter?: Filter,
+    parentPath?: string
+  ): Map<string, RouteRecordMap> => {
     parentPath = parentPath ?? '';
 
     const _map = new Map<string, RouteRecordMap>();
     routes.forEach((route) => {
+      const fullPath = /^\//.test(route.path) ? route.path : `${parentPath}/${route.path}`;
       if (!filter || filter(route)) {
-        const fullPath = /^\//.test(route.path) ? route.path : `${parentPath}/${route.path}`;
         _map.set(fullPath, {
           ...route,
           children: route.children && toRoutesMap(route.children, filter, fullPath),
         });
+      } else {
+        _map.set(fullPath, undefined as never);
       }
     });
     return _map;
@@ -139,13 +145,15 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
   const toRoutes = (routesMap: Map<string, RouteRecordMap>): RouteRecordRaw[] => {
     const _routes: RouteRecordRaw[] = [];
     routesMap.forEach((record, path) => {
-      const _route = { ...record } as RouteRecordRaw;
-      if (record.children) {
-        _route.children = toRoutes(record.children);
-      } else {
-        delete _route.children;
+      if (record) {
+        const _route = { ...record } as RouteRecordRaw;
+        if (record.children) {
+          _route.children = toRoutes(record.children);
+        } else {
+          delete _route.children;
+        }
+        _routes.push(_route);
       }
-      _routes.push(_route);
     });
     return _routes;
   };
@@ -154,8 +162,31 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
   const targetMap = toRoutesMap(target, (record) => !names.includes(record.name as string));
   const sourceMap = toRoutesMap(source);
   const routesMap = mergeMap(targetMap, sourceMap)!;
+  console.log(routesMap, '---');
 
   return toRoutes(routesMap);
+}
+
+/**
+ * 查找符合条件的路由
+ * @param routes 路由集合
+ * @param filter 过滤器
+ * @returns
+ */
+function findRoute(
+  routes: readonly RouteRecordRaw[],
+  filter: (route: RouteRecordRaw) => boolean
+): RouteRecordRaw | undefined {
+  if (routes.length === 0) {
+    return undefined;
+  }
+  return (
+    routes.find(filter) ??
+    findRoute(
+      routes.flatMap((route) => route.children ?? []),
+      filter
+    )
+  );
 }
 
 /**
@@ -166,5 +197,21 @@ export function addRoutes(routes: RouteOption[]) {
   const routesRaw: RouteRecordRaw[] = parseRoutes(routes);
   routesRaw.forEach((routeRaw) => router.addRoute(routeRaw));
   router.options.routes = mergeRoutes(router.options.routes, routesRaw);
-  router.options.routes[0].children?.slice(0, 1);
+}
+
+/**
+ * 添加路由
+ * @param routes
+ * @param parentName
+ * @returns
+ */
+export function appendRoutes(routes: RouteOption[], parentName: string) {
+  const parent = findRoute(router.options.routes, (route) => route.name === parentName);
+  if (!parent) {
+    console.error(`name为${parentName}的父级路由不存在，请检查`);
+    return false;
+  }
+  const routesRaw: RouteRecordRaw[] = parseRoutes(routes);
+  routesRaw.forEach((routeRaw) => router.addRoute(parentName, routeRaw));
+  parent.children = mergeRoutes(router.options.routes, mergeRoutes(parent.children ?? [], routesRaw));
 }

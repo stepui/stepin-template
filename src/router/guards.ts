@@ -1,11 +1,11 @@
 import { NavigationGuard } from 'vue-router';
-import http from '@/services/http';
-import { useAppStore } from '@/store';
+import http from '@/store/http';
+import { useAccountStore } from '@/store';
 
 const loginGuard: NavigationGuard = function (to, from, next) {
-  const appStore = useAppStore();
+  const account = useAccountStore();
   if (to.path != '/login' && !http.checkAuthorization()) {
-    appStore.setLoginStatus(false);
+    account.setLogged(false);
   }
   next();
 };

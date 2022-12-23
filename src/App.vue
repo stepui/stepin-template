@@ -38,31 +38,26 @@
         <PageFooter />
       </template>
     </stepin-view>
-    <login-modal :visible="!loginStatus && $route.path !== '/login'" @login="onLogin" :loading="loginLoading" />
+    <login-modal :unless="['/login']" />
   </stepin-config-provider>
 </template>
 
 <script lang="ts" setup>
   import { reactive, ref, toRefs } from 'vue';
   import PageFooter from '@/components/layout/PageFooter.vue';
-  import { LoginModal } from '@/components/login-box';
-  import { useAppStore } from '@/store';
-  import { userService } from '@/services';
-  import { LoginForm } from '@/types';
+  import { LoginModal } from '@/pages/login';
+  import { useAppStore, useAccountStore } from '@/store';
   import { customTheme } from '@/theme';
   import { BellOutlined } from '@ant-design/icons-vue';
   import { useRouter } from 'vue-router';
-  import { message } from 'ant-design-vue';
   import Notice from './components/notice/Notice.vue';
 
   const stepinConfig = reactive(customTheme);
 
   const showSetting = ref(false);
-  const showLogin = ref(false);
-  const loginLoading = ref(false);
   const router = useRouter();
   const appStore = useAppStore();
-  const { theme, loginStatus } = toRefs(appStore);
+  const { theme } = toRefs(appStore);
 
   const user = reactive({
     name: 'iczer',
@@ -171,13 +166,10 @@
         showSetting.value = true;
         break;
       case 'logout':
-        userService.logout().then((res) => {
-          const { message: msg, code } = res;
-          if (code === 0) {
-            router.push('/login');
-            message.success(msg);
-          }
-        });
+        useAccountStore()
+          .logout()
+          .then(() => router.push('/login'));
+        break;
       default:
         console.log(key, 'user-menu-click');
     }
@@ -192,18 +184,6 @@
 
   function onSettingClick() {
     showSetting.value = true;
-  }
-
-  function onLogin({ username, password }: LoginForm) {
-    loginLoading.value = true;
-    userService.login(username, password).then((res) => {
-      const { message: msg, code } = res;
-      if (code === 0) {
-        showLogin.value = false;
-        message.success(msg);
-      }
-      loginLoading.value = false;
-    });
   }
 </script>
 

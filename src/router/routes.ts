@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
             cacheable: true,
           },
         },
-        component: () => import('@/pages/Login.vue'),
+        component: () => import('@/pages/login'),
       },
     ],
   },
@@ -111,7 +111,7 @@ const routes: RouteRecordRaw[] = [
     path: '/system',
     name: '系统管理',
     meta: {
-      icon: 'FundProjectionScreenOutlined',
+      icon: 'SettingOutlined',
     },
     component: () => import('@/components/layout/BlankView.vue'),
     children: [

@@ -1,5 +1,6 @@
 import { defineStore, createPinia } from 'pinia';
-
+export * from './account';
+export * from './menu';
 export interface AppState {
   loginStatus: boolean;
   theme: string;
@@ -29,4 +30,6 @@ export const useAppStore = defineStore<string, AppState, AppGetters, AppActions>
   },
 });
 
-export default createPinia();
+const pinia = createPinia();
+
+export default pinia;

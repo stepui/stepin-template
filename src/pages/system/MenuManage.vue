@@ -2,10 +2,11 @@
   import IconSelector, { IconSelectGroup, IconSelectOption } from '@/components/selector/IconSelector.vue';
   // @ts-ignore
   import * as icons from '@ant-design/icons-vue/es/icons';
-  import { reactive, ref, watch, computed } from 'vue';
+  import { reactive, ref, watch, computed, onMounted } from 'vue';
   import { RouteRecordRaw, useRouter } from 'vue-router';
   import { FormInstance } from 'ant-design-vue';
   import { addRoutes } from '@/router/dynamicRoutes';
+  import { useMenuStore } from '@/store/menu';
 
   const iconList: IconSelectOption[] = [];
 
@@ -249,6 +250,11 @@
     formData.permission = undefined;
     showForm.value = true;
   }
+
+  const { getMenuList } = useMenuStore();
+  onMounted(() => {
+    getMenuList();
+  });
 </script>
 <template>
   <div class="authority">

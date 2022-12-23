@@ -8,3 +8,7 @@ export interface Response<T = never> {
   code: number;
   data: T;
 }
+
+export function isResponse(obj: any): obj is Response<any> {
+  return typeof obj === 'object' && obj.message !== undefined && obj.code !== undefined;
+}

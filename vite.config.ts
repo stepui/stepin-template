@@ -10,6 +10,16 @@ export default ({ command, mode }) => {
   const env = loadEnv(mode, process.cwd());
 
   return defineConfig({
+    server: {
+      proxy: {
+        '/api': {
+          target: env.VITE_APP_API_URL,
+          ws: true,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),

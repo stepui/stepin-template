@@ -2,23 +2,16 @@
   <div class="login">
     <div class="login-main">
       <div class="introduction">
-        <a-typography-title class="title">
-          Build your application with
-        </a-typography-title>
-        <a-typography-title class="sub-title" type="success">
-          Stepin Library
-        </a-typography-title>
+        <a-typography-title class="title"> Build your application with </a-typography-title>
+        <a-typography-title class="sub-title" type="success"> Stepin Library </a-typography-title>
         <a-typography class="description">
           使用 <a-typography-text type="success">Stepin</a-typography-text> +
           <a-typography-text type="success">Vue</a-typography-text>
-          创建 Web 应用非常简单：通过
-          Vue.js，我们已经用组件组成了我们的应用。当加入 Stepin
-          时，我们需要做的就是将我们的组件映射到路由上，让 Stepin
-          知道在哪里渲染它们。马上使用 Stepin 创建你的第一个应用吧。
+          创建 Web 应用非常简单：通过 Vue.js，我们已经用组件组成了我们的应用。当加入 Stepin
+          时，我们需要做的就是将我们的组件映射到路由上，让 Stepin 知道在哪里渲染它们。马上使用 Stepin
+          创建你的第一个应用吧。
         </a-typography>
-        <a-typography-title type="warning" :level="2">
-          Features:
-        </a-typography-title>
+        <a-typography-title type="warning" :level="2"> Features: </a-typography-title>
         <div class="feature-list">
           <div class="item"><CoffeeOutlined class="icon" />快速</div>
           <div class="item"><CrownOutlined class="icon" />优雅</div>
@@ -26,39 +19,19 @@
         </div>
       </div>
       <div class="login-container">
-        <login-box :loading="loginLoading" @login="onLogin" />
+        <login-box @success="onLoginSuccess" />
       </div>
     </div>
   </div>
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import LoginBox from '@/components/login-box';
-  import { userService } from '@/services';
+<script lang="ts" setup>
+  import LoginBox from './LoginBox.vue';
+  import { useRouter } from 'vue-router';
 
-  export default defineComponent({
-    components: { LoginBox },
-    name: 'Login',
-    data() {
-      return {
-        loginLoading: false,
-      };
-    },
-    methods: {
-      onLogin({ username, password }: { username: string; password: string }) {
-        this.loginLoading = true;
-        userService.login(username, password).then((res) => {
-          const { message, code } = res;
-          if (code === 0) {
-            this.$router.push('/');
-            // @ts-ignore
-            this.$message.success(message);
-          }
-          this.loginLoading = false;
-        });
-      },
-    },
-  });
+  const router = useRouter();
+  function onLoginSuccess() {
+    router.push('/workplace');
+  }
 </script>
 <style scoped lang="less">
   .login {

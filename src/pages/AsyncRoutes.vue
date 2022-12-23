@@ -5,7 +5,6 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { userService } from '@/services';
   import { addRoutes } from '@/router/dynamicRoutes';
 
   export default defineComponent({
@@ -15,13 +14,13 @@
     },
     methods: {
       loadRoutes() {
-        userService.getRoutes().then((res) => {
-          const { code, data: routes } = res;
-          if (code === 0) {
-            addRoutes(routes);
-            this.$message.success('路由加载成功');
-          }
-        });
+        // userService.getRoutes().then((res) => {
+        //   const { code, data: routes } = res;
+        //   if (code === 0) {
+        //     addRoutes(routes);
+        //     this.$message.success('路由加载成功');
+        //   }
+        // });
       },
     },
   });

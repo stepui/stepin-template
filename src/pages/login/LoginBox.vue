@@ -1,12 +1,6 @@
 <template>
   <div class="login-box">
-    <a-form
-      :model="form"
-      :wrapperCol="{ span: 24 }"
-      @finish="onSubmit"
-      ref="form"
-      class="login-form"
-    >
+    <a-form :model="form" :wrapperCol="{ span: 24 }" @finish="login" class="login-form">
       <div class="third-platform">
         <div class="third-title">第三方登录：</div>
         <div class="third-list">
@@ -33,58 +27,52 @@
           type="password"
         />
       </a-form-item>
-      <a-button
-        @click="validate"
-        htmlType="submit"
-        class="login-button"
-        type="primary"
-        :loading="loading"
-      >
-        登录
-      </a-button>
+      <a-button htmlType="submit" class="login-button" type="primary" :loading="loading"> 登录 </a-button>
       <a-divider></a-divider>
-      <a-typography class="terms">
+      <div class="terms">
         登录即代表您同意我们的
-        <a-typography-text strong>用户条款</a-typography-text
-        >、<a-typography-text strong>数据使用协议</a-typography-text>、以及
-        <a-typography-text strong>Cookie使用协议</a-typography-text>。
-      </a-typography>
+        <span class="font-bold">用户条款 </span>、<span class="font-bold"> 数据使用协议 </span>、以及
+        <span class="font-bold">Cookie使用协议</span>。
+      </div>
     </a-form>
   </div>
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import { LoginForm } from '@/types';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
+  import { useAccountStore } from '@/store';
+  import { message } from 'ant-design-vue';
 
   export interface LoginFormProps {
     username: string;
     password: string;
   }
 
-  export default defineComponent({
-    name: 'LoginBox',
-    emits: ['login'],
-    props: {
-      loading: Boolean,
-    },
-    data() {
-      return {
-        form: {
-          username: undefined,
-          password: undefined,
-        },
-      };
-    },
-    methods: {
-      validate() {
-        // @ts-ignore
-        this.$refs.form.validateFields();
-      },
-      onSubmit(values: LoginForm) {
-        this.$emit('login', values);
-      },
-    },
+  const loading = ref(false);
+
+  const form = reactive({
+    username: undefined,
+    password: undefined,
   });
+
+  const emit = defineEmits<{
+    (e: 'success', fields: LoginFormProps): void;
+    (e: 'failure', reason: string, fields: LoginFormProps): void;
+  }>();
+
+  const accountStore = useAccountStore();
+  function login(params: LoginFormProps) {
+    loading.value = true;
+    accountStore
+      .login(params.username, params.password)
+      .then((res) => {
+        emit('success', params);
+      })
+      .catch((e) => {
+        message.error(e.message);
+        emit('failure', e.message, params);
+      })
+      .finally(() => (loading.value = false));
+  }
 </script>
 <style lang="less" scoped>
   .login-box {
