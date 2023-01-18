@@ -1,11 +1,11 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from '@/router';
-import stepin from 'stepin';
+import stepin from 'stepin/components';
 import antd from 'ant-design-vue';
 import pinia from '@/store';
 
-import 'stepin/es/style';
+import 'stepin/components/style';
 // import 'default-passive-events';
 import 'ant-design-vue/dist/antd.less';
 import '@/theme/index.less';

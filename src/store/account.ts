@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import http from './http';
 import { Response } from '@/types';
+import { useMenuStore } from './menu';
 
 export interface Account {
   username: string;
@@ -23,10 +24,11 @@ export const useAccountStore = defineStore('account', {
     async login(username: string, password: string) {
       return http
         .request<TokenResult, Response<TokenResult>>('/login', 'post', { username, password })
-        .then((response) => {
+        .then(async (response) => {
           if (response.code === 0) {
             this.logged = true;
-            http.setAuthorization(response.data.token, new Date(response.data.expires));
+            http.setAuthorization(`Bearer ${response.data.token}`, new Date(response.data.expires));
+            await useMenuStore().getMenuList();
             return response.data;
           } else {
             return Promise.reject(response);

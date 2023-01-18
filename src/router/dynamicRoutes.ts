@@ -162,8 +162,6 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
   const targetMap = toRoutesMap(target, (record) => !names.includes(record.name as string));
   const sourceMap = toRoutesMap(source);
   const routesMap = mergeMap(targetMap, sourceMap)!;
-  console.log(routesMap, '---');
-
   return toRoutes(routesMap);
 }
 

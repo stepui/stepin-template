@@ -8,12 +8,11 @@ const timestamp = new Date().getTime();
 export default ({ command, mode }) => {
   // 获取环境变量
   const env = loadEnv(mode, process.cwd());
-
   return defineConfig({
     server: {
       proxy: {
         '/api': {
-          target: env.VITE_APP_API_URL,
+          target: env.VITE_API_URL,
           ws: true,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),

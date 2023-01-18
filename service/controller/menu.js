@@ -18,6 +18,10 @@ export default function menuController(app, db) {
         parent.children.push(menu);
       }
     });
-    res.send(menuList.filter((menu) => !menu.parent));
+    res.send({
+      code: 0,
+      message: 'success',
+      data: menuList.filter((menu) => !menu.parent),
+    });
   });
 }

@@ -13,6 +13,7 @@ import {
   CascaderProps,
   InputProps,
   SpinProps,
+  StatisticProps,
 } from 'ant-design-vue';
 import { MessageApi } from 'ant-design-vue/es/message';
 
@@ -34,6 +35,7 @@ declare module 'vue' {
     ACascader: CascaderProps;
     AInput: InputProps;
     ASpin: SpinProps;
+    AStatistic: StatisticProps;
   }
 
   export interface ComponentCustomProperties {

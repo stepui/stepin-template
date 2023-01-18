@@ -11,7 +11,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(formParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(jwt({ secret: 'secret key1', algorithms: ['HS256'] }).unless({ path: '/login' }));
+app.use(jwt({ secret: 'secret key', algorithms: ['HS256'] }).unless({ path: '/login' }));
+app.disable('etag');
 
 function register(...controllers) {
   controllers.forEach((ctrl) => ctrl(app, db));
