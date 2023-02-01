@@ -160,10 +160,10 @@
           <a-input v-model:value="formData.path" />
         </a-form-item>
         <a-form-item name="component" label="页面组件">
-          <a-input v-model:value="formData.path" />
+          <a-input v-model:value="formData.component" />
         </a-form-item>
         <a-form-item name="visible" label="是否可见">
-          <a-input v-model:value="formData.visible" />
+          <a-switch v-model:checked="formData.visible" checked-children="是" un-checked-children="否" />
         </a-form-item>
       </a-form>
     </a-modal>

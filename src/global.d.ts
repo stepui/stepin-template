@@ -9,6 +9,7 @@ import {
   FormItemProps,
   ModalProps,
   paginationProps,
+  SwitchProps,
 } from 'ant-design-vue';
 import IconFont from '@/plugins/iconfont/IconFont.vue';
 declare module 'vue' {
@@ -24,6 +25,7 @@ declare module 'vue' {
     AFormItem: FormItemProps;
     AModal: ModalProps;
     APagination: paginationProps;
+    ASwitch: SwitchProps;
   }
 }
 export {};
