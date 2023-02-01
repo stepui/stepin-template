@@ -3,7 +3,7 @@
     <div class="common-header">
       <div class="common-header-main">
         <div class="logo">
-          <img class="img" src="@/assets/logo.png" />
+          <img class="img" src="@/assets/vite.svg" />
         </div>
         <div class="navigation">
           <div class="nav-item">

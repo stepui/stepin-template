@@ -2,7 +2,7 @@
   import { ref, computed, Ref } from 'vue';
   import type { Component, PropType } from 'vue';
   import GridList from '../list/GridList.vue';
-  import { Col, PaginationProps } from 'ant-design-vue';
+  import { PaginationProps } from 'ant-design-vue';
   import { debounce } from 'lodash';
   import useModelValue from '@/utils/useModelValue';
 
@@ -116,6 +116,9 @@
     } else if (isMultiple.value) {
       remove(icon.value);
     }
+    if (!isMultiple.value) {
+      visible.value = false;
+    }
     searchValue.value = '';
     searchIcon('');
   }
@@ -197,6 +200,7 @@
     @search="onSearch"
     :searchValue="searchValue"
     v-bind="{ placeholder }"
+    allow-clear
   >
     <template #dropdownRender>
       <a-spin tip="搜索中..." :spinning="loading">

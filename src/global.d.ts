@@ -10,7 +10,13 @@ import {
   ModalProps,
   paginationProps,
   SwitchProps,
+  CascaderProps,
+  InputProps,
+  SpinProps,
+  StatisticProps,
 } from 'ant-design-vue';
+import { MessageApi } from 'ant-design-vue/es/message';
+
 import IconFont from '@/plugins/iconfont/IconFont.vue';
 declare module 'vue' {
   export interface GlobalComponents {
@@ -26,6 +32,14 @@ declare module 'vue' {
     AModal: ModalProps;
     APagination: paginationProps;
     ASwitch: SwitchProps;
+    ACascader: CascaderProps;
+    AInput: InputProps;
+    ASpin: SpinProps;
+    AStatistic: StatisticProps;
+  }
+
+  export interface ComponentCustomProperties {
+    $message: MessageApi;
   }
 }
 export {};

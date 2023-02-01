@@ -1,13 +1,4 @@
 <template>
-  <div class="demo">demo</div>
+  <div ref="demo" class="demo bg-red-50 p-8 mb-4">demo</div>
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
-
-  export default defineComponent({
-    name: 'Demo',
-    data() {
-      return {};
-    },
-  });
-</script>
+<script lang="ts" setup></script>

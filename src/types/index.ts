@@ -3,8 +3,12 @@ export interface LoginForm {
   password: string;
 }
 
-export interface Response<T = any> {
+export interface Response<T = never> {
   message: string;
   code: number;
-  data?: T;
+  data: T;
+}
+
+export function isResponse(obj: any): obj is Response<any> {
+  return typeof obj === 'object' && obj.message !== undefined && obj.code !== undefined;
 }

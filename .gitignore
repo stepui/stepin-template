@@ -10,3 +10,4 @@ dist-ssr
 package-lock.json
 docs
 yarn.lock
+stepin-template.session.sql

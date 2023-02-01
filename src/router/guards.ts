@@ -1,29 +1,13 @@
-import {
-  RouteLocationNormalized,
-  NavigationGuardNext,
-  Router,
-} from 'vue-router';
-import { App, Plugin } from 'vue';
-import http from '@/services/http';
-import { useAppStore } from '@/store';
+import { NavigationGuard } from 'vue-router';
+import http from '@/store/http';
+import { useAccountStore } from '@/store';
 
-const loginGuard = function (
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
-  next: NavigationGuardNext
-) {
-  const appStore = useAppStore();
-  if (to.path != '/login' && !http.checkAuthorization()) {
-    appStore.setLoginStatus(false);
+const loginGuard: NavigationGuard = function (to, from) {
+  const account = useAccountStore();
+  if (!http.checkAuthorization() && to.fullPath !== '/login') {
+    return '/login';
+    // account.setLogged(false);
   }
-  next();
 };
 
-const guards: Plugin = {
-  install(app: App) {
-    const router = app.config.globalProperties.$router as Router;
-    router.beforeEach(loginGuard);
-  },
-};
-
-export default guards;
+export default [loginGuard];
