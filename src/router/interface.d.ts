@@ -13,6 +13,7 @@ export interface RouteMeta {
   icon?: Component | string;
   cacheable?: boolean;
   link?: string;
+  title?: string;
 }
 
 declare interface RouteRecordBase extends Omit<_RouteRecordBase, 'redirect'> {

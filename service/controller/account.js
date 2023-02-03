@@ -7,8 +7,6 @@ import jwt from 'jsonwebtoken';
  */
 export default function accountController(app, db) {
   app.post('/login', (req, res) => {
-    console.log(req.headers);
-    console.log(req.params, req.body);
     const { username, password } = req.body;
     const account = db.prepare('select * from account where username = ?').get(username);
     if (account && account.username === username && account.password === password) {

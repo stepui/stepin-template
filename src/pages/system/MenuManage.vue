@@ -3,10 +3,9 @@
   // @ts-ignore
   import * as icons from '@ant-design/icons-vue/es/icons';
   import { reactive, ref, watch, computed, onMounted } from 'vue';
-  import { RouteRecordRaw, useRouter } from 'vue-router';
-  import { FormInstance } from 'ant-design-vue';
-  import { addRoutes } from '@/router/dynamicRoutes';
-  import { useMenuStore } from '@/store/menu';
+  import { FormInstance, TreeSelectProps } from 'ant-design-vue';
+  import { useMenuStore, MenuTable } from '@/store/menu';
+  import { storeToRefs } from 'pinia';
 
   const iconList: IconSelectOption[] = [];
 
@@ -50,6 +49,10 @@
   const columns = [
     {
       title: '菜单名称',
+      dataIndex: 'title',
+    },
+    {
+      title: 'name',
       dataIndex: 'name',
     },
     {
@@ -57,137 +60,55 @@
       dataIndex: 'icon',
     },
     {
-      title: '页面组件',
-      dataIndex: 'component',
-    },
-
-    {
       title: 'path',
       dataIndex: 'path',
     },
     {
-      title: '权限',
-      dataIndex: 'auth',
+      title: '页面组件',
+      dataIndex: 'component',
     },
     {
-      width: 80,
+      title: '权限',
+      dataIndex: 'permission',
+    },
+    {
+      title: '渲染菜单',
+      dataIndex: 'renderMenu',
+      customRender: (val: boolean) => (val ? '是' : '否'),
+    },
+    {
+      width: 140,
       title: '操作',
+      align: 'center',
       dataIndex: 'operation',
     },
   ];
 
-  const menuList = reactive([
-    {
-      name: '工作台',
-      icon: 'SettingOutlined',
-      component: '@/pages/workplace',
-      path: '/workplace',
-      permission: 'system',
-    },
-    {
-      name: '工作台',
-      icon: 'SettingOutlined',
-      component: '@/pages/workplace',
-      path: '/workplace',
-      permission: 'system',
-    },
-    {
-      name: '工作台',
-      icon: 'SettingOutlined',
-      component: '@/pages/workplace',
-      path: '/workplace',
-      permission: 'system',
-    },
-    {
-      name: '系统管理',
-      icon: 'SettingOutlined',
-      component: '@/pages/system',
-      path: '/system',
-      permission: 'system',
-      children: [
-        {
-          name: '菜单管理',
-          icon: 'SettingOutlined',
-          component: '@/pages/system/menu',
-          path: 'menu',
-          auth: 'system:menu',
-        },
-      ],
-    },
-  ]);
+  const treeData = computed(() => {
+    const toNode = (list: MenuTable[]): TreeSelectProps['treeData'] => {
+      return list.map((item) => ({
+        title: item.title!,
+        value: item.name! as string,
+        children: item.children && toNode(item.children!),
+      }));
+    };
 
-  type MenuData = {
-    name?: string;
-    icon?: string;
-    component?: string;
-    path?: string;
-    permission?: string | number;
-    visible?: boolean;
-    parent?: string[];
-  };
-
-  const toMenuData = (routes: readonly RouteRecordRaw[]): MenuData[] => {
-    return routes.map((route) => {
-      return {
-        name: route.name as string,
-        icon: route?.meta?.icon as string,
-        component: route.component?.toString(),
-        path: route.path,
-        permission: route.meta?.permission as string,
-        children: route.children && toMenuData(route.children),
-      };
-    });
-  };
-  const router = useRouter();
-  const _menuList = computed(() => {
-    return toMenuData(router.options.routes);
+    return toNode(menuList.value);
   });
-
-  const menu = [
-    {
-      label: '个人中心',
-      value: 'personal',
-      children: [
-        { label: '我的资料', value: 'personal/profile' },
-        { label: '安全设置', value: 'personal/safe' },
-      ],
-    },
-    {
-      label: '系统配置',
-      value: 'system',
-      children: [
-        {
-          label: '权限管理',
-          value: 'system/permission',
-        },
-        {
-          label: '用户管理',
-          value: 'system/user',
-        },
-        {
-          label: '菜单管理',
-          value: 'system/menu',
-          children: [
-            {
-              label: '权限管理',
-              value: 'system/menu/permission',
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
   const showForm = ref(false);
 
-  const formData = reactive<MenuData>({
-    name: undefined,
+  const formData = reactive<MenuTable>({
+    id: undefined,
+    name: '',
+    title: undefined,
     icon: undefined,
-    path: undefined as never,
-    component: undefined,
-    visible: true,
-    parent: [],
+    path: '',
+    component: '',
+    renderMenu: true,
+    parent: undefined,
     permission: undefined,
+    cacheable: true,
   });
 
   const editPath = false;
@@ -195,9 +116,25 @@
 
   watch(
     () => formData.parent,
-    () => {
+    (val) => {
+      if (!val) {
+        return;
+      }
+      const findMenu = (name: string, list: MenuTable[]): MenuTable | undefined => {
+        for (const menu of list) {
+          if (menu.name === name) {
+            return menu;
+          } else if (menu.children) {
+            const _menu = findMenu(name, menu.children);
+            if (_menu) {
+              return _menu;
+            }
+          }
+        }
+      };
       if (editPath === false) {
-        formData.path = formData.parent && formData.parent.slice(-1)[0] + '/';
+        const _menu = findMenu(val, menuList.value);
+        formData.path = _menu!.path + '/' + (formData.name || '');
         pathInput.value?.focus();
       }
     }
@@ -211,19 +148,8 @@
     loading.value = true;
     form.value
       ?.validate()
-      .then((res) => {
-        addRoutes([
-          {
-            path: res.path,
-            name: res.name,
-            component: res.component,
-            meta: {
-              icon: res.icon,
-              renderMenu: res.visible ?? true,
-              permission: res.permission,
-            },
-          },
-        ]);
+      .then(() => {
+        formData.id ? updateMenu(formData) : addMenu(formData);
         showForm.value = false;
       })
       .finally(() => {
@@ -231,34 +157,52 @@
       });
   }
 
-  function edit(record: MenuData) {
+  const title = ref('新增菜单');
+
+  function edit(record: MenuTable) {
+    form.value?.resetFields();
+    formData.id = record.id;
     formData.name = record.name;
+    formData.title = record.title;
     formData.path = record.path;
     formData.component = record.component;
     formData.icon = record.icon;
-    formData.visible = record.visible;
+    formData.renderMenu = record.renderMenu;
     formData.permission = record.permission;
+    formData.parent = record.parent;
     showForm.value = true;
+    title.value = '编辑菜单';
   }
 
   function add() {
-    formData.name = undefined;
-    formData.path = undefined;
-    formData.component = undefined;
+    form.value?.resetFields();
+    formData.id = undefined;
+    formData.name = '';
+    formData.title = undefined;
+    formData.path = '';
+    formData.component = '';
     formData.icon = undefined;
-    formData.visible = false;
+    formData.renderMenu = false;
     formData.permission = undefined;
     showForm.value = true;
+    title.value = '新增菜单';
   }
 
-  const { getMenuList } = useMenuStore();
+  function remove(record: MenuTable) {
+    removeMenu(record.id!);
+  }
+
+  const menuStore = useMenuStore();
+
+  const { getMenuList, updateMenu, addMenu, removeMenu } = useMenuStore();
+  const { menuList } = storeToRefs(menuStore);
   onMounted(() => {
     getMenuList();
   });
 </script>
 <template>
   <div class="authority">
-    <a-table :columns="columns" :dataSource="_menuList" :pagination="{ pageSize: 20, current: 1, total: 10 }">
+    <a-table :columns="columns" :dataSource="menuList" :pagination="{ pageSize: 20, current: 1, total: 10 }">
       <template #title>
         <div class="flex justify-between">
           菜单列表
@@ -275,38 +219,44 @@
       <template #bodyCell="{ text, record, index, column }">
         <template v-if="column.dataIndex === 'operation'">
           <a-button class="text-xs" type="primary" size="small" @click="edit(record)">编辑</a-button>
+          <a-button class="text-xs ml-base" danger size="small" @click="remove(record)">删除</a-button>
+        </template>
+        <template v-else-if="column.dataIndex === 'icon'">
+          <component :is="record.icon" />
         </template>
       </template>
     </a-table>
-    <a-modal :okButtonProps="{ loading }" width="480px" v-model:visible="showForm" title="新增菜单" @ok="submit">
-      <a-form ref="form" :model="formData" :labelCol="{ span: 4 }" :wrapperCol="{ span: 18, offset: 1 }">
-        <a-form-item required name="name" label="菜单标题">
+    <a-modal :okButtonProps="{ loading }" width="540px" v-model:visible="showForm" :title="title" @ok="submit">
+      <a-form ref="form" :model="formData" :labelCol="{ span: 5 }" :wrapperCol="{ span: 16, offset: 1 }">
+        <a-form-item required name="title" label="菜单标题">
+          <a-input v-model:value="formData.title" />
+        </a-form-item>
+        <a-form-item required name="name" label="name">
           <a-input v-model:value="formData.name" />
         </a-form-item>
-        <a-form-item name="icon" label="图标">
-          <IconSelector :column="6" :options="groupList" mode="single" v-model:value="formData.icon" />
-        </a-form-item>
         <a-form-item name="parent" label="父级菜单">
-          <a-cascader
-            changeOnSelect
-            expandTrigger="hover"
+          <a-tree-select
+            tree-default-expand-all
             placeholder="设置父级菜单"
-            :options="menu"
             v-model:value="formData.parent"
-            allow-clear
+            :treeData="treeData"
           />
         </a-form-item>
         <a-form-item required name="path" label="path">
           <a-input ref="pathInput" v-model:value="formData.path" />
         </a-form-item>
+        <a-form-item name="icon" label="图标">
+          <IconSelector :column="6" :options="groupList" mode="single" v-model:value="formData.icon" />
+        </a-form-item>
         <a-form-item required name="component" label="页面组件">
           <a-input v-model:value="formData.component" />
         </a-form-item>
-        <a-form-item required name="visible" label="是否可见">
-          <a-switch v-model:checked="formData.visible" checked-children="是" un-checked-children="否" />
-        </a-form-item>
+
         <a-form-item name="permission" label="权限校验">
           <a-input v-model:value="formData.permission" />
+        </a-form-item>
+        <a-form-item required name="renderMenu" label="渲染菜单">
+          <a-switch v-model:checked="formData.renderMenu" checked-children="是" un-checked-children="否" />
         </a-form-item>
       </a-form>
     </a-modal>

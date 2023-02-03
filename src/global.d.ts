@@ -14,6 +14,7 @@ import {
   InputProps,
   SpinProps,
   StatisticProps,
+  TreeSelectProps,
 } from 'ant-design-vue';
 import { MessageApi } from 'ant-design-vue/es/message';
 
@@ -36,10 +37,12 @@ declare module 'vue' {
     AInput: InputProps;
     ASpin: SpinProps;
     AStatistic: StatisticProps;
+    ATreeSelect: TreeSelectProps;
   }
 
   export interface ComponentCustomProperties {
     $message: MessageApi;
   }
 }
+
 export {};

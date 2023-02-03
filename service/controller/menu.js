@@ -24,4 +24,40 @@ export default function menuController(app, db) {
       data: menuList.filter((menu) => !menu.parent),
     });
   });
+
+  app.post('/menu', (req, res) => {
+    const { name, title, icon, path, component, renderMenu, parent, permission } = req.body;
+    const result = db
+      .prepare(' insert into menu values (null, ?, ?, ?, ?, ?, ?, ?, ?)')
+      .run(name, title, path, icon, permission, component, 1 & renderMenu, parent);
+    res.send({
+      code: 0,
+      message: 'success',
+      data: result,
+    });
+  });
+
+  app.put('/menu', (req, res) => {
+    const { name, title, icon, path, component, renderMenu, parent, permission, id } = req.body;
+    const result = db
+      .prepare(
+        ' update menu set name = ?, title = ?, path = ?, icon = ?, permission = ?, component = ?, renderMenu = ?, parent = ? where id = ?'
+      )
+      .run(name, title, path, icon, permission, component, 1 & renderMenu, parent, id);
+    res.send({
+      code: 0,
+      message: 'success',
+      data: result,
+    });
+  });
+
+  app.delete('/menu', (req, res) => {
+    const { id } = req.body;
+    const result = db.prepare('delete from menu where id = ?').run(id);
+    res.send({
+      code: 0,
+      message: 'success',
+      data: result,
+    });
+  });
 }

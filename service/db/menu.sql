@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS menu;
-
 -- 创建菜单表
 CREATE TABLE menu(
-  name TEXT NOT NULL PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
   title TEXT,
   path TEXT,
   icon TEXT,
@@ -11,10 +11,10 @@ CREATE TABLE menu(
   renderMenu INTEGER,
   parent TEXT
 );
-
 -- 初始化数据
 INSERT INTO menu
 VALUES (
+    null,
     'workplace',
     '工作台',
     '/workplace',
@@ -25,6 +25,7 @@ VALUES (
     NULL
   ),
   (
+    null,
     'table',
     '表格',
     '/table',
@@ -35,6 +36,7 @@ VALUES (
     NULL
   ),
   (
+    null,
     'personal',
     '个人中心',
     '/personal',
@@ -45,6 +47,7 @@ VALUES (
     NULL
   ),
   (
+    null,
     'billing',
     '账单',
     '/billing',
@@ -55,16 +58,7 @@ VALUES (
     NULL
   ),
   (
-    'async-routes',
-    '账单',
-    '/async/routes',
-    'FundProjectionScreenOutlined',
-    NULL,
-    '@/pages/AsyncRoutes.vue',
-    TRUE,
-    NULL
-  ),
-  (
+    null,
     'test',
     '测试',
     '/test',
@@ -75,6 +69,7 @@ VALUES (
     NULL
   ),
   (
+    null,
     'system',
     '系统配置',
     '/system',
@@ -85,6 +80,7 @@ VALUES (
     NULL
   ),
   (
+    null,
     'user',
     '用户管理',
     '/system/user',
@@ -95,6 +91,7 @@ VALUES (
     'system'
   ),
   (
+    null,
     'menu',
     '菜单管理',
     '/system/menu',
