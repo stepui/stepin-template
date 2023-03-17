@@ -79,7 +79,7 @@
     .login-form {
       height: fit-content;
       width: 460px;
-      @apply border-border pl-10 pr-10 p-6 rounded-base text-text bg-content;
+      @apply border-border pl-10 pr-10 p-6 rounded text-text bg-container;
       .third-platform {
         .third-title {
           @apply text-left mb-md;
@@ -104,7 +104,7 @@
       }
       .login-input,
       .login-button {
-        @apply rounded-base;
+        @apply rounded;
         margin-top: 16px;
         height: 40px;
         width: 100%;

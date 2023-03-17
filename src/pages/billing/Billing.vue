@@ -1,33 +1,13 @@
 <template>
   <div class="billing">
     <div class="card-list inline-flex">
-      <bank-card
-        bankName="浦发银行"
-        theme="pufa"
-        number="456211224594785"
-        name="张XX"
-        expires="22/11"
-      />
-      <bank-card
-        bankName="平安银行"
-        theme="pingan"
-        number="456211224594782"
-        name="张XX"
-        expires="22/11"
-      />
-      <bank-card
-        bankName="招商银行"
-        theme="zhaoshang"
-        number="456211224594252"
-        name="张XX"
-        expires="22/11"
-      />
+      <bank-card bankName="浦发银行" theme="pufa" number="456211224594785" name="张XX" expires="22/11" />
+      <bank-card bankName="平安银行" theme="pingan" number="456211224594782" name="张XX" expires="22/11" />
+      <bank-card bankName="招商银行" theme="zhaoshang" number="456211224594252" name="张XX" expires="22/11" />
     </div>
     <div class="channel-list inline-block">
       <a-card class="pay-channel">
-        <div
-          class="channel-icon shadow-lg bg-primary-500 p-md block text-inverse rounded-lg"
-        >
+        <div class="channel-icon shadow-lg bg-primary-500 p-md block text-text-inverse rounded-lg">
           <money-collect-outlined style="font-size: 32px" />
         </div>
       </a-card>

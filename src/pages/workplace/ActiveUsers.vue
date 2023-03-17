@@ -16,16 +16,9 @@
     />
     <div class="details">
       <OverviewTitle title="活跃用户" subtitle="同比上周" change="+23%" up />
-      <div class="content">
-        我们已经为您创建了多个选项放在一起，并定制成像素完美的页面。
-      </div>
+      <div class="content">我们已经为您创建了多个选项放在一起，并定制成像素完美的页面。</div>
       <div class="statistics">
-        <a-statistic
-          :title="item.title"
-          :value="item.value"
-          v-for="(item, i) in statisticList"
-          :key="i"
-        />
+        <a-statistic :title="item.title" :value="item.value" v-for="(item, i) in statisticList" :key="i" />
       </div>
     </div>
   </div>
@@ -55,7 +48,7 @@
       @apply mt-lg;
     }
     .content {
-      @apply mt-md text-subtitle;
+      @apply mt-md text-title;
     }
     .statistics {
       @apply flex mt-md;

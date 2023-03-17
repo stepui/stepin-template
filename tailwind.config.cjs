@@ -1,5 +1,5 @@
-const stepinTheme = require('stepin/es/theme/tailwind.stepin');
 const plugin = require('tailwindcss/plugin');
+const stepinTheme = require('stepin/es/style/theme/tailwind.config.cjs');
 
 module.exports = {
   presets: [stepinTheme],

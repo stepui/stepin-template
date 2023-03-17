@@ -50,10 +50,10 @@
           margin-bottom: 0;
         }
         .title {
-          @apply text-title-inverse;
+          @apply text-text-inverse;
         }
         .description {
-          @apply text-text-dark mt-lg;
+          @apply text-text-inverse mt-lg;
           font-size: 22px;
         }
         .feature-list {

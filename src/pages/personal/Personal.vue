@@ -11,10 +11,10 @@
   <div class="personal">
     <div class="banner w-full rounded-xl p-base items-baseline">
       <a-breadcrumb class="navi">
-        <a-breadcrumb-item class="text-inverse">Home</a-breadcrumb-item>
+        <a-breadcrumb-item class="text-text-inverse">Home</a-breadcrumb-item>
         <a-breadcrumb-item>Personal</a-breadcrumb-item>
       </a-breadcrumb>
-      <div class="mt-0.5 text-title-inverse text-xl font-semibold">Overview</div>
+      <div class="mt-0.5 text-text-inverse text-xl font-semibold">Overview</div>
       <div
         class="profile flex items-center justify-between p-base bg-white rounded-2xl absolute -bottom-16 left-6 shadow-lg"
       >
@@ -61,7 +61,7 @@
         }
 
         & > span:last-child .ant-breadcrumb-link {
-          @apply text-title-inverse;
+          @apply text-text-inverse;
         }
       }
     }

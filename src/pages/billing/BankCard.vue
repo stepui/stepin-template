@@ -1,5 +1,5 @@
 <template>
-  <div :class="`bank-card ${theme} p-md text-inverse rounded-xl flex flex-col justify-between`">
+  <div :class="`bank-card ${theme} p-md text-text-inverse rounded-xl flex flex-col justify-between`">
     <div class="font-bold" style="font-size: 16px">{{ bankName }}</div>
     <splitter class="number text-xl font-bold" :value="number" :sensitive="[2, 12]" />
     <div class="flex items-end justify-between tab-[12]">
@@ -52,10 +52,10 @@
         @apply ml-8;
       }
       .ant-statistic-title {
-        @apply text-inverse text-xs;
+        @apply text-text-inverse text-xs;
       }
       .ant-statistic-content {
-        @apply text-title-inverse font-bold text-base;
+        @apply text-text-inverse font-bold text-base;
       }
     }
   }

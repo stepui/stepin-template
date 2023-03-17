@@ -27,7 +27,7 @@
         :value="item.value"
       >
         <template #icon>
-          <span class="p-3 shadow-lg bg-primary-500 align-middle text-inverse inline-flex items-center rounded-lg">
+          <span class="p-3 shadow-lg bg-primary-500 align-middle text-text-inverse inline-flex items-center rounded-lg">
             <component class="text-2xl" v-bind:is="item.icon" />
           </span>
         </template>
