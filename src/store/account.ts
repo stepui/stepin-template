@@ -23,7 +23,7 @@ export const useAccountStore = defineStore('account', {
   actions: {
     async login(username: string, password: string) {
       return http
-        .request<TokenResult, Response<TokenResult>>('/login', 'post', { username, password })
+        .request<TokenResult, Response<TokenResult>>('/login', 'post_json', { username, password })
         .then(async (response) => {
           if (response.code === 0) {
             this.logged = true;
