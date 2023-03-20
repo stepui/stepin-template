@@ -63,7 +63,7 @@ export default ({ command, mode }) => {
         },
       }),
       Components({
-        resolvers: [AntDesignVueResolver({ importStyle: 'less' })],
+        resolvers: [AntDesignVueResolver({ importStyle: mode === 'development' ? false : 'less' })],
       }),
     ],
     css: {
