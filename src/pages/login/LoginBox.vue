@@ -27,7 +27,9 @@
           type="password"
         />
       </a-form-item>
-      <a-button htmlType="submit" class="login-button" type="primary" :loading="loading"> 登录 </a-button>
+      <a-button htmlType="submit" class="login-button bg-primary-600" type="primary" :loading="loading">
+        登录
+      </a-button>
       <a-divider></a-divider>
       <div class="terms">
         登录即代表您同意我们的
@@ -38,14 +40,21 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
+  import { reactive, ref, onMounted } from 'vue';
   import { useAccountStore } from '@/store';
   import { message } from 'ant-design-vue';
+  import useThemeStore from 'stepin/es/theme-editor/store';
 
   export interface LoginFormProps {
     username: string;
     password: string;
   }
+
+  const { setMiddleColors } = useThemeStore();
+
+  onMounted(() => {
+    setMiddleColors({ 'text-base': '#000', 'bg-base': '#fff' }, '.login-box');
+  });
 
   const loading = ref(false);
 
@@ -68,7 +77,6 @@
         emit('success', params);
       })
       .catch((e) => {
-        message.error(e.message);
         emit('failure', e.message, params);
       })
       .finally(() => (loading.value = false));
@@ -77,9 +85,8 @@
 <style lang="less" scoped>
   .login-box {
     .login-form {
-      height: fit-content;
-      width: 460px;
-      @apply border-border pl-10 pr-10 p-6 rounded text-text bg-container;
+      width: 440px;
+      @apply py-12 h-fit border-border px-10 rounded-sm text-text bg-container;
       .third-platform {
         .third-title {
           @apply text-left mb-md;

@@ -1,9 +1,9 @@
 const plugin = require('tailwindcss/plugin');
-const stepinTheme = require('stepin/es/style/theme/tailwind.config.cjs');
+const stepinTheme = require('stepin/es/style/tailwind.config.cjs');
 
 module.exports = {
   presets: [stepinTheme],
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}', 'stepin/es/**/*.{js,less}'],
   darkMode: 'class', // or 'media' or 'class'
   corePlugins: {
     preflight: false,

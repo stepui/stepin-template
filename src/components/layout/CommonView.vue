@@ -58,7 +58,7 @@
             font-size: 18px;
             margin-left: 64px;
             .stepin-link {
-              color: theme('colors.text-text-inverse');
+              color: theme('colors.text-inverse');
               &:hover {
                 color: theme('colors.primary.500');
               }

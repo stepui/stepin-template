@@ -1,6 +1,6 @@
 <template>
   <div class="workplace grid grid-rows-none gap-4">
-    <div class="bg-white -mx-base p-base pt-8 flex items-end justify-between">
+    <div class="bg-container -mx-base p-base pt-8 flex items-end justify-between">
       <div class="flex items-center">
         <img src="@/assets/avatar/face-1.jpg" class="w-16 h-16 rounded-full" />
         <div class="ml-base">

@@ -1,80 +1,48 @@
+<script lang="ts" setup>
+  import { GithubFilled } from '@ant-design/icons-vue';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+  function signIn() {
+    router.push('/login');
+  }
+</script>
 <template>
-  <div>
-    <tabs />
-    <a-divider />
-    <s-iframe />
-    <a-divider />
-    <section>
-      <h2>菜单</h2>
-      <p>菜单在 vue2 版本基础上，添加了多页签配置支持，增加了徽标功能。</p>
-    </section>
-    <a-divider />
-    <section>
-      <h2>设置面板</h2>
-      <p>设置面板现可以通过配置的方式自由定制，并可通过 api 控制显示隐藏。</p>
-    </section>
-    <a-divider />
-    <section>
-      <h2>主题配置</h2>
-      <p>新版框架引入了 tailwindcss 支持;</p>
-      <p>
-        更多的主题选项可供配置（包括且不限于：主题色、间距、字体、功能色、背景色...）
-      </p>
-      <p>你也可以通过简单的配置实现你自己的一套主题，主题同样支持实时切换。</p>
-    </section>
-    <section>
-      <h2>异步路由（动态路由/菜单）</h2>
-      <p>简化了异步路由配置规则，支持更自由灵活的配置方式;</p>
-    </section>
-    <section>
-      <h2>国际化</h2>
-      <p>
-        有别于vue2版本内部绑定的方式，国际化功能以插件的方式提供，与框架解耦;
-      </p>
-    </section>
-    <section>
-      <h2>权限控制</h2>
-      <p>权限控制功能以插件的方式提供，在重新设计中...</p>
-    </section>
-    <section>
-      <h2>关于 Stepin</h2>
-      <p>
-        Stepin 是一套面向后端管理系统的高级组件库和插件库（基于
-        ant-design-vue）。
-      </p>
-      <p>
-        vue3 版本框架的所有功能均会以组件或插件的方式发布在 stepin
-        组件库中，可通过 npm、yarn进行升级、更新。
-      </p>
-    </section>
-    <section>
-      <h2>其它</h2>
-      <p>
-        如果你有其它任何想要的功能，不妨给我们提
-        issue，我们会认真考虑每个用户的需求。
-      </p>
-      <p>
-        vue3 框架核心功能基本研发完成，目前处于测试阶段，接下来会逐步补充 demo
-        页面及完善部分功能。
-      </p>
-    </section>
+  <div class="home pt-[140px] text-center">
+    <div class="tracking-wide slogan text-[84px] font-extralight">
+      <span class="font-semibold">Develop faster.</span> Custom easier.
+    </div>
+    <p class="text-subtext text-[28px] font-light tracking-wide">
+      The most-loved Vue3 Framework in github.com and gitee.com
+    </p>
+    <button
+      @click="signIn"
+      class="bg-primary-600 hover:bg-primary-700 cursor-pointer mt-lg shadow border-0 outline-none text-xl px-[64px] py-lg rounded-sm"
+    >
+      Sign In and Start Preview
+      <br />
+      <div class="text-base text-subtext"><GithubFilled /> @iczer</div>
+    </button>
+    <br />
+    <div class="inline-block text-blue-200 text-xl mr-lg">Powered by:</div>
+    <div class="powered-by-list inline-flex mt-xl text-subtext">
+      <a href="https://www.antdv.com/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
+        <img class="w-6" src="@/assets/logo/antdv.svg" />
+        antd design vue
+      </a>
+      <a
+        href="https://tailwindcss.com/"
+        target="_blank"
+        class="powered-by text-subtext mx-md hover:text-text cursor-pointer"
+      >
+        <img class="w-6" src="@/assets/logo/tailwindcss.svg" />
+        tailwindcss
+      </a>
+      <a href="http://www.vitejs.net/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
+        <img class="w-5" src="@/assets/vite.svg" />
+        vitejs
+      </a>
+    </div>
   </div>
 </template>
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import SIframe from './SIframe.vue';
-  import Tabs from './Tabs.vue';
-
-  export default defineComponent({
-    components: { Tabs, SIframe },
-    name: 'Home',
-    data() {
-      return {};
-    },
-  });
-</script>
-<style lang="less" scoped>
-  section {
-    @apply mt-4 bg-bg-disabled p-4 rounded;
-  }
-</style>
+<style scoped lang="less"></style>
