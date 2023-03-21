@@ -1,6 +1,7 @@
-import { AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import createHttp from '@/utils/axiosHttp';
-import { Response, isResponse } from '@/types';
+import { isResponse } from '@/types';
+import NProgress from 'nprogress';
 
 const http = createHttp({
   timeout: 10000,
@@ -13,6 +14,16 @@ const http = createHttp({
 const isAxiosResponse = (obj: any): obj is AxiosResponse => {
   return typeof obj === 'object' && obj.status && obj.statusText && obj.headers && obj.config;
 };
+
+// progress 进度条 -- 开启
+http.interceptors.request.use((req: AxiosRequestConfig) => {
+  if (!NProgress.isStarted()) {
+    NProgress.start();
+  }
+  return req;
+});
+
+// 解析响应结果
 http.interceptors.response.use(
   (rep: AxiosResponse<String>) => {
     const { data } = rep;
@@ -30,6 +41,22 @@ http.interceptors.response.use(
       });
     }
     return Promise.reject(error);
+  }
+);
+
+// progress 进度条 -- 关闭
+http.interceptors.response.use(
+  (rep) => {
+    if (NProgress.isStarted()) {
+      NProgress.done();
+    }
+    return rep;
+  },
+  (error) => {
+    if (NProgress.isStarted()) {
+      NProgress.done();
+    }
+    return error;
   }
 );
 

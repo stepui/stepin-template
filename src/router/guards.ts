@@ -1,6 +1,9 @@
-import { NavigationGuard } from 'vue-router';
+import { NavigationGuard, NavigationHookAfter } from 'vue-router';
 import http from '@/store/http';
 import { useAccountStore } from '@/store';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+NProgress.configure({ showSpinner: false });
 
 const loginGuard: NavigationGuard = function (to, from) {
   const account = useAccountStore();
@@ -10,4 +13,15 @@ const loginGuard: NavigationGuard = function (to, from) {
   }
 };
 
-export default [loginGuard];
+const progressStart: NavigationGuard = function (to, from) {
+  NProgress.start();
+};
+
+const progressEnd: NavigationHookAfter = function (to, from) {
+  NProgress.done();
+};
+
+export default {
+  before: [progressStart, loginGuard],
+  after: [progressEnd],
+};

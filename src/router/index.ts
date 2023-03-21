@@ -11,6 +11,7 @@ const router = createRouter(
 );
 
 // 注册导航守卫
-guards.forEach(router.beforeEach);
+guards.before.forEach(router.beforeEach);
+guards.after.forEach(router.afterEach);
 
 export default router;

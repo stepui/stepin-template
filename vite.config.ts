@@ -33,7 +33,7 @@ export default ({ command, mode }) => {
     },
     build: {
       sourcemap: true,
-      chunkSizeWarningLimit: 4096,
+      chunkSizeWarningLimit: 2048,
       // rollupOptions: {
       //   output: {
       //     chunkFileNames: (chunk) => {
