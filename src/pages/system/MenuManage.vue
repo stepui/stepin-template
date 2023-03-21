@@ -6,6 +6,7 @@
   import { FormInstance, TreeSelectProps } from 'ant-design-vue';
   import { useMenuStore, MenuTable } from '@/store/menu';
   import { storeToRefs } from 'pinia';
+  import { useAuth } from '@/plugins/auth-plugin';
 
   const iconList: IconSelectOption[] = [];
 
@@ -159,7 +160,7 @@
 
   const title = ref('新增菜单');
 
-  function edit(record: MenuTable) {
+  const edit = useAuth('edit', function (record: MenuTable) {
     form.value?.resetFields();
     formData.id = record.id;
     formData.name = record.name;
@@ -172,7 +173,7 @@
     formData.parent = record.parent;
     showForm.value = true;
     title.value = '编辑菜单';
-  }
+  });
 
   function add() {
     form.value?.resetFields();
@@ -187,10 +188,9 @@
     showForm.value = true;
     title.value = '新增菜单';
   }
-
-  function remove(record: MenuTable) {
+  const remove = useAuth('menu:delete', function (record: MenuTable) {
     removeMenu(record.id!);
-  }
+  });
 
   const menuStore = useMenuStore();
 
@@ -219,7 +219,9 @@
       <template #bodyCell="{ text, record, index, column }">
         <template v-if="column.dataIndex === 'operation'">
           <a-button class="text-xs" type="primary" size="small" @click="edit(record)">编辑</a-button>
-          <a-button class="text-xs ml-base" danger size="small" @click="remove(record)">删除</a-button>
+          <a-popconfirm title="确认删除？" @confirm="remove(record)">
+            <a-button class="text-xs ml-base" v-auth:delete danger size="small">删除</a-button>
+          </a-popconfirm>
         </template>
         <template v-else-if="column.dataIndex === 'icon'">
           <component :is="record.icon" />

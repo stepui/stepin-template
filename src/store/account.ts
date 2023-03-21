@@ -3,6 +3,11 @@ import http from './http';
 import { Response } from '@/types';
 import { useMenuStore } from './menu';
 
+export interface Profile {
+  account: Account;
+  permissions: string[];
+  role: string;
+}
 export interface Account {
   username: string;
   avatar: string;
@@ -17,6 +22,8 @@ export const useAccountStore = defineStore('account', {
   state() {
     return {
       account: {} as Account,
+      permissions: [] as string[],
+      role: '',
       logged: true,
     };
   },
@@ -25,6 +32,8 @@ export const useAccountStore = defineStore('account', {
       return http
         .request<TokenResult, Response<TokenResult>>('/login', 'post_json', { username, password })
         .then(async (response) => {
+          console.log(response);
+
           if (response.code === 0) {
             this.logged = true;
             http.setAuthorization(`Bearer ${response.data.token}`, new Date(response.data.expires));
@@ -43,8 +52,16 @@ export const useAccountStore = defineStore('account', {
       });
     },
     async profile() {
-      return http.request<Account, Response<Account>>('/account', 'GET').then((response) => {
-        this.account = response.data;
+      return http.request<Account, Response<Profile>>('/account', 'get').then((response) => {
+        if (response.code === 0) {
+          const { account, permissions, role } = response.data;
+          this.account = account;
+          this.permissions = permissions;
+          this.role = role;
+          return response.data;
+        } else {
+          return Promise.reject(response);
+        }
       });
     },
     setLogged(logged: boolean) {

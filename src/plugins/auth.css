@@ -1,4 +1,4 @@
-.auth-hidden {
+#stepin-app .auth-hidden {
   @apply hidden absolute;
 }
 

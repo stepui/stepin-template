@@ -21,9 +21,25 @@ Mock.mock('api/login', 'post', ({ body }) => {
   if (username === 'admin' && password === '888888') {
     const expiresIn = 24 * 60 * 60 * 1000;
     const token = sign({ username: 'admin', role: 'admin' }, 'secret key', { expiresIn });
-    console.log(token);
     return { code: 0, message: 'success', data: { token, expires: expiresIn + new Date().getTime() } };
   } else {
-    return { code: 401, msg: '用户名或密码错误' };
+    return { code: 401, message: '用户名或密码错误' };
   }
+});
+
+Mock.mock('api/account', 'get', ({}) => {
+  return {
+    code: 0,
+    message: 'success',
+    data: {
+      account: {
+        username: 'iczer',
+        age: 18,
+        gender: 0,
+        avatar: 'http://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png!avatar30',
+      },
+      role: 'admin',
+      permissions: ['edit', 'delete', 'add'],
+    },
+  };
 });

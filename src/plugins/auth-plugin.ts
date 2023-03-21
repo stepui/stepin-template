@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import { Plugin } from 'vue';
 import './auth.css';
-export type AuthKey = string | number | object;
+import { alert } from '@/components/alert-message';
+export type AuthKey = string | number;
 
 export interface AuthState {
   authorities: AuthKey[];
@@ -28,13 +29,20 @@ export const useAuthStore = defineStore<string, AuthState, {}, AuthActions>('aut
   },
 });
 
-export function withAuth<T extends Function>(key: AuthKey, func: T): T {
+/**
+ * 给函数添加 权限校验
+ * @param key
+ * @param func
+ * @returns
+ */
+export function useAuth<T extends Function>(key: AuthKey, func: T): T {
   return function t() {
     const authStore = useAuthStore();
     if (!authStore.hasAuthority(key)) {
-      console.warn('you have no permission to accessor the resource');
+      alert.error(msgFormatter(key));
+    } else {
+      return func.apply(undefined, arguments);
     }
-    return func.apply(undefined, arguments);
   } as unknown as T;
 }
 
@@ -43,13 +51,13 @@ export function withAuth<T extends Function>(key: AuthKey, func: T): T {
  */
 export interface AuthPluginConfig {
   className?: string;
-  action?: 'hide' | 'disable' | 'alert';
+  action?: 'hide' | 'disable';
   formatter?: (access: string) => string;
   [key: string | number]: any;
 }
 
-function msgFormatter(access: string) {
-  return `对不起，您没有${access}权限`;
+function msgFormatter(access: AuthKey) {
+  return `对不起，您没有 \`${access}\` 权限`;
 }
 
 interface Operator {
@@ -69,29 +77,23 @@ const operators = {
     },
     access: (el: HTMLElement, access: string, config: AuthPluginConfig) => el.removeAttribute('disabled'),
   },
-  alert: {
-    reject: (el: HTMLElement, access: string, config: AuthPluginConfig) => {
-      const msg = config.formatter!(access);
-      el.setAttribute('title', msg);
-      alert(msg);
-    },
-    access: (el: HTMLElement, access: string, config: AuthPluginConfig) => null,
-  },
 };
 
 const AuthPlugin: Plugin = {
   install(app, { className = 'auth-hidden', action = 'disable', formatter = msgFormatter }: AuthPluginConfig = {}) {
-    app.directive('auth', (el: HTMLElement, { value: access, arg }) => {
-      const authConfig = { className, formatter, action: arg ?? action } as AuthPluginConfig;
+    app.directive('auth', (el: HTMLElement, { value, arg: access, modifiers }, vnode) => {
+      const { disable, hide } = modifiers;
+      const _action = hide ? 'hide' : disable ? 'disable' : undefined;
+      const authConfig = { className, formatter, action: _action ?? action } as AuthPluginConfig;
       const operator: Operator = operators[authConfig.action!];
 
       const authorStore = useAuthStore();
-      if (!authorStore.hasAuthority(access)) {
+      if (!authorStore.hasAuthority(access!)) {
         el.classList.remove(className);
         el.removeAttribute('disabled');
-        operator.reject(el, access, authConfig);
+        operator.reject(el, access!, authConfig);
       } else {
-        operator.access(el, access, authConfig);
+        operator.access(el, access!, authConfig);
       }
     });
   },

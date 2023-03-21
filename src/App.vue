@@ -50,6 +50,18 @@
   import { BellOutlined } from '@ant-design/icons-vue';
   import { useRouter } from 'vue-router';
   import Notice from './components/notice/Notice.vue';
+  import { useAuthStore } from '@/plugins/auth-plugin';
+
+  const { logout, profile } = useAccountStore();
+  const { setAuthorities } = useAuthStore();
+
+  // 获取个人信息
+  profile().then((response) => {
+    const { permissions, account } = response;
+    setAuthorities(permissions);
+    user.name = account.username;
+    user.avatar = account.avatar;
+  });
 
   const showSetting = ref(false);
   const router = useRouter();
@@ -59,8 +71,8 @@
   useMenuStore().getMenuList();
 
   const user = reactive({
-    name: 'iczer',
-    avatar: 'http://portrait.gitee.com/uploads/avatars/user/691/2073535_iczer_1578965604.png!avatar30',
+    name: 'admin',
+    avatar: '',
     menuList: [
       { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
       { title: '设置', key: 'setting', icon: 'SettingOutlined' },
@@ -165,9 +177,7 @@
         showSetting.value = true;
         break;
       case 'logout':
-        useAccountStore()
-          .logout()
-          .then(() => router.push('/login'));
+        logout().then(() => router.push('/login'));
         break;
       default:
         console.log(key, 'user-menu-click');

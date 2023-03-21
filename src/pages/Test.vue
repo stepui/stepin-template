@@ -15,9 +15,9 @@
 <script lang="ts" setup>
   import { ComponentPublicInstance, onMounted, reactive, ref } from 'vue';
   import Guider, { GuiderOption } from '@/components/guider';
-  import { withAuth, useAuthStore } from '@/plugins/auth-plugin';
+  import { useAuth, useAuthStore } from '@/plugins/auth-plugin';
 
-  const sayHi = withAuth('personal:edit', (name: string) => console.log('hi, ' + name));
+  const sayHi = useAuth('personal:edit', (name: string) => console.log('hi, ' + name));
 
   const authStore = useAuthStore();
   authStore.setAuthorities(['personal:edit', 'personal:remove']);

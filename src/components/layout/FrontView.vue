@@ -1,12 +1,20 @@
 <script lang="ts" setup>
-  import { CloseOutlined, LogoutOutlined } from '@ant-design/icons-vue';
+  import { LogoutOutlined } from '@ant-design/icons-vue';
   import { ref, onMounted } from 'vue';
   import useThemeStore from 'stepin/es/theme-editor/store';
+  import { alert } from '@/components/alert-message';
 
   const { setMiddleColors, setPrimaryColor } = useThemeStore();
   onMounted(() => {
     setPrimaryColor({ DEFAULT: '#1896ff' });
     setMiddleColors({ 'text-base': '#fff', 'text-1': '#fff', 'bg-base': '#003f8c' }, '.front-main');
+    alert.info(
+      `<div class="text-text">
+        Stepin is a fast, light framework to Vue3 – try it out today with the
+        <span class="underline">Stepin Template Beta</span>.
+      </div>`,
+      { raw: true, duration: -1 }
+    );
   });
 
   const navList = [
@@ -54,17 +62,6 @@
 </script>
 <template>
   <div class="front-view min-h-screen flex flex-col">
-    <div
-      ref="message"
-      v-if="showMessage"
-      :class="`bg-purple-300 pl-md py-[6px] flex items-center font-semibold mt-0 transition-[margin] ease-out`"
-    >
-      <div class="inline-block text-[13px] text-center flex-1">
-        Stepin is a fast, light framework to Vue3 – try it out today with the
-        <span class="underline">Stepin Template Beta</span>.
-      </div>
-      <CloseOutlined @click="onClose" class="mr-sm cursor-pointer" style="font-size: 16px" />
-    </div>
     <div class="front-main bg-[#003f8c] text-text flex-1">
       <div class="front-header flex items-baseline py-md px-xl">
         <router-link to="/home" class="text-xxl text-text hover:text-text">
