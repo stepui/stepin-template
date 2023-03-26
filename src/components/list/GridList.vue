@@ -9,7 +9,7 @@
     dataSource: { type: Array<any>, default: [] },
   });
 
-  const _pagination = computed(() => {
+  const _pagination = computed<PaginationProps>(() => {
     if (props.pagination && typeof props.pagination === 'boolean') {
       return {};
     }
@@ -47,7 +47,11 @@
       <a-empty />
     </template>
   </div>
-  <a-pagination class="mt-3" v-if="pagination" v-bind="{ total: dataSource?.length, ...pagination }" />
+  <a-pagination
+    class="mt-3"
+    v-if="pagination"
+    v-bind="{ total: dataSource?.length, ...(pagination as PaginationProps) }"
+  />
 </template>
 <style lang="less" scoped>
   .grid-list {

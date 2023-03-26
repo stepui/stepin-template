@@ -101,7 +101,8 @@
   });
 
   const { value: select } = useModelValue(
-    () => (Array.isArray(props.value) || props.value === undefined ? props.value : [props.value]),
+    () =>
+      Array.isArray(props.value) || props.value === undefined ? (props.value as Array<string | number>) : [props.value],
     (val) => emit('update:value', isMultiple.value ? val : val?.[0])
   );
 

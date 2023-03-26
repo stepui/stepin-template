@@ -2,12 +2,12 @@
   import { LabelWrapper } from 'stepin';
   import { useSettingStore, storeToRefs } from '@/store';
 
-  const { navigation, tabsMode } = storeToRefs(useSettingStore());
+  const { navigation, useTabs } = storeToRefs(useSettingStore());
 </script>
 <template>
   <div class="setting px-md">
     <LabelWrapper justify="between" label="多页签">
-      <a-switch v-model:checked="tabsMode" />
+      <a-switch v-model:checked="useTabs" />
     </LabelWrapper>
     <LabelWrapper justify="between" label="导航模式">
       <a-radio-group v-model:value="navigation" button-style="solid">

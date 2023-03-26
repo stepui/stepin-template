@@ -9,6 +9,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist -b pages -r https://gitee.com/stepui/stepin-template.git",
+    "github": "gh-pages -d dist -b master -r git@github.com:stepui/stepui.github.io.git",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
@@ -28,7 +29,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.23",
     "qs": "^6.10.1",
-    "stepin": "2.1.12-beta",
+    "stepin": "2.1.13-beta",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
