@@ -24,7 +24,7 @@
   <a-tabs class="w-60" v-model:active="active">
     <a-tab-pane :key="i" :tab="group.title" v-for="(group, i) in dataSource">
       <div class="list max-h-40 px-2 overflow-y-auto overflow-x-hidden">
-        <div class="not-first-child:mt-3 flex items-center" v-for="item in group.list">
+        <div class="not-[:first-child]:mt-3 flex items-center" v-for="item in group.list">
           <img class="w-11 rounded-full" :src="item.img" />
           <div class="flex flex-col ml-2">
             <div class="text-title text-xs font-semibold">

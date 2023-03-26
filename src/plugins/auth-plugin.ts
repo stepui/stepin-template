@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Plugin } from 'vue';
 import './auth.css';
-import { alert } from '@/components/alert-message';
+import { alert } from 'stepin';
 export type AuthKey = string | number;
 
 export interface AuthState {

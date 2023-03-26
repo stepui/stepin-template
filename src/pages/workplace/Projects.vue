@@ -19,11 +19,7 @@
           </div>
         </template>
         <template v-else-if="column.dataIndex === 'progress'">
-          <a-progress
-            size="small"
-            :percent="text * 100"
-            :status="mapStatus(record.status, text)"
-          />
+          <a-progress size="small" :percent="text * 100" :status="mapStatus(record.status, text)" />
         </template>
         <template v-else-if="column.dataIndex === 'members'">
           <avatar-list :size="28" :source="text" />
@@ -138,7 +134,7 @@
 <style lang="less" scoped>
   .projects {
     :deep(.ant-table) {
-      @apply -mx-6;
+      @apply -mx-md;
 
       .ant-table-thead {
         > tr > th:first-child {

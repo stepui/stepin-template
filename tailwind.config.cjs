@@ -10,15 +10,6 @@ module.exports = {
   },
   theme: {
     extend: {
-      fontSize: {
-        xxl: '1.75rem',
-      },
-      padding: {
-        xs: '0.125rem',
-      },
-      margin: {
-        xs: '0.125rem',
-      },
       screens: {
         sm: '480px',
         md: '768px',
@@ -39,12 +30,6 @@ module.exports = {
       };
       const screens = Object.keys(theme('screens'));
       screens.forEach((name) => addMedia(`${name}x`, parseInt(theme(`screens.${name}`).replace('px', ''))));
-    }),
-    plugin(function ({ addVariant }) {
-      addVariant('last-child', [`&:last-child`]);
-      addVariant('first-child', [`&:first-child`]);
-      addVariant('not-last-child', [`&:not(:last-child)`]);
-      addVariant('not-first-child', [`&:not(:first-child)`]);
     }),
     require('@tailwindcss/container-queries'),
   ],

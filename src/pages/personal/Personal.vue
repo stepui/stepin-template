@@ -16,7 +16,7 @@
       </a-breadcrumb>
       <div class="mt-0.5 text-text-inverse text-xl font-semibold">Overview</div>
       <div
-        class="profile flex items-center justify-between p-base bg-white rounded-2xl absolute -bottom-16 left-6 shadow-lg"
+        class="profile flex items-center justify-between p-base bg-container rounded-2xl absolute -bottom-16 left-6 shadow-lg"
       >
         <div class="info flex items-center">
           <img class="w-20 rounded-lg" src="@/assets/avatar/face-1.jpg" />

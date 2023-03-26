@@ -237,7 +237,7 @@
               <template #renderItem="{ item }">
                 <div
                   @click="onSelect(item)"
-                  :class="`icon-item bg-white cursor-pointer h-10 w-10 flex justify-center items-center ${
+                  :class="`icon-item bg-container cursor-pointer h-10 w-10 flex justify-center items-center ${
                     selected(item) ? 'bg-primary-100' : ''
                   }`"
                 >
@@ -264,7 +264,7 @@
 <style lang="less" scoped>
   .icon-selector {
     :deep(.icon-container) {
-      @apply p-2 text-xl grid gap-2 bg-gray-100 rounded;
+      @apply p-2 text-xl grid gap-2 bg-layout rounded;
 
       .icon-item {
         @apply rounded-sm border border-solid border-transparent;

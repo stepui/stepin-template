@@ -1,56 +1,42 @@
 <template>
-  <stepin-config-provider>
-    <stepin-view
-      system-name="Stepin"
-      logo-src="@/assets/logo.png"
-      :class="`${theme}`"
-      :user="user"
-      @user-menu-click="userMenuClick"
-      @setting-change="onSettingChange"
-      @copy-config="onCopyConfig"
-      v-model:show-setting="showSetting"
-    >
-      <template #headerActions>
-        <a-input placeholder="开始搜索...">
-          <template #prefix>
-            <search-outlined />
-          </template>
-        </a-input>
-        <a class="action-item" href="http://github.com/stepui/stepin-template" target="_blank">
-          <GithubOutlined />
-        </a>
-        <a class="action-item" href="http://gitee.com/stepui/stepin-template" target="_blank">
-          <img class="gitee-logo" src="@/assets/gitee.svg" />
-        </a>
-        <div class="action-item setting" @click="onSettingClick">
-          <SettingOutlined />
-        </div>
-        <a-popover placement="bottomRight">
-          <div class="action-item notice">
-            <BellOutlined />
-          </div>
-          <template #content>
-            <Notice :data-source="noticeList" />
-          </template>
-        </a-popover>
-      </template>
-      <template #pageFooter>
-        <PageFooter />
-      </template>
-    </stepin-view>
-    <login-modal :unless="['/login']" />
-  </stepin-config-provider>
+  <stepin-view
+    system-name="Stepin"
+    logo-src="@/assets/vite.svg"
+    :class="`${contentClass}`"
+    :user="user"
+    :navMode="navigation"
+    :useTabs="useTabs"
+    :themeList="themeList"
+    v-model:show-setting="showSetting"
+    v-model:theme="theme"
+    @themeSelect="configTheme"
+  >
+    <template #headerActions>
+      <HeaderActions @showSetting="showSetting = true" />
+    </template>
+    <template #pageFooter>
+      <PageFooter />
+    </template>
+    <template #themeEditorTab>
+      <a-tab-pane tab="其它" key="other">
+        <Setting />
+      </a-tab-pane>
+    </template>
+  </stepin-view>
+  <login-modal :unless="['/login']" />
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref, toRefs } from 'vue';
+  import { reactive, ref } from 'vue';
   import PageFooter from '@/components/layout/PageFooter.vue';
   import { LoginModal } from '@/pages/login';
-  import { useAppStore, useAccountStore, useMenuStore } from '@/store';
-  import { BellOutlined } from '@ant-design/icons-vue';
+  import { useAccountStore, useMenuStore, useSettingStore, storeToRefs } from '@/store';
   import { useRouter } from 'vue-router';
-  import Notice from './components/notice/Notice.vue';
   import { useAuthStore } from '@/plugins/auth-plugin';
+  import { configTheme, themeList } from '@/theme';
+  import HeaderActions from './components/layout/HeaderActions.vue';
+  import Setting from './components/setting/Setting.vue';
+  import avatar from '@/assets/avatar.png';
 
   const { logout, profile } = useAccountStore();
   const { setAuthorities } = useAuthStore();
@@ -60,140 +46,31 @@
     const { permissions, account } = response;
     setAuthorities(permissions);
     user.name = account.username;
-    user.avatar = account.avatar;
+    // user.avatar = account.avatar;
   });
 
   const showSetting = ref(false);
   const router = useRouter();
-  const appStore = useAppStore();
-  const { theme } = toRefs(appStore);
 
   useMenuStore().getMenuList();
 
+  const { navigation, useTabs, theme, contentClass } = storeToRefs(useSettingStore());
+
   const user = reactive({
     name: 'admin',
-    avatar: '',
+    avatar: avatar,
     menuList: [
-      { title: '个人中心', key: 'personal', icon: 'UserOutlined' },
-      { title: '设置', key: 'setting', icon: 'SettingOutlined' },
+      { title: '个人中心', key: 'personal', icon: 'UserOutlined', onClick: () => router.push('/profile') },
+      { title: '设置', key: 'setting', icon: 'SettingOutlined', onClick: () => (showSetting.value = true) },
       { type: 'divider' },
-      { title: '退出登录', key: 'logout', icon: 'LogoutOutlined' },
+      {
+        title: '退出登录',
+        key: 'logout',
+        icon: 'LogoutOutlined',
+        onClick: () => logout().then(() => router.push('/login')),
+      },
     ],
   });
-
-  const noticeList = reactive([
-    {
-      title: '消息',
-      list: [
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-          img: 'src/assets/avatar/face-1.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'src/assets/avatar/face-2.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'src/assets/avatar/face-3.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'src/assets/avatar/face-4.jpg',
-          time: 0,
-        },
-      ],
-    },
-    {
-      title: '动态',
-      list: [
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-      ],
-    },
-    {
-      title: '通知',
-      list: [
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-        {
-          title: '影佑',
-          content: 'xxxxxxxxxxxxxxxxxx',
-          img: 'http://i2.hdslb.com/bfs/face/80b6731ccf865ca7a4ac17e6e8848fd0e34c1b91.jpg',
-          time: 0,
-        },
-      ],
-    },
-  ]);
-
-  function userMenuClick(key: string) {
-    switch (key) {
-      case 'setting':
-        showSetting.value = true;
-        break;
-      case 'logout':
-        logout().then(() => router.push('/login'));
-        break;
-      default:
-        console.log(key, 'user-menu-click');
-    }
-  }
-  function onSettingChange(category: string, key: string, value: any) {
-    console.log(category, key, value);
-  }
-
-  function onCopyConfig(config: any) {
-    console.log(config);
-  }
-
-  function onSettingClick() {
-    showSetting.value = true;
-  }
 </script>
 
 <style lang="less">
@@ -228,28 +105,13 @@
     height: 100vh;
     overflow-y: hidden;
   }
-</style>
-
-<style lang="less" scoped>
-  .gitee-logo {
-    width: 20px;
-  }
-
-  .action-item {
-    font-size: 20px;
-    height: 100%;
-    margin: 0 -8px;
-    padding: 0 4px;
-    line-height: 40px;
-    display: flex;
-    align-items: center;
-
-    &.setting {
-      font-size: 18px;
+  .stepin-img-checkbox {
+    @apply transition-transform;
+    &:hover {
+      @apply scale-105 ~"-translate-y-[2px]";
     }
-
-    &.notice {
-      font-size: 18px;
+    img {
+      @apply shadow-low rounded-md transition-transform;
     }
   }
 </style>

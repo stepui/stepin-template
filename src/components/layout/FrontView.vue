@@ -2,18 +2,18 @@
   import { LogoutOutlined } from '@ant-design/icons-vue';
   import { ref, onMounted } from 'vue';
   import useThemeStore from 'stepin/es/theme-editor/store';
-  import { alert } from '@/components/alert-message';
+  import { alert } from 'stepin';
 
-  const { setMiddleColors, setPrimaryColor } = useThemeStore();
+  const { setBgSeriesColors, setPrimaryColor } = useThemeStore();
   onMounted(() => {
     setPrimaryColor({ DEFAULT: '#1896ff' });
-    setMiddleColors({ 'text-base': '#fff', 'text-1': '#fff', 'bg-base': '#003f8c' }, '.front-main');
+    setBgSeriesColors({ 'bg-base': '#003f8c' }, true, '.front-main');
     alert.info(
       `<div class="text-text">
         Stepin is a fast, light framework to Vue3 – try it out today with the
         <span class="underline">Stepin Template Beta</span>.
       </div>`,
-      { raw: true, duration: -1 }
+      { renderRaw: true, duration: -1 }
     );
   });
 
@@ -125,7 +125,7 @@
         &.with-list .front-nav-item-content {
           &:after {
             content: '';
-            @apply ~"h-[8px]" ~"w-[8px]" transition-transform ml-2 inline-block border-white border-l-0 border-t-0 border-r-2 border-b-2 border-solid ~"rotate-[-135deg]" translate-y-1/4;
+            @apply ~"h-[8px]" ~"w-[8px]" transition-transform ml-2 inline-block border-text border-l-0 border-t-0 border-r-2 border-b-2 border-solid ~"rotate-[-135deg]" translate-y-1/4;
           }
           &:hover {
             &:after {

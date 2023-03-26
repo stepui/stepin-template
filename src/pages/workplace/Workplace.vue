@@ -1,6 +1,6 @@
 <template>
-  <div class="workplace grid grid-rows-none gap-4">
-    <div class="bg-container -mx-base p-base pt-8 flex items-end justify-between">
+  <div class="workplace grid grid-rows-none gap-4 mt-xxs">
+    <div class="bg-container p-base pt-8 flex items-end justify-between">
       <div class="flex items-center">
         <img src="@/assets/avatar/face-1.jpg" class="w-16 h-16 rounded-full" />
         <div class="ml-base">
@@ -27,9 +27,10 @@
         :value="item.value"
       >
         <template #icon>
-          <span class="p-3 shadow-lg bg-primary-500 align-middle text-text-inverse inline-flex items-center rounded-lg">
-            <component class="text-2xl" v-bind:is="item.icon" />
-          </span>
+          <component
+            :class="`text-[96px] translate-x-[25%] translate-y-[25%] opacity-75 ${item.iconClass}`"
+            v-bind:is="item.icon"
+          />
         </template>
       </mini-statistic-card>
     </div>
@@ -63,24 +64,28 @@
       value: '￥53,000',
       change: '+31%',
       icon: 'dollar-circle-filled',
+      iconClass: 'text-blue-100',
     },
     {
       title: '今日新增用户',
       value: '138',
       change: '+23%',
       icon: 'usergroup-add-outlined',
+      iconClass: 'text-purple-100',
     },
     {
       title: '今日新增客户',
       value: '￥5000',
       change: '30%',
       icon: 'heart-filled',
+      iconClass: 'text-primary-100',
     },
     {
       title: '今日订单量',
       value: '3200',
       change: '-11%',
       icon: 'shopping-filled',
+      iconClass: 'text-green-100',
     },
   ]);
 </script>

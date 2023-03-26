@@ -1,16 +1,16 @@
-import { useAppStore } from '@/store';
+import { useSettingStore } from '@/store';
 import { onBeforeMount, onUnmounted, onActivated, onDeactivated } from 'vue';
 
 export function useUnbounded() {
-  const appStore = useAppStore();
+  const { setContentClass } = useSettingStore();
 
   const setUnbounded = () => {
-    appStore.setTheme('unbounded');
+    setContentClass('unbounded');
     setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
   };
 
   const removeUnbounded = () => {
-    appStore.setTheme('common');
+    setContentClass('common');
     setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
   };
 

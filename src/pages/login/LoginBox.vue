@@ -42,7 +42,6 @@
 <script lang="ts" setup>
   import { reactive, ref, onMounted } from 'vue';
   import { useAccountStore } from '@/store';
-  import { message } from 'ant-design-vue';
   import useThemeStore from 'stepin/es/theme-editor/store';
 
   export interface LoginFormProps {
@@ -50,10 +49,10 @@
     password: string;
   }
 
-  const { setMiddleColors } = useThemeStore();
+  const { setBgSeriesColors } = useThemeStore();
 
   onMounted(() => {
-    setMiddleColors({ 'text-base': '#000', 'bg-base': '#fff' }, '.login-box');
+    setBgSeriesColors({ 'bg-base': '#fff' }, true, '.login-box');
   });
 
   const loading = ref(false);

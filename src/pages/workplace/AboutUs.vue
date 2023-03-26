@@ -12,9 +12,9 @@
       <img class="rounded-lg" style="width: 200px" src="@/assets/image/step.jpg" />
     </div>
     <div style="min-height: 232px" class="card p-md col-span-12 lgx:col-span-5 text-inverse drop-shadow-sm">
-      <div class="work-with-us w-full h-full p-lg rounded-lg flex flex-col justify-between">
+      <div class="work-with-us text-text-inverse w-full h-full p-lg rounded-lg flex flex-col justify-between">
         <div class="main">
-          <h2 class="text-text-inverse text-xl mb-4 font-bold">和优秀的人一起成长</h2>
+          <h2 class="text-xl mb-4 font-bold">和优秀的人一起成长</h2>
           <p>财富创造是一种成长型的零和游戏，关键在于谁先抓住机会。</p>
         </div>
         <a class="text-text-inverse">了解更多 ></a>

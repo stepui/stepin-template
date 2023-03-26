@@ -8,6 +8,7 @@ import { initUndefined } from '@/utils/helpers';
 // 注册 IframeBox、BlankView 组件
 Pages['iframe'] = () => import('stepin/es/iframe-box');
 Pages['blankView'] = () => import('@/components/layout/BlankView.vue');
+Pages['link'] = () => import('@/components/layout/LinkView.vue');
 
 /**
  * 解析路由组件
@@ -195,6 +196,30 @@ export function addRoutes(routes: RouteOption[]) {
   const routesRaw: RouteRecordRaw[] = parseRoutes(routes);
   routesRaw.forEach((routeRaw) => router.addRoute(routeRaw));
   router.options.routes = mergeRoutes(router.options.routes, routesRaw);
+}
+
+/**
+ * 过滤路由配置
+ * @param routes 路由配置数组
+ * @param filter 过滤条件
+ * @returns
+ */
+function filterRoutes(routes: Readonly<RouteRecordRaw[]>, filter: (route: RouteRecordRaw) => boolean) {
+  return routes.filter((route) => {
+    if (route.children && route.children.length > 0) {
+      route.children = filterRoutes(route.children, filter);
+    }
+    return filter(route);
+  });
+}
+
+/**
+ * 移出路由
+ * @param routeName
+ */
+export function removeRoute(routeName: string) {
+  router.removeRoute(routeName);
+  router.options.routes = filterRoutes(router.options.routes, (route) => route.name !== routeName);
 }
 
 /**

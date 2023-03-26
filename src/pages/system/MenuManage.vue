@@ -4,7 +4,7 @@
   import * as icons from '@ant-design/icons-vue/es/icons';
   import { reactive, ref, watch, computed, onMounted } from 'vue';
   import { FormInstance, TreeSelectProps } from 'ant-design-vue';
-  import { useMenuStore, MenuTable } from '@/store/menu';
+  import { useMenuStore, MenuProps } from '@/store/menu';
   import { storeToRefs } from 'pinia';
   import { useAuth } from '@/plugins/auth-plugin';
 
@@ -86,7 +86,7 @@
   ];
 
   const treeData = computed(() => {
-    const toNode = (list: MenuTable[]): TreeSelectProps['treeData'] => {
+    const toNode = (list: MenuProps[]): TreeSelectProps['treeData'] => {
       return list.map((item) => ({
         title: item.title!,
         value: item.name! as string,
@@ -99,11 +99,13 @@
 
   const showForm = ref(false);
 
-  const formData = reactive<MenuTable>({
+  const formData = reactive<MenuProps>({
     id: undefined,
     name: '',
     title: undefined,
     icon: undefined,
+    badge: undefined,
+    target: '_self',
     path: '',
     component: '',
     renderMenu: true,
@@ -121,7 +123,7 @@
       if (!val) {
         return;
       }
-      const findMenu = (name: string, list: MenuTable[]): MenuTable | undefined => {
+      const findMenu = (name: string, list: MenuProps[]): MenuProps | undefined => {
         for (const menu of list) {
           if (menu.name === name) {
             return menu;
@@ -160,7 +162,40 @@
 
   const title = ref('新增菜单');
 
-  const edit = useAuth('edit', function (record: MenuTable) {
+  const pageType = ref('component');
+  const pageTypeConfig = {
+    component: {
+      props: 'component',
+      placeholder: '请输入需要渲染的页面组件',
+    },
+    iframe: {
+      props: 'link',
+      placeholder: '请输入链接地址',
+    },
+    link: {
+      props: 'link',
+      placeholder: '请输入链接地址',
+    },
+  };
+
+  watch(pageType, (val) => {
+    if (val === 'component') {
+      formData.component = undefined;
+      formData.target = '_self';
+      formData.link = undefined;
+      form.value.clearValidate(['link']);
+    } else if (val === 'link') {
+      formData.component = 'link';
+      formData.target = '_blank';
+      form.value.clearValidate(['component']);
+    } else if (val === 'iframe') {
+      formData.component = 'iframe';
+      formData.target = '_self';
+      form.value.clearValidate(['component']);
+    }
+  });
+
+  const edit = useAuth('edit', function (record: MenuProps) {
     form.value?.resetFields();
     formData.id = record.id;
     formData.name = record.name;
@@ -168,9 +203,14 @@
     formData.path = record.path;
     formData.component = record.component;
     formData.icon = record.icon;
+    formData.badge = record.badge;
+    formData.link = record.link;
+    formData.target = record.target;
     formData.renderMenu = record.renderMenu;
     formData.permission = record.permission;
     formData.parent = record.parent;
+    pageType.value =
+      formData.component === 'LinkView' ? 'link' : formData.component === 'iframe' ? 'iframe' : 'component';
     showForm.value = true;
     title.value = '编辑菜单';
   });
@@ -188,7 +228,19 @@
     showForm.value = true;
     title.value = '新增菜单';
   }
-  const remove = useAuth('menu:delete', function (record: MenuTable) {
+
+  const rules = {
+    component: [
+      {
+        async validator(_rule, value) {
+          console.log(_rule, value, '--validator');
+        },
+        trigger: 'change',
+      },
+    ],
+  };
+
+  const remove = useAuth('delete', function (record: MenuProps) {
     removeMenu(record.id!);
   });
 
@@ -230,11 +282,14 @@
     </a-table>
     <a-modal :okButtonProps="{ loading }" width="540px" v-model:visible="showForm" :title="title" @ok="submit">
       <a-form ref="form" :model="formData" :labelCol="{ span: 5 }" :wrapperCol="{ span: 16, offset: 1 }">
-        <a-form-item required name="title" label="菜单标题">
-          <a-input v-model:value="formData.title" />
-        </a-form-item>
         <a-form-item required name="name" label="name">
           <a-input v-model:value="formData.name" />
+        </a-form-item>
+        <a-form-item required name="path" label="path">
+          <a-input ref="pathInput" v-model:value="formData.path" />
+        </a-form-item>
+        <a-form-item required name="title" label="菜单标题">
+          <a-input v-model:value="formData.title" />
         </a-form-item>
         <a-form-item name="parent" label="父级菜单">
           <a-tree-select
@@ -244,18 +299,37 @@
             :treeData="treeData"
           />
         </a-form-item>
-        <a-form-item required name="path" label="path">
-          <a-input ref="pathInput" v-model:value="formData.path" />
-        </a-form-item>
-        <a-form-item name="icon" label="图标">
+        <a-form-item name="icon" label="菜单图标">
           <IconSelector :column="6" :options="groupList" mode="single" v-model:value="formData.icon" />
         </a-form-item>
-        <a-form-item required name="component" label="页面组件">
-          <a-input v-model:value="formData.component" />
+        <a-form-item required :name="pageTypeConfig[pageType].props" :wrapperCol="{ span: 21, offset: 1 }">
+          <!-- <a-input v-model:value="formData.component" /> -->
+          <a-input-group compact>
+            <a-form-item-rest>
+              <a-select v-model:value="pageType" style="width: 106px">
+                <a-select-option value="component">页面组件</a-select-option>
+                <a-select-option value="iframe">iframe</a-select-option>
+                <a-select-option value="link">外链</a-select-option>
+              </a-select>
+            </a-form-item-rest>
+            <a-input
+              v-model:value="formData[pageTypeConfig[pageType].props]"
+              :placeholder="pageTypeConfig[pageType].placeholder"
+              style="width: calc(100% - 106px)"
+            />
+          </a-input-group>
         </a-form-item>
-
+        <a-form-item name="badge" label="菜单徽标">
+          <a-input v-model:value="formData.badge" />
+        </a-form-item>
         <a-form-item name="permission" label="权限校验">
           <a-input v-model:value="formData.permission" />
+        </a-form-item>
+        <a-form-item required name="target" label="打开窗口">
+          <a-radio-group :disabled="pageType === 'link' || pageType === 'iframe'" v-model:value="formData.target">
+            <a-radio value="_self">当前窗口</a-radio>
+            <a-radio value="_blank">新窗口</a-radio>
+          </a-radio-group>
         </a-form-item>
         <a-form-item required name="renderMenu" label="渲染菜单">
           <a-switch v-model:checked="formData.renderMenu" checked-children="是" un-checked-children="否" />
