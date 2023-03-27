@@ -36,27 +36,27 @@
 | last 2 versions | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 ## 环境要求
 
-- node `^16.14.0`
-- yarn `^1.21.1`
-- git `^2.15.0`
+|git|node|yarn|
+|---|----|----|
+|`^16.14.0`|`^1.21.1`|`^2.15.0`|
 
 ## 使用
 
 ### 拉取代码
 
-```bash
+```sh
 git clone https://github.com/stepui/stepin-template.git
 ```
 
 ### 安装依赖
 
-```bash
+```sh
 yarn install
 ```
 
 ### 启动
 
-```
+```sh
 yarn dev
 ```
 
