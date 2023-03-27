@@ -130,7 +130,7 @@ export default routes;
 
 ## 三、访问
 
-浏览器打开 http://localhost:5173/#/demo 即可访问你刚创建的页面啦。
+浏览器打开  `http://localhost:5173/#/demo` 即可访问你刚创建的页面啦。
 
 现在你可以修改你的页面组件代码，浏览器上会实时同步更新。
 

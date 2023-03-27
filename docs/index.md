@@ -12,7 +12,7 @@ hero:
       link: /start
     - theme: alt
       text: Api 全览
-      link: /api-examples
+      link: /api
 
 features:
   - title: 主题定制

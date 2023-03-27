@@ -7,6 +7,7 @@ export default defineConfig({
   },
   title: 'Stepin Template',
   description: 'the documents of stepin template',
+  base: '/stepin-template-docs/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -14,12 +15,16 @@ export default defineConfig({
       { text: 'Api', link: '/api' },
     ],
 
+    logo: '../images/vite.svg',
+
+    editLink: {
+      pattern: 'https://github.com/stepui/stepin-template/edit/main/docs/:path',
+    },
+
     sidebar: [
       {
-        text: 'Examples',
+        text: '文档',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
           { text: '开始', link: '/start' },
           { text: '页面开发', link: '/page' },
           { text: '路由&菜单', link: '/router' },
@@ -31,6 +36,6 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/stepui/stepin-template' }],
   },
 });
