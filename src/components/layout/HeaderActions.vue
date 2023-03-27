@@ -2,7 +2,9 @@
   import { reactive } from 'vue';
   import { StepinHeaderAction } from 'stepin';
   import Notice from '@/components/notice/Notice.vue';
+  import DayNightSwitch from '@/components/switch/DayNightSwitch.vue';
   import { BellOutlined } from '@ant-design/icons-vue';
+
   defineEmits<{
     (e: 'showSetting'): void;
   }>();
@@ -104,6 +106,9 @@
         <search-outlined />
       </template>
     </a-input>
+  </StepinHeaderAction>
+  <StepinHeaderAction>
+    <DayNightSwitch />
   </StepinHeaderAction>
   <StepinHeaderAction>
     <a class="action-item" href="http://github.com/stepui/stepin-template" target="_blank">

@@ -16,6 +16,9 @@ export function configTheme(key: string) {
   const { setBgSeriesColors } = useThemeStore();
   const { setNavigation } = useSettingStore();
   switch (key) {
+    case 'night':
+      setBgSeriesColors({ 'bg-base': '#1D1D1F' });
+      break;
     case 'side-dark':
       setBgSeriesColors({ 'bg-base': '#fff', 'bg-side': '#001129' });
       setNavigation('side');

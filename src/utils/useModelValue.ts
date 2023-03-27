@@ -1,7 +1,8 @@
-import { watch, computed, ref, onBeforeMount } from 'vue';
+import { watch, computed, ref } from 'vue';
 
-function useModelValue<T>(value: () => T | undefined, onChange: (val?: T) => void) {
+function useModelValue<T>(value: () => T | undefined, onChange: (val?: T) => void, defaultValue?: T) {
   const _value = ref<T>();
+  _value.value = value() ?? defaultValue;
   const sValue = computed({
     get() {
       return value() ?? _value.value;
@@ -10,9 +11,6 @@ function useModelValue<T>(value: () => T | undefined, onChange: (val?: T) => voi
       _value.value = val;
       onChange(val);
     },
-  });
-  onBeforeMount(() => {
-    _value.value = value();
   });
   watch(value, () => {
     _value.value = value();
