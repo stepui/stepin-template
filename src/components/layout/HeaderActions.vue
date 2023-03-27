@@ -4,6 +4,7 @@
   import Notice from '@/components/notice/Notice.vue';
   import DayNightSwitch from '@/components/switch/DayNightSwitch.vue';
   import { BellOutlined } from '@ant-design/icons-vue';
+  import Fullscreen from '../fullscreen/Fullscreen.vue';
 
   defineEmits<{
     (e: 'showSetting'): void;
@@ -136,6 +137,9 @@
       <Notice :data-source="noticeList" />
     </template>
   </a-popover>
+  <StepinHeaderAction>
+    <Fullscreen class="-mx-xs -my-sm h-[56px] px-xs py-sm flex items-center" target=".stepin-layout" />
+  </StepinHeaderAction>
 </template>
 <style scoped lang="less">
   .gitee-logo {

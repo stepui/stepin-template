@@ -70,6 +70,7 @@ declare module '@vue/runtime-core' {
     DayNightSwitch: typeof import('./src/components/switch/DayNightSwitch.vue')['default']
     EditableCell: typeof import('./src/components/editable-cell/EditableCell.vue')['default']
     FrontView: typeof import('./src/components/layout/FrontView.vue')['default']
+    Fullscreen: typeof import('./src/components/fullscreen/Fullscreen.vue')['default']
     GridList: typeof import('./src/components/list/GridList.vue')['default']
     Guider: typeof import('./src/components/guider/Guider.vue')['default']
     HeaderActions: typeof import('./src/components/layout/HeaderActions.vue')['default']

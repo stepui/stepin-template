@@ -9,7 +9,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist -b pages -r https://gitee.com/stepui/stepin-template.git",
-    "github": "gh-pages -d dist -b master -r git@github.com:stepui/stepui.github.io.git",
+    "deploy:github": "yarn build --mode github && gh-pages -d dist -b master -r git@github.com:stepui/stepui.github.io.git",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
