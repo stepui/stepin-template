@@ -9,6 +9,6 @@ dist-ssr
 *.log
 *session.sql
 package-lock.json
-docs
 yarn.lock
 stepin-template.session.sql
+docs/.vitepress/cache

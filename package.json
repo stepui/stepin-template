@@ -12,7 +12,8 @@
     "github": "gh-pages -d dist -b master -r git@github.com:stepui/stepui.github.io.git",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:serve": "vitepress serve docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
@@ -29,7 +30,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.23",
     "qs": "^6.10.1",
-    "stepin": "2.1.13-beta",
+    "stepin": "2.1.14-beta",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
