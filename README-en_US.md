@@ -19,8 +19,8 @@
 English | [简体中文](./README.md)
 
 - 预览地址: https://stepui.github.io
-- 使用文档: https://gitee.com/stepui/stepin-template-docs
-- 常见问题: https://gitee.com/stepui/stepin-template-docs/issue
+- 使用文档: http://stepui.gitee.io/stepin-template-docs/
+- 常见问题: http://stepui.gitee.io/stepin-template-docs/issue
 - 国内镜像: https://gitee.com/stepui/stepin-template
 
 ## 特性
