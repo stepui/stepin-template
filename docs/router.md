@@ -194,7 +194,7 @@ export function appendRoutes(routes: RouteOption[], parentName: string) {
         "cacheable": true
       }
     ]
-  },
+  }]
 ```
 
 ## 菜单
@@ -300,7 +300,7 @@ interface RouteRecordRaw {
     renderMenu: true                 // - MenuConfig.meta.visible 是否渲染菜单，默认为 true
   },
   component: () => import('@/pages/Demo.vue'),
-  children: [...]
+  children: [...]                    // - MenuConfig.children 子菜单
 }
 ```
 

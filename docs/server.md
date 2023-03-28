@@ -26,21 +26,15 @@ const http = createHttp({
  * 设置token
  * @param value token值
  * @param expires 过期时间
- * - 类型为 number 时，表示 expires 毫秒后 token 过期
- * - 类型为 Date 时，表示在 expires 这个时间点 token 过期
+ * - 类型为 number 时，单位为毫秒，表示 {expires} 毫秒后 token 过期
+ * - 类型为 Date 时，表示在 {expires} 这个时间点 token 过期
  * @param name token 名称，默认为当前 http 实例的 xsrfCookieName 属性值
  */
 setAuthorization(value: string, expires: number | Date, name?: string): void;
-
-/**
- * 移出token
- * @param name token 名称， 默认为当前 http 实例的 xsrfCookieName 属性值
- */
-removeAuthorization(name?: string): void;
-
-
 ```
-
+:::warning
+有些同学从后端获取的token过期时间单位是秒，需要先转换成毫秒再设置。不然就可能会出现设置了token却没生效的情况（实际上是设置完立即过期了）
+:::
 ### `http.removeAuthorization`
 用于删除http实例的token，一般在登出等注销操作时调用。
 ```ts
