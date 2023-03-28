@@ -14,7 +14,7 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
-    "docs:deploy": "gh-pages -d docs/.vitepress/dist -b main -r https://gitee.com/stepui/stepin-template-docs.git"
+    "docs:deploy": "vitepress build docs && gh-pages -d docs/.vitepress/dist -b main -r https://gitee.com/stepui/stepin-template-docs.git"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
