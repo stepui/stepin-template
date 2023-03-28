@@ -30,7 +30,6 @@
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useAccountStore, useMenuStore, useSettingStore, storeToRefs } from '@/store';
-  import { useAuthStore } from '@/plugins/auth-plugin';
   import avatar from '@/assets/avatar.png';
   import { PageFooter, HeaderActions } from '@/components/layout';
   import Setting from './components/setting';
@@ -38,12 +37,10 @@
   import { configTheme, themeList } from '@/theme';
 
   const { logout, profile } = useAccountStore();
-  const { setAuthorities } = useAuthStore();
 
   // 获取个人信息
   profile().then((response) => {
-    const { permissions, account } = response;
-    setAuthorities(permissions);
+    const { account } = response;
     user.name = account.username;
     // user.avatar = account.avatar;
   });

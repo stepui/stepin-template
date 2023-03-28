@@ -15,12 +15,11 @@
 <script lang="ts" setup>
   import { ComponentPublicInstance, onMounted, reactive, ref } from 'vue';
   import Guider, { GuiderOption } from '@/components/guider';
-  import { useAuth, useAuthStore } from '@/plugins/auth-plugin';
-
-  const sayHi = useAuth('personal:edit', (name: string) => console.log('hi, ' + name));
+  import { useAuthStore } from '@/plugins';
 
   const authStore = useAuthStore();
   authStore.setAuthorities(['personal:edit', 'personal:remove']);
+  const sayHi = authStore.useAuth('personal:edit', (name: string) => console.log('hi, ' + name));
 
   const onClick = () => console.log('say hi');
 

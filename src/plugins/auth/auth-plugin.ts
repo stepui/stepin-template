@@ -11,6 +11,7 @@ export interface AuthState {
 export type AuthActions = {
   setAuthorities: (authorities: AuthKey[]) => void;
   hasAuthority: (authority: AuthKey) => boolean;
+  useAuth: <T extends Function>(key: AuthKey, func: T) => T;
 };
 
 export const useAuthStore = defineStore<string, AuthState, {}, AuthActions>('auth', {
@@ -25,6 +26,22 @@ export const useAuthStore = defineStore<string, AuthState, {}, AuthActions>('aut
     },
     hasAuthority(authority) {
       return this.authorities.indexOf(authority) !== -1;
+    },
+    /**
+     * 给函数添加 权限校验
+     * @param key
+     * @param func
+     * @returns
+     */
+    useAuth<T extends Function>(key: AuthKey, func: T): T {
+      const _this = this;
+      return function t() {
+        if (!_this.hasAuthority(key)) {
+          alert.error(msgFormatter(key));
+        } else {
+          return func.apply(undefined, arguments);
+        }
+      } as unknown as T;
     },
   },
 });
@@ -50,7 +67,7 @@ export function useAuth<T extends Function>(key: AuthKey, func: T): T {
  * 插件配置
  */
 export interface AuthPluginConfig {
-  className?: string;
+  disableClass?: string;
   action?: 'hide' | 'disable';
   formatter?: (access: string) => string;
   [key: string | number]: any;
@@ -67,30 +84,39 @@ interface Operator {
 
 const operators = {
   hide: {
-    reject: (el: HTMLElement, access: string, config: AuthPluginConfig) => el.classList.add(config.className!),
-    access: (el: HTMLElement, access: string, config: AuthPluginConfig) => el.classList.remove(config.className!),
+    reject: (el: HTMLElement, access: string, config: AuthPluginConfig) => {
+      el.setAttribute('_display', el.style.display);
+      el.style.display = 'none';
+    },
+    access: (el: HTMLElement, access: string, config: AuthPluginConfig) => {
+      if (el.hasAttribute('_display')) {
+        el.style.display = el.getAttribute('_display');
+      }
+      el.removeAttribute('_display');
+    },
   },
   disable: {
     reject: (el: HTMLElement, access: string, config: AuthPluginConfig) => {
+      el.classList.add(config.disableClass!);
       el.setAttribute('disabled', '');
       el.setAttribute('title', config.formatter!(access));
     },
-    access: (el: HTMLElement, access: string, config: AuthPluginConfig) => el.removeAttribute('disabled'),
+    access: (el: HTMLElement, access: string, config: AuthPluginConfig) => {
+      el.classList.remove(config.disableClass!);
+    },
   },
 };
 
 const AuthPlugin: Plugin = {
-  install(app, { className = 'auth-hidden', action = 'disable', formatter = msgFormatter }: AuthPluginConfig = {}) {
+  install(app, { disableClass = 'auth-disable', action = 'disable', formatter = msgFormatter }: AuthPluginConfig = {}) {
     app.directive('auth', (el: HTMLElement, { value, arg: access, modifiers }, vnode) => {
       const { disable, hide } = modifiers;
       const _action = hide ? 'hide' : disable ? 'disable' : undefined;
-      const authConfig = { className, formatter, action: _action ?? action } as AuthPluginConfig;
+      const authConfig = { disableClass, formatter, action: _action ?? action } as AuthPluginConfig;
       const operator: Operator = operators[authConfig.action!];
 
       const authorStore = useAuthStore();
       if (!authorStore.hasAuthority(access!)) {
-        el.classList.remove(className);
-        el.removeAttribute('disabled');
         operator.reject(el, access!, authConfig);
       } else {
         operator.access(el, access!, authConfig);

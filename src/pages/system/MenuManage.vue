@@ -6,7 +6,9 @@
   import { FormInstance, TreeSelectProps } from 'ant-design-vue';
   import { useMenuStore, MenuProps } from '@/store/menu';
   import { storeToRefs } from 'pinia';
-  import { useAuth } from '@/plugins/auth-plugin';
+  import { useAuthStore } from '@/plugins';
+
+  const { useAuth } = useAuthStore();
 
   const iconList: IconSelectOption[] = [];
 

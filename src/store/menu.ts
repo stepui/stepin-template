@@ -6,7 +6,7 @@ import { RouteOption } from '@/router/interface';
 import { addRoutes, removeRoute } from '@/router/dynamicRoutes';
 import { useSettingStore } from './setting';
 import { RouteRecordRaw, RouteMeta } from 'vue-router';
-import { useAuthStore } from '@/plugins/auth-plugin';
+import { useAuthStore } from '@/plugins';
 import router from '@/router';
 
 export interface MenuProps {

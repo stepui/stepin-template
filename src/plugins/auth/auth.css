@@ -1,0 +1,6 @@
+#stepin-app .auth-disable {
+  @apply bg-disabled text-disabled relative cursor-not-allowed border-disabled rounded-sm border border-solid;
+}
+/* *[disabled] {
+  @apply bg-disabled text-disabled relative cursor-not-allowed border-disabled rounded-sm border border-solid;
+} */
