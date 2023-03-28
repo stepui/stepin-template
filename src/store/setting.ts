@@ -8,6 +8,7 @@ export const useSettingStore = defineStore('setting', () => {
   const useTabs = ref<boolean>(true);
   const theme = ref('side-dark');
   const contentClass = ref('common');
+  const filterMenu = ref(false);
 
   function setNavigation(nav: Navigation) {
     navigation.value = nav;
@@ -18,5 +19,18 @@ export const useSettingStore = defineStore('setting', () => {
   function setContentClass(className: string) {
     contentClass.value = className;
   }
-  return { navigation, useTabs, theme, contentClass, setNavigation, setTheme, setContentClass };
+  function setFilterMenu(filter: boolean) {
+    filterMenu.value = filter;
+  }
+  return {
+    navigation,
+    useTabs,
+    theme,
+    contentClass,
+    filterMenu,
+    setNavigation,
+    setTheme,
+    setContentClass,
+    setFilterMenu,
+  };
 });

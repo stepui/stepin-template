@@ -44,5 +44,19 @@ declare module 'vue' {
     $message: MessageApi;
   }
 }
+declare module 'vue-router' {
+  interface RouteMeta {
+    cacheable?: boolean;
+    closeable?: boolean;
+    icon?: DefineComponent | FunctionalComponent | string;
+    badge?: string | number | boolean;
+    href?: string;
+    target?: '_blank' | '_self';
+    permission?: string;
+    title?: string;
+    renderMenu?: boolean;
+    _cache?: RouteMeta;
+  }
+}
 
 export {};

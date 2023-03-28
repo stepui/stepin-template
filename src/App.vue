@@ -28,15 +28,14 @@
 
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
-  import PageFooter from '@/components/layout/PageFooter.vue';
-  import { LoginModal } from '@/pages/login';
-  import { useAccountStore, useMenuStore, useSettingStore, storeToRefs } from '@/store';
   import { useRouter } from 'vue-router';
+  import { useAccountStore, useMenuStore, useSettingStore, storeToRefs } from '@/store';
   import { useAuthStore } from '@/plugins/auth-plugin';
-  import { configTheme, themeList } from '@/theme';
-  import HeaderActions from './components/layout/HeaderActions.vue';
-  import Setting from './components/setting/Setting.vue';
   import avatar from '@/assets/avatar.png';
+  import { PageFooter, HeaderActions } from '@/components/layout';
+  import Setting from './components/setting';
+  import { LoginModal } from '@/pages/login';
+  import { configTheme, themeList } from '@/theme';
 
   const { logout, profile } = useAccountStore();
   const { setAuthorities } = useAuthStore();
