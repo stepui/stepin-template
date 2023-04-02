@@ -23,7 +23,8 @@ export interface MenuProps {
   permission?: string;
   parent?: string;
   children?: MenuProps[];
-  cacheable: boolean;
+  cacheable?: boolean;
+  view?: string;
 }
 
 /**
@@ -90,6 +91,7 @@ const toRoutes = (list: MenuProps[]): RouteOption[] => {
       href: item.link,
       badge: /^(false|true)$/i.test(item.badge + '') ? JSON.parse(item.badge + '') : item.badge,
       target: item.target,
+      view: item.view,
     },
   }));
 };

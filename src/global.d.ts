@@ -56,6 +56,7 @@ declare module 'vue-router' {
     title?: string;
     renderMenu?: boolean;
     _cache?: RouteMeta;
+    view?: string;
   }
 }
 
