@@ -5,10 +5,29 @@ import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import { AntdvLessPlugin, AntdvModifyVars } from 'stepin/lib/style/plugins';
 
+const timestamp = new Date().getTime();
+const prodRollupOptions = {
+  output: {
+    chunkFileNames: (chunk) => {
+      return 'assets/' + chunk.name + '.[hash]' + '.' + timestamp + '.js';
+    },
+    assetFileNames: (asset) => {
+      const name = asset.name;
+      if (name && (name.endsWith('.css') || name.endsWith('.js'))) {
+        const names = name.split('.');
+        const extname = names.splice(names.length - 1, 1)[0];
+        return `assets/${names.join('.')}.[hash].${timestamp}.${extname}`;
+      }
+      return 'assets/' + asset.name;
+    },
+  },
+};
 // vite 配置
 export default ({ command, mode }) => {
   // 获取环境变量
   const env = loadEnv(mode, process.cwd());
+  console.log(mode);
+
   return defineConfig({
     server: {
       proxy: {
@@ -34,22 +53,7 @@ export default ({ command, mode }) => {
     build: {
       sourcemap: true,
       chunkSizeWarningLimit: 2048,
-      // rollupOptions: {
-      //   output: {
-      //     chunkFileNames: (chunk) => {
-      //       return 'assets/' + chunk.name + '.[hash]' + '.' + timestamp + '.js';
-      //     },
-      //     assetFileNames: (asset) => {
-      //       const name = asset.name;
-      //       if (name && (name.endsWith('.css') || name.endsWith('.js'))) {
-      //         const names = name.split('.');
-      //         const extname = names.splice(names.length - 1, 1)[0];
-      //         return `assets/${names.join('.')}.[hash].${timestamp}.${extname}`;
-      //       }
-      //       return 'assets/' + asset.name;
-      //     },
-      //   },
-      // },
+      rollupOptions: mode === 'production' ? prodRollupOptions : {},
     },
     plugins: [
       vue({
