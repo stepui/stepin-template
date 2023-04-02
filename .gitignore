@@ -12,3 +12,4 @@ package-lock.json
 yarn.lock
 stepin-template.session.sql
 docs/.vitepress/cache
+target
