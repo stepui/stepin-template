@@ -17,6 +17,8 @@ const formatter = (code) =>
     vueIndentScriptAndStyle: true,
   });
 
+const tsFormatter = (code) => prettier.format(code, { trailingComma: 'es5', parser: 'typescript' });
+
 /** ts编译器 */
 const tsToJs = (tsStrCode) => {
   const result = ts.transpileModule(tsStrCode, tsConfig);
@@ -31,7 +33,6 @@ const handleTmpContent = (tmpContent) => {
   }
   return tmpContent
     .replace(/(?<=((@|:|v-)[\w\-]*="))([^"]*)(?=")/g, function (match) {
-      console.log(match);
       return `${tsToJs(match).replace(/;\s*/g, '')}`;
     })
     .replace(/(?<=({{))([^{}]*)(?=}})/g, function (match) {
@@ -77,7 +78,7 @@ function transformTs() {
       }
       if (file.isBuffer()) {
         const content = new String(file.contents);
-        file.contents = Buffer.from(formatter(tsToJs(content)));
+        file.contents = Buffer.from(tsFormatter(tsToJs(content)));
       }
       if (file.isStream()) {
         console.log('stream file', file.path);
