@@ -104,6 +104,7 @@ function cleanTypeImport() {
       .replace(/import\s+{\s*Response\s*}\s+from\s+\'.*\';?/g, '')
       .replace(typeImportRegexp, '')
       .replace(/import\s+.*from\s+\'.*\/interface(.d.ts)?\';?/g, '')
+      .replace(/import\s+{\s*}\s*from\s+\'.*\'/g, '')
   );
 }
 
