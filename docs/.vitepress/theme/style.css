@@ -6,15 +6,26 @@
 /**
  * Colors
  * -------------------------------------------------------------------------- */
-
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ body {
+  @apply bg-container !important;
+ }
  :root {
-  --vp-c-brand: #646cff;
-  --vp-c-brand-light: #747bff;
-  --vp-c-brand-lighter: #9499ff;
-  --vp-c-brand-lightest: #bcc0ff;
-  --vp-c-brand-dark: #535bf2;
-  --vp-c-brand-darker: #454ce1;
-  --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
+  --vp-c-brand: var(--color-primary-6);
+  --vp-c-brand-light: var(--color-primary-7);
+  --vp-c-brand-lighter: var(--color-primary-8);
+  --vp-c-brand-lightest: var(--color-primary-9);
+  --vp-c-brand-dark: var(--color-primary-6);
+  --vp-c-brand-darker: var(--color-primary-5);
+  --vp-c-brand-dimm: var(--color-primary-1);
+  --vp-c-bg: var(--color-bg-container);
+  --vp-sidebar-bg-color: var(--color-bg-side);
+
+  --vp-c-text-1: var(--color-text-1);
+  --vp-c-text-2: var(--color-text-2);
+  --vp-c-text-3: var(--color-text-3);
 }
 
 /**

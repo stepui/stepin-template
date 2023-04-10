@@ -1,6 +1,6 @@
 # 主题定制
 
-在 stepin template 里定制主题非常简单，这要归功于 `stepin` 组件库强大的主题修改 api
+在 stepin template 里定制主题非常简单，这要归功于 `stepin` 组件库强大的主题 api
 
 ## 配色
 
