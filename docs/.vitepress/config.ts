@@ -4,11 +4,11 @@ import { AntdvLessPlugin, AntdvModifyVars } from 'stepin/lib/style/plugins';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   vite: {
-    server: {
-      fs: {
-        allow: ['../..'],
-      },
-    },
+    // server: {
+    //   fs: {
+    //     allow: ['../..'],
+    //   },
+    // },
     ssr: {
       noExternal: ['stepin', 'ant-design-vue', '@ant-design/*'],
     },

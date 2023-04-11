@@ -26,6 +26,13 @@
   --vp-c-text-1: var(--color-text-1);
   --vp-c-text-2: var(--color-text-2);
   --vp-c-text-3: var(--color-text-3);
+
+  --vp-c-mute: var(--color-bg-layout);
+  --vp-c-mute-light:  var(--color-bg-container-light);
+  --vp-c-mute-lighter: var(--color-bg-container);
+  --vp-c-mute-dark: var(--color-bg-layout);
+  --vp-c-mute-darker:  var(--color-bg-container-light);
+  --vp-c-text-code: var(--color-text-2);
 }
 
 /**
