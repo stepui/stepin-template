@@ -1,9 +1,14 @@
 import { NavigationGuard, NavigationHookAfter } from 'vue-router';
 import http from '@/store/http';
-import { useAccountStore } from '@/store';
+import { useAccountStore, useMenuStore } from '@/store';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 NProgress.configure({ showSpinner: false });
+
+interface NaviGuard {
+  before?: NavigationGuard;
+  after?: NavigationHookAfter;
+}
 
 const loginGuard: NavigationGuard = function (to, from) {
   const account = useAccountStore();
@@ -12,16 +17,27 @@ const loginGuard: NavigationGuard = function (to, from) {
     // account.setLogged(false);
   }
 };
-
-const progressStart: NavigationGuard = function (to, from) {
-  NProgress.start();
+// 进度条
+const ProgressGuard: NaviGuard = {
+  before(to, from) {
+    NProgress.start();
+  },
+  after(to, from) {
+    NProgress.done();
+  },
 };
 
-const progressEnd: NavigationHookAfter = function (to, from) {
-  NProgress.done();
+// 404 not found
+const NotFoundGuard: NaviGuard = {
+  before(to, from) {
+    const { loading } = useMenuStore();
+    if (to.meta._is404Page && loading) {
+      to.params.loading = true as any;
+    }
+  },
 };
 
 export default {
-  before: [progressStart, loginGuard],
-  after: [progressEnd],
+  before: [ProgressGuard.before, loginGuard, NotFoundGuard.before],
+  after: [ProgressGuard.after],
 };
