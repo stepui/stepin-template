@@ -36,9 +36,9 @@ English | [简体中文](./README.md)
 | last 2 versions | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 ## 环境要求
 
-- node `^16.14.0`
-- yarn `^1.21.1`
-- git `^2.15.0`
+|git|node|yarn|
+|---|----|----|
+|`^2.15.0`|`^16.14.0`|`^1.21.1`|
 
 ## 使用
 
