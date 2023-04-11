@@ -6,8 +6,8 @@
 
   const { setBgSeriesColors, setPrimaryColor } = useThemeStore();
   onMounted(() => {
-    setPrimaryColor({ DEFAULT: '#1896ff' });
     setBgSeriesColors({ 'bg-base': '#003f8c' }, true, '.front-main');
+    setPrimaryColor({ DEFAULT: '#1896ff' }, '.front-main');
     alert.info(
       `<div class="text-text">
         Stepin is a fast, light framework to Vue3 – try it out today with the
