@@ -16,6 +16,7 @@ import {
   StatisticProps,
   TreeSelectProps,
 } from 'ant-design-vue';
+import { AlertApi } from 'stepin/es/alert-message';
 import { MessageApi } from 'ant-design-vue/es/message';
 
 import IconFont from '@/plugins/iconfont/IconFont.vue';
@@ -42,6 +43,7 @@ declare module 'vue' {
 
   export interface ComponentCustomProperties {
     $message: MessageApi;
+    $alert: AlertApi;
   }
 }
 declare module 'vue-router' {
@@ -57,6 +59,7 @@ declare module 'vue-router' {
     renderMenu?: boolean;
     _cache?: RouteMeta;
     view?: string;
+    _is404Page?: boolean;
   }
 }
 
