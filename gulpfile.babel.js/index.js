@@ -5,39 +5,43 @@ import vueTsc from './vueTemplateTsc';
 
 export { default as tsc } from './vueTemplateTsc';
 
-export function cleanAll() {
+function cleanAll() {
   return src(['./target/*', '!./target/node_modules'], { allowEmpty: true }).pipe(clean({ force: true }));
 }
 
-export function copyIndex() {
+function copyIndex() {
   return src(['./index.html']).pipe(replace('.ts', '.js')).pipe(replace(' + TS', '')).pipe(dest('./target'));
 }
 
-export function copyPublic() {
+function copyPublic() {
   return src(['./public/**/*']).pipe(dest('./target/public'));
 }
 
-export function copyStyleAndJs() {
+function copyStyleAndJs() {
   return src(['./src/**/*.{less,css,js}']).pipe(dest('./target/src'));
 }
 
-export function copyAssets() {
+function copyAssets() {
   return src(['./src/assets/**/*']).pipe(dest('./target/src/assets'));
 }
 
-export function copyConfig() {
+function copyConfig() {
   return src([
     './.env*',
     './.gitignore',
     '.babelrc',
-    './*.{json,cjs,md}',
+    './*.{json,cjs}',
     './LICENSE',
     '!./tsconfig.*',
     '!./package*.json',
   ]).pipe(dest('./target'));
 }
 
-export function copyPackageJson() {
+function copyReadme() {
+  return src(['./*.md']).pipe(replace('stepin-template.git', 'stepin-template-js.git')).pipe(dest('./target'));
+}
+
+function copyPackageJson() {
   return src(['./package.json'])
     .pipe(replace(/,?[\r\n]+.*"(gulp[\-\w]*|vue-tsc|typescript)"[^,\r\n]*/g, ''))
     .pipe(dest('./target'));
@@ -68,4 +72,14 @@ export function copyDocs() {
 
 export const makeJs = series(cleanJsRepository, copyToJsRepository, copyDocs);
 
-export default series(cleanAll, vueTsc, copyIndex, copyPublic, copyStyleAndJs, copyConfig, copyAssets, copyPackageJson);
+export default series(
+  cleanAll,
+  vueTsc,
+  copyIndex,
+  copyPublic,
+  copyStyleAndJs,
+  copyConfig,
+  copyReadme,
+  copyAssets,
+  copyPackageJson
+);
