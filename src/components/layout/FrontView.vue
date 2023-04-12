@@ -61,7 +61,7 @@
   }
 </script>
 <template>
-  <div class="front-view min-h-screen flex flex-col">
+  <div class="front-view flex flex-col">
     <div class="front-main bg-[#003f8c] text-text flex-1">
       <div class="front-header flex items-baseline py-md px-xl">
         <router-link to="/home" class="text-xxl text-text hover:text-text">
@@ -134,6 +134,9 @@
           }
         }
       }
+    }
+    .front-content {
+      min-height: calc(100vh - 78px);
     }
   }
 </style>

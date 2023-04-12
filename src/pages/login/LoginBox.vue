@@ -1,6 +1,11 @@
 <template>
   <div class="login-box">
-    <a-form :model="form" :wrapperCol="{ span: 24 }" @finish="login" class="login-form">
+    <a-form
+      :model="form"
+      :wrapperCol="{ span: 24 }"
+      @finish="login"
+      class="login-form w-[400px] p-lg xl:w-[440px] xl:p-xl"
+    >
       <div class="third-platform">
         <div class="third-title">第三方登录：</div>
         <div class="third-list">
@@ -84,8 +89,7 @@
 <style lang="less" scoped>
   .login-box {
     .login-form {
-      width: 440px;
-      @apply py-12 h-fit border-border px-10 rounded-sm text-text bg-container;
+      @apply h-fit border-border rounded-sm text-text bg-container;
       .third-platform {
         .third-title {
           @apply text-left mb-md;
@@ -110,10 +114,7 @@
       }
       .login-input,
       .login-button {
-        @apply rounded;
-        margin-top: 16px;
-        height: 40px;
-        width: 100%;
+        @apply ~"h-[40px]" rounded mt-sm w-full;
       }
       .terms {
       }

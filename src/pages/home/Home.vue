@@ -8,41 +8,48 @@
   }
 </script>
 <template>
-  <div class="home pt-[140px] text-center">
-    <div class="tracking-wide slogan text-[84px] font-extralight">
-      <span class="font-semibold">Develop faster.</span> Custom easier.
-    </div>
-    <p class="text-subtext text-[28px] font-light tracking-wide">
-      The most-loved Vue3 Framework in github.com and gitee.com
-    </p>
-    <button
-      @click="signIn"
-      class="bg-primary-600 hover:bg-primary-700 cursor-pointer mt-lg shadow border-0 outline-none text-xl px-[64px] py-lg rounded-sm"
-    >
-      Sign In and Start Preview
-      <br />
-      <div class="text-base text-subtext"><GithubFilled /> @iczer</div>
-    </button>
-    <br />
-    <div class="inline-block text-blue-200 text-xl mr-lg">Powered by:</div>
-    <div class="powered-by-list inline-flex mt-xl text-subtext">
-      <a href="https://www.antdv.com/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
-        <img class="w-6" src="@/assets/logo/antdv.svg" />
-        antd design vue
-      </a>
-      <a
-        href="https://tailwindcss.com/"
-        target="_blank"
-        class="powered-by text-subtext mx-md hover:text-text cursor-pointer"
+  <div class="home text-center flex flex-col justify-center">
+    <div class="transform w-full">
+      <div class="tracking-wide slogan text-[3.5rem] xl:text-[5.25rem] font-extralight">
+        <span class="font-semibold">Develop faster.</span> Custom easier.
+      </div>
+      <p class="text-subtext text-[1.5rem] xl:text-[1.75rem] font-extralight tracking-wide">
+        The most-loved Vue3 Framework in github.com and gitee.com
+      </p>
+      <button
+        @click="signIn"
+        class="bg-primary-600 hover:bg-primary-700 cursor-pointer mt-lg shadow border-0 outline-none text-xl px-[64px] py-lg rounded-sm"
       >
-        <img class="w-6" src="@/assets/logo/tailwindcss.svg" />
-        tailwindcss
-      </a>
-      <a href="http://www.vitejs.net/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
-        <img class="w-5" src="@/assets/vite.svg" />
-        vitejs
-      </a>
+        Sign In and Start Preview
+        <br />
+        <div class="text-base text-subtext"><GithubFilled /> @iczer</div>
+      </button>
+      <br />
+      <div class="inline-block text-blue-200 text-xl mr-lg">Powered by:</div>
+      <div class="powered-by-list inline-flex mt-xl text-subtext">
+        <a href="https://www.antdv.com/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
+          <img class="w-6" src="@/assets/logo/antdv.svg" />
+          antd design vue
+        </a>
+        <a
+          href="https://tailwindcss.com/"
+          target="_blank"
+          class="powered-by text-subtext mx-md hover:text-text cursor-pointer"
+        >
+          <img class="w-6" src="@/assets/logo/tailwindcss.svg" />
+          tailwindcss
+        </a>
+        <a href="http://www.vitejs.net/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
+          <img class="w-5" src="@/assets/vite.svg" />
+          vitejs
+        </a>
+      </div>
     </div>
   </div>
 </template>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  .home {
+    min-height: max(100vh, 600px);
+    margin-top: -78px;
+  }
+</style>

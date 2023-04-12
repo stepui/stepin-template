@@ -70,25 +70,27 @@
 </script>
 
 <style lang="less">
-  ::-webkit-scrollbar {
-    width: 4px;
-    border-radius: 4px;
-    background-color: theme('colors.primary.500');
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: theme('colors.primary.400');
-
-    &:hover {
+  .stepin-view {
+    ::-webkit-scrollbar {
+      width: 4px;
+      border-radius: 4px;
       background-color: theme('colors.primary.500');
     }
-  }
 
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0);
-    border-radius: 4px;
-    background: theme('backgroundColor.layout');
+    ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: theme('colors.primary.400');
+
+      &:hover {
+        background-color: theme('colors.primary.500');
+      }
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 1px rgba(0, 0, 0, 0);
+      border-radius: 4px;
+      background: theme('backgroundColor.layout');
+    }
   }
 
   html {
