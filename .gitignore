@@ -13,3 +13,4 @@ yarn.lock
 stepin-template.session.sql
 docs/.vitepress/cache
 target
+components.d.ts

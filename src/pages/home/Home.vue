@@ -18,14 +18,14 @@
       </p>
       <button
         @click="signIn"
-        class="bg-primary-600 hover:bg-primary-700 cursor-pointer mt-lg shadow border-0 outline-none text-xl px-[64px] py-lg rounded-sm"
+        class="bg-primary-300 hover:bg-primary-400 cursor-pointer mt-lg shadow border-0 outline-none text-xl px-[64px] py-lg rounded-sm"
       >
         Sign In and Start Preview
         <br />
         <div class="text-base text-subtext"><GithubFilled /> @iczer</div>
       </button>
       <br />
-      <div class="inline-block text-blue-200 text-xl mr-lg">Powered by:</div>
+      <div class="inline-block text-gray-200 text-xl mr-lg">Powered by:</div>
       <div class="powered-by-list inline-flex mt-xl text-subtext">
         <a href="https://www.antdv.com/" target="_blank" class="powered-by text-subtext hover:text-text cursor-pointer">
           <img class="w-6" src="@/assets/logo/antdv.svg" />

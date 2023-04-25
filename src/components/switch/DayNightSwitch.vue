@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-  import { PropType, watch } from 'vue';
+  import { PropType, watch, computed } from 'vue';
   import useModelValue from '@/utils/useModelValue';
-  import { configTheme } from '@/theme';
-  import { useSettingStore, storeToRefs } from '@/store';
+  import cloneDeep from 'lodash/cloneDeep';
+  import { storeToRefs } from 'pinia';
+  import { useThemeStore, ThemeProvider } from 'stepin/es/theme-provider';
 
-  export type ValueType = 'day' | 'night';
+  export type Type = 'day' | 'night';
 
   const props = defineProps({
-    value: { type: String as PropType<ValueType> },
+    value: { type: String as PropType<Type> },
+    nightColor: { type: String, default: '#1D1D1F' },
   });
 
   const emit = defineEmits<{
-    (e: 'update:value', value: ValueType): void;
+    (e: 'update:value', value: Type): void;
   }>();
 
   const { value: _value } = useModelValue(
@@ -19,46 +21,47 @@
     (val) => emit('update:value', val),
     'day'
   );
-  const valeToggle: { [key in ValueType]: ValueType } = {
+  const switcher: { [key in Type]: Type } = {
     day: 'night',
     night: 'day',
   };
 
-  function toggle() {
-    _value.value = valeToggle[_value.value];
-  }
+  const { theme } = storeToRefs(useThemeStore());
 
-  const settingStore = useSettingStore();
-  const { theme } = storeToRefs(settingStore);
-  const { setTheme } = settingStore;
+  // 监听主题色变换，更新缓存
+  let cachedMiddleColors = cloneDeep(theme.value.color.middle);
+  watch(
+    theme,
+    (val) => {
+      if (val.color.middle['bg-base'] !== props.nightColor) {
+        cachedMiddleColors = cloneDeep(val.color.middle);
+        _value.value = 'day';
+      } else {
+        _value.value = 'night';
+      }
+    },
+    { deep: true }
+  );
 
-  let cachedTheme = theme.value;
-  watch(theme, (val) => {
-    if (val !== 'night') {
-      cachedTheme = val;
-      _value.value = 'day';
+  // 主题颜色配置
+  const colorCfg = computed(() => {
+    if (_value.value === 'day') {
+      return { middle: cachedMiddleColors };
     }
-  });
-
-  watch(_value, (val) => {
-    if (val === 'day') {
-      setTheme(cachedTheme);
-      configTheme(cachedTheme);
-    } else {
-      setTheme('night');
-      configTheme('night');
-    }
+    return { middle: { 'bg-base': props.nightColor } };
   });
 </script>
 <template>
-  <div
-    @click="toggle"
-    class="bg-fill-2 day-night-switch hover:border-border relative border-border-2 text-lg rounded-full border border-solid flex items-center"
-  >
-    <div :class="`spot transition-[left] duration-300 h-full absolute rounded-full bg-container ${_value}`"></div>
-    <IconFont :class="`day-night-switch-item ${_value === 'day' ? 'checked' : ''}`" name="icon-sun" />
-    <IconFont :class="`day-night-switch-item ${_value === 'night' ? 'checked' : ''}`" name="icon-moono" />
-  </div>
+  <ThemeProvider is-root :color="colorCfg">
+    <div
+      @click="() => (_value = switcher[_value])"
+      class="bg-fill-2 day-night-switch hover:border-border relative border-border-2 text-lg rounded-full border border-solid flex items-center"
+    >
+      <div :class="`spot transition-[left] duration-300 h-full absolute rounded-full bg-container ${_value}`"></div>
+      <IconFont :class="`day-night-switch-item ${_value === 'day' ? 'checked' : ''}`" name="icon-sun" />
+      <IconFont :class="`day-night-switch-item ${_value === 'night' ? 'checked' : ''}`" name="icon-moono" />
+    </div>
+  </ThemeProvider>
 </template>
 <style scoped lang="less">
   .day-night-switch {

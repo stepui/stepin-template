@@ -1,4 +1,4 @@
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 import { useSettingStore } from '@/store';
 
 import GreenImg from '@/assets/theme/green.png';
@@ -19,58 +19,87 @@ export function configTheme(key: string) {
     case 'night':
       setBgSeriesColors({ 'bg-base': '#1D1D1F' });
       break;
-    case 'side-dark':
-      setBgSeriesColors({ 'bg-base': '#fff', 'bg-side': '#001129' });
-      setNavigation('side');
-      break;
     case 'header-dark':
-      setBgSeriesColors({ 'bg-base': '#fff', 'bg-header': '#001129' });
       setNavigation('head');
       break;
-    case 'light':
-      setBgSeriesColors({ 'bg-base': '#fff' });
+    default:
       setNavigation('side');
-      break;
-    case 'vscode':
-      setBgSeriesColors({ 'bg-base': '#23272E' });
-      setNavigation('side');
-      break;
-    case 'idea':
-      setBgSeriesColors({ 'bg-base': '#2B2B2B' });
-      setNavigation('side');
-      break;
-    case 'green':
-      setBgSeriesColors({ 'bg-base': '#013a54' });
-      setNavigation('side');
-      break;
-    case 'pink':
-      setBgSeriesColors({ 'bg-base': '#B6266D' });
-      setNavigation('side');
-      break;
-    case 'purple':
-      setBgSeriesColors({ 'bg-base': '#361F68' });
-      setNavigation('side');
-      break;
-    case 'china':
-      setBgSeriesColors({ 'bg-base': 'rgb(230, 0, 0)' });
-      setNavigation('side');
-      break;
-    case 'orange':
-      setBgSeriesColors({ 'bg-base': '#B1740D' });
-      setNavigation('side');
-      break;
   }
 }
 
-export const themeList = [
-  { title: '亮色模式', key: 'light', imgUrl: LightImg },
-  { title: '侧边暗色菜单', key: 'side-dark', imgUrl: SideDarkImg },
-  { title: '顶部暗色菜单', key: 'header-dark', imgUrl: HeaderDarkImg },
-  { title: 'VSCode风', key: 'vscode', imgUrl: VscodeImg },
-  { title: 'IDEA风', key: 'idea', imgUrl: IdeaImg },
-  { title: '墨绿风', key: 'green', imgUrl: GreenImg },
-  { title: '芭比粉', key: 'pink', imgUrl: PinkImg },
-  { title: '暗夜紫', key: 'purple', imgUrl: PurpleImg },
-  { title: '中国红', key: 'china', imgUrl: ChinaRedImg },
-  { title: '活力橙', key: 'orange', imgUrl: OrangeImg },
+export const themeList: Theme.ThemeConfig[] = [
+  {
+    title: '亮色模式',
+    key: 'light',
+    imgUrl: LightImg,
+    config: { color: { middle: { 'bg-base': '#fff' } } },
+  },
+  {
+    title: '侧边暗色菜单',
+    key: 'side-dark',
+    imgUrl: SideDarkImg,
+    config: { color: { middle: { 'bg-base': '#fff', 'bg-side': '#001129' } }, size: { 'width-side': '220px' } },
+  },
+  {
+    title: '顶部暗色菜单',
+    key: 'header-dark',
+    imgUrl: HeaderDarkImg,
+    config: { color: { middle: { 'bg-base': '#fff', 'bg-header': '#001129' } } },
+  },
+  {
+    title: 'VSCode风',
+    key: 'vscode',
+    imgUrl: VscodeImg,
+    config: {
+      color: { middle: { 'bg-base': '#23272E' } },
+    },
+  },
+  {
+    title: 'IDEA风',
+    key: 'idea',
+    imgUrl: IdeaImg,
+    config: {
+      color: { middle: { 'bg-base': '#2B2B2B' } },
+    },
+  },
+  {
+    title: '墨绿风',
+    key: 'green',
+    imgUrl: GreenImg,
+    config: {
+      color: { middle: { 'bg-base': '#013a54' } },
+    },
+  },
+  {
+    title: '芭比粉',
+    key: 'pink',
+    imgUrl: PinkImg,
+    config: {
+      color: { middle: { 'bg-base': '#B6266D' } },
+    },
+  },
+  {
+    title: '暗夜紫',
+    key: 'purple',
+    imgUrl: PurpleImg,
+    config: {
+      color: { middle: { 'bg-base': '#361F68' } },
+    },
+  },
+  {
+    title: '中国红',
+    key: 'china',
+    imgUrl: ChinaRedImg,
+    config: {
+      color: { middle: { 'bg-base': 'rgb(230, 0, 0)' } },
+    },
+  },
+  {
+    title: '活力橙',
+    key: 'orange',
+    imgUrl: OrangeImg,
+    config: {
+      color: { middle: { 'bg-base': '#B1740D' } },
+    },
+  },
 ];

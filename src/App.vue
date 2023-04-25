@@ -1,28 +1,30 @@
 <template>
-  <stepin-view
-    system-name="Stepin"
-    logo-src="@/assets/vite.svg"
-    :class="`${contentClass}`"
-    :user="user"
-    :navMode="navigation"
-    :useTabs="useTabs"
-    :themeList="themeList"
-    v-model:show-setting="showSetting"
-    v-model:theme="theme"
-    @themeSelect="configTheme"
-  >
-    <template #headerActions>
-      <HeaderActions @showSetting="showSetting = true" />
-    </template>
-    <template #pageFooter>
-      <PageFooter />
-    </template>
-    <template #themeEditorTab>
-      <a-tab-pane tab="其它" key="other">
-        <Setting />
-      </a-tab-pane>
-    </template>
-  </stepin-view>
+  <ThemeProvider is-root v-bind="themeConfig" :apply-style="false">
+    <stepin-view
+      system-name="Stepin"
+      logo-src="@/assets/vite.svg"
+      :class="`${contentClass}`"
+      :user="user"
+      :navMode="navigation"
+      :useTabs="useTabs"
+      :themeList="themeList"
+      v-model:show-setting="showSetting"
+      v-model:theme="theme"
+      @themeSelect="configTheme"
+    >
+      <template #headerActions>
+        <HeaderActions @showSetting="showSetting = true" />
+      </template>
+      <template #pageFooter>
+        <PageFooter />
+      </template>
+      <template #themeEditorTab>
+        <a-tab-pane tab="其它" key="other">
+          <Setting />
+        </a-tab-pane>
+      </template>
+    </stepin-view>
+  </ThemeProvider>
   <login-modal :unless="['/login']" />
 </template>
 
@@ -35,6 +37,8 @@
   import Setting from './components/setting';
   import { LoginModal } from '@/pages/login';
   import { configTheme, themeList } from '@/theme';
+  import { ThemeProvider } from 'stepin';
+  import { computed } from 'vue';
 
   const { logout, profile } = useAccountStore();
 
@@ -51,6 +55,7 @@
   useMenuStore().getMenuList();
 
   const { navigation, useTabs, theme, contentClass } = storeToRefs(useSettingStore());
+  const themeConfig = computed(() => themeList.find((item) => item.key === theme.value)?.config ?? {});
 
   const user = reactive({
     name: 'admin',
