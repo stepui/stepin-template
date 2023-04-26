@@ -78,6 +78,7 @@
   .stepin-view {
     ::-webkit-scrollbar {
       width: 4px;
+      height: 4px;
       border-radius: 4px;
       background-color: theme('colors.primary.500');
     }
