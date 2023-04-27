@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  defineProps<{ name: string }>();
+  defineProps({ name: String });
 </script>
 <template>
   <span role="img" style="line-height: 1">
