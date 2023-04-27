@@ -1,8 +1,8 @@
 <script setup>
-  import { ref, watch, reactive} from 'vue';
+  import { ref, watch, reactive, onBeforeMount} from 'vue';
   import ColorPicker from 'stepin/es/color-picker';
   import LabelWrapper from 'stepin/es/label-wrapper';
-  import useThemeStore from 'stepin/es/theme-editor/store';
+  import { useThemeStore } from 'stepin/es/theme-provider';
   import CodeSandbox from 'stepin/es/code-sandbox';
   import {storeToRefs} from 'pinia'
 
@@ -12,7 +12,6 @@
   const { theme } = storeToRefs(themeStore);
   
   const color = ref(theme.value.color.primary.DEFAULT)
-  setFont({'font-size': '16px'})
 
   watch(color, (val) => setPrimaryColor({DEFAULT: val}));
 
@@ -38,7 +37,7 @@
     text4: 'rgba(255, 255, 255, 0.45)',
   })
 
-  setBgSeriesColors({'bg-base': '#23272E'}, true, '.dark-text-picker+table')
+  onBeforeMount(() => setBgSeriesColors({'bg-base': '#23272E'}, true, '.dark-text-picker+table'))
 
   function setDarkText(val) {
     const modify = setTextSeriesColors({'text-base': val}, '.dark-text-picker+table')
@@ -73,7 +72,7 @@
 
 ```vue
 <script lang="ts" setup>
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 
 const { setPrimaryColor } = useThemeStore();
 setPrimaryColor({DEFAULT: '#3B82F6'});
@@ -101,7 +100,7 @@ setPrimaryColor({DEFAULT: '#3B82F6'});
 如果想对主色衍生色做定制，一样使用 `setPrimaryColor` 设置即可：
 
 ```ts
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 
 const { setPrimaryColor } = useThemeStore();
 setPrimaryColor({
@@ -162,7 +161,7 @@ setPrimaryColor({
 
 可以通过 `setFunctionalColor` 设置功能色：
 ```ts
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 
 const { setFunctionalColor } = useThemeStore();
 // 设置信息色默认色，自动生成衍生色
@@ -190,7 +189,7 @@ setFunctionalColor('error', {DEFAULT: '#ef4343'});
 ```
 功能色的衍生色也可以自由定制：
 ```ts
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 
 const { setFunctionalColor } = useThemeStore();
 setFunctionalColor(
@@ -265,7 +264,7 @@ setFunctionalColor(
 
 文本衍生色也可以自由定义：
 ``` ts
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 
 const { setTextSeriesColors } = useThemeStore();
 setTextSeriesColors({
@@ -319,7 +318,7 @@ setTextSeriesColors({
 
 背景色有一系列衍生色，全部可自由定义：
 ```ts
-import useThemeStore from 'stepin/es/theme-editor/store';
+import { useThemeStore } from 'stepin/es/theme-provider';
 
 const { setBgSeriesColors } = useThemeStore();
 setBgSeriesColors({

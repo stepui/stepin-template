@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { onBeforeMount, watch } from 'vue';
-  import useThemeStore from 'stepin/es/theme-editor/store';
+  import { useThemeStore } from 'stepin/es/theme-provider';
   import Theme from 'vitepress/theme';
   import { useData } from 'vitepress';
   const { Layout } = Theme;
@@ -11,8 +11,8 @@
 
   onBeforeMount(() => {
     setFont({ 'font-size': '16px' });
-    setTheme();
     setPrimaryColor({ DEFAULT: '#8B5CF6' });
+    setTheme();
   });
 
   function setTheme() {
