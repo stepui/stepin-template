@@ -69,15 +69,26 @@
 系统主题色可以自由定义，它主要用一些组件及功能性文本上。点击下面的拾色器，可以看到面板底部内置的推荐颜色：
 <ColorPicker v-model="color" />
 
-你可以使用用 `setPrimaryColor` api 来设置系统主题色
+使用 `setPrimaryColor` 设置主题色
 
-```ts
-...
+```vue
+<script lang="ts" setup>
 import useThemeStore from 'stepin/es/theme-editor/store';
 
 const { setPrimaryColor } = useThemeStore();
 setPrimaryColor({DEFAULT: '#3B82F6'});
-...
+</script>
+```
+使用 `ThemeProvider` 组件配置主题：
+```vue
+<template>
+  <ThemeProvider :color="{ primary: { DEFAULT: '#3B82F6'}}">
+    <stepin-view>...</stepin-view>
+  </ThemeProvider>
+</template>
+<script lang="ts" setup>
+  import { ThemeProvider } from 'stepin/es/theme-provider'
+</script>
 ```
 根据主色，系统还会自动生成一系列衍生色，方便使用：
 <div style="display: flex; algin-items:center;">
@@ -87,7 +98,7 @@ setPrimaryColor({DEFAULT: '#3B82F6'});
   </div>
 </div>
 
-如果想对主色衍生色做定制，一样使用 `setPrimaryColor` api 设置即可：
+如果想对主色衍生色做定制，一样使用 `setPrimaryColor` 设置即可：
 
 ```ts
 import useThemeStore from 'stepin/es/theme-editor/store';
@@ -105,6 +116,24 @@ setPrimaryColor({
   'text-hover': string;         // 主色衍生文本悬浮色
   'text-active': string;        // 主色衍生文本激活色
 });
+```
+
+使用 ThemeProvider 定制
+```vue
+<template>
+  <ThemeProvider :color="{
+    primary: {
+      bg: '#3B82F6',
+      'bg-hover': '#3B82F6',
+      border: '#3B82F6',
+    }
+  }">
+    <stepin-view>...</stepin-view> 
+  </ThemeProvider>
+</template>
+<script lang="ts" setup>
+  import { ThemeProvider } from 'stepin/es/theme-provider'
+</script>
 ```
 
 <CodeSandbox
@@ -131,7 +160,7 @@ setPrimaryColor({
   </div>
 </LabelWrapper>
 
-可以通过 `setFunctionalColor` api 设置功能色：
+可以通过 `setFunctionalColor` 设置功能色：
 ```ts
 import useThemeStore from 'stepin/es/theme-editor/store';
 
@@ -144,6 +173,20 @@ setFunctionalColor('warning', {DEFAULT: '#f97316'});
 setFunctionalColor('success', {DEFAULT: '#10ba81'});
 // 设置错误色默认色，自动生成衍生色
 setFunctionalColor('error', {DEFAULT: '#ef4343'});
+```
+使用 ThemeProvider 定制：
+```vue
+<template>
+  <ThemeProvider :color="{
+    info: { DEFAULT: '#0ea5e9'},
+    warning: { DEFAULT: '#f97316'},
+  }">
+    <stepin-view>...</stepin-view> 
+  </ThemeProvider>
+</template>
+<script lang="ts" setup>
+  import { ThemeProvider } from 'stepin/es/theme-provider'
+</script>
 ```
 功能色的衍生色也可以自由定制：
 ```ts
@@ -165,6 +208,28 @@ setFunctionalColor(
     'text-active': string;                        // 功能色衍生文本激活色
   }
 );
+```
+使用 ThemeProvider 定制：
+```vue
+<template>
+  <ThemeProvider :color="{
+    info: {
+      bg: '#3B82F6',
+      'bg-hover': '#3B82F6',
+      border: '#3B82F6',
+    },
+    warning: {
+      bg: '#3B82F6',
+      'bg-hover': '#3B82F6',
+      border: '#3B82F6',
+    }
+  }">
+    <stepin-view>...</stepin-view> 
+  </ThemeProvider>
+</template>
+<script lang="ts" setup>
+  import { ThemeProvider } from 'stepin/es/theme-provider'
+</script>
 ```
 ## 文本色
 文本色可细分为：`一级文本色`、`二级文本色`、`三级文本色`和`四级文本色`，它们由文本基色生成，可运用于不同的场景需求。
@@ -224,6 +289,23 @@ setTextSeriesColors({
   'border-2': string;         // 二级边框色
 })
 ```
+
+使用 ThemeProvider 定制：
+```vue
+<template>
+  <ThemeProvider :color="{
+    middle: {
+      'text-base': '#fff',
+      'text-disabled': '#9a9a9a',
+    }
+  }">
+    <stepin-view>...</stepin-view> 
+  </ThemeProvider>
+</template>
+<script lang="ts" setup>
+  import { ThemeProvider } from 'stepin/es/theme-provider'
+</script>
+```
 ## 背景色
 背景色可分为：`布局背景色`、`容器背景色`、`菜单背景色`以及`浮窗背景色`。
 只需设置背景基色，其它的衍生背景色将自动生成。
@@ -255,6 +337,23 @@ setBgSeriesColors({
   'bg-menu': string;              // 菜单背景色
   'bg-submenu': string;           // 子级菜单背景色
 })
+```
+
+使用 ThemeProvider 定制：
+```vue
+<template>
+  <ThemeProvider :color="{
+    middle: {
+      'bg-base': '#000',
+      'bg-disabled': '#9a9a9a',
+    }
+  }">
+    <stepin-view>...</stepin-view> 
+  </ThemeProvider>
+</template>
+<script lang="ts" setup>
+  import { ThemeProvider } from 'stepin/es/theme-provider'
+</script>
 ```
 
 <style lang="less">

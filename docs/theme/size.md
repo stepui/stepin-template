@@ -7,10 +7,10 @@ import themeStore from 'stepin、es/theme-editor/store'
 
 const { setSize } = useThemeStore()
 setSize({
-  sideWidth: '160px',               // 侧边宽度
-  sideCollapsedWidth: '64px',       // 侧边展开式宽度
-  headerHeight: '64px',              // 顶部高度
-  footerHeight: '64px'              // 底部高度
+  'side-width': '160px',               // 侧边宽度
+  'side-collapsed-width': '64px',       // 侧边展开式宽度
+  'header-height': '64px',              // 顶部高度
+  'footer-height': '64px'              // 底部高度
 });
 ```
 ## 外间距
