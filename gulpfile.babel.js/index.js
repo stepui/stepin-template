@@ -44,6 +44,7 @@ function copyReadme() {
 function copyPackageJson() {
   return src(['./package.json'])
     .pipe(replace(/,?[\r\n]+.*"(gulp[\-\w]*|vue-tsc|typescript)"[^,\r\n]*/g, ''))
+    .pipe(replace(/vue-tsc --noEmit && /g, ''))
     .pipe(dest('./target'));
 }
 function cleanJsRepository() {

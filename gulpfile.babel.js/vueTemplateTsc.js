@@ -94,6 +94,7 @@ function cleanTypeImport() {
     'Dayjs',
     'Ref',
     'TreeSelectProps',
+    'ComponentPublicInstance',
   ];
   const typeImportRegexp = new RegExp(
     '(?<=(import\\s+[\\w,\\s]*{[^{]*[,\\s]+))(' + types.join('|') + '),?(?=([^}]*\\s*}\\s*from))',
