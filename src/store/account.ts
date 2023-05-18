@@ -45,6 +45,7 @@ export const useAccountStore = defineStore('account', {
     },
     async logout() {
       return new Promise<boolean>((resolve) => {
+        localStorage.removeItem('stepin-menu');
         http.removeAuthorization();
         this.logged = false;
         resolve(true);

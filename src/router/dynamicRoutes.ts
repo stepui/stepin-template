@@ -127,8 +127,15 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
     if (!target || !source) {
       return target ?? source;
     }
-
     const resultMap = new Map<string, RouteRecordMap>();
+    // 保证新路由数据顺序
+    for (const key of source.keys()) {
+      resultMap.set(key, void 0);
+    }
+    for (const key of target.keys()) {
+      resultMap.set(key, void 0);
+    }
+
     target.forEach((v, k) => {
       resultMap.set(k, v);
     });
@@ -162,7 +169,8 @@ function mergeRoutes(target: readonly RouteRecordRaw[], source: RouteRecordRaw[]
   const names = extractRouteNames(source);
   const targetMap = toRoutesMap(target, (record) => !names.includes(record.name as string));
   const sourceMap = toRoutesMap(source);
-  const routesMap = mergeMap(targetMap, sourceMap)!;
+
+  const routesMap = mergeMap(targetMap, sourceMap);
   return toRoutes(routesMap);
 }
 
