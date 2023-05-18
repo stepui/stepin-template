@@ -256,7 +256,12 @@
 </script>
 <template>
   <div class="authority">
-    <a-table :columns="columns" :dataSource="menuList" :pagination="{ pageSize: 20, current: 1, total: 10 }">
+    <a-table
+      rowKey="id"
+      :columns="columns"
+      :dataSource="menuList"
+      :pagination="{ pageSize: 20, current: 1, total: 10 }"
+    >
       <template #title>
         <div class="flex justify-between">
           菜单列表
