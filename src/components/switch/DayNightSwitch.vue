@@ -9,7 +9,7 @@
 
   const props = defineProps({
     value: { type: String as PropType<Type> },
-    nightColor: { type: String, default: '#1D1D1F' },
+    nightColor: { type: String, default: '#1D1D1D' },
   });
 
   const emit = defineEmits<{

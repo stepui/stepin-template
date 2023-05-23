@@ -31,8 +31,8 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.33",
     "qs": "^6.10.1",
-    "stepin": "^2.1.39-beta",
-    "vue": "^3.3.2",
+    "stepin": "^2.1.40-beta",
+    "vue": "^3.3.4",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
