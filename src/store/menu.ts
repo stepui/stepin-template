@@ -43,7 +43,8 @@ function doMenuFilter(routes: Readonly<RouteRecordRaw[]>, parentPermission?: str
 
   routes.forEach((route) => {
     const required = route.meta?.permission ?? parentPermission;
-    if (route.meta?.renderMenu === undefined && required) {
+    // if (route.meta?.renderMenu === undefined && required) {
+    if (required) {
       route.meta = route.meta ?? {};
       setCache(route.meta);
       route.meta.renderMenu = hasAuthority(route.meta.permission);
@@ -104,8 +105,10 @@ export const useMenuStore = defineStore('menu', () => {
   const { filterMenu } = storeToRefs(useSettingStore());
 
   const checkMenuPermission = () => {
+    console.log('------');
     if (filterMenu.value) {
       doMenuFilter(router.options.routes);
+      console.log(router.options.routes);
     } else {
       resetMenuFilter(router.options.routes);
     }
