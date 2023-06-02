@@ -40,7 +40,12 @@ const tsFormatter = () =>
 
 /** ts编译器 */
 const tsToJs = (tsStrCode) => {
-  const result = ts.transpileModule(tsStrCode, tsConfig);
+  const code = tsStrCode
+    .replace(/defineEmits<[\s\S]*>\(\);/g, (match) =>
+      match.replace(/'?([\w:]*)'?:\s*\[.*\];/g, "'$1',").replace(/\(e:\s*(\'[^',]*\')[^;]*;/g, '$1,')
+    )
+    .replace(/<{([^\{\}<>]*)}>\(\)/g, '([$1])');
+  const result = ts.transpileModule(code, tsConfig);
   const jsStrCode = result.outputText;
   return jsStrCode;
 };
