@@ -23,12 +23,14 @@
 
   const router = useRouter();
 
-  // fix: 修复浏览器刷新时，页面加载动画不结束问题；(暂不知道为啥这段代码能起作用)
-  watch(_loading, () => {
-    router.push(route.fullPath);
-  });
-
   if (props.loading) {
+    if (!_loading.value) {
+      router.push(route.fullPath);
+    } else {
+      watch(_loading, () => {
+        router.push(route.fullPath);
+      });
+    }
     configPage(route, { title: 'loading' });
     configPage(route, { title: undefined });
   }
