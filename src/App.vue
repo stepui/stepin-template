@@ -1,30 +1,32 @@
 <template>
-  <ThemeProvider is-root v-bind="themeConfig" :apply-style="false">
-    <stepin-view
-      system-name="Stepin"
-      logo-src="@/assets/vite.svg"
-      :class="`${contentClass}`"
-      :user="user"
-      :navMode="navigation"
-      :useTabs="useTabs"
-      :themeList="themeList"
-      v-model:show-setting="showSetting"
-      v-model:theme="theme"
-      @themeSelect="configTheme"
-    >
-      <template #headerActions>
-        <HeaderActions @showSetting="showSetting = true" />
-      </template>
-      <template #pageFooter>
-        <PageFooter />
-      </template>
-      <template #themeEditorTab>
-        <a-tab-pane tab="其它" key="other">
-          <Setting />
-        </a-tab-pane>
-      </template>
-    </stepin-view>
-  </ThemeProvider>
+  <a-config-provider :getPopupContainer="getPopupContainer">
+    <ThemeProvider is-root v-bind="themeConfig" :apply-style="false">
+      <stepin-view
+        system-name="Stepin"
+        logo-src="@/assets/vite.svg"
+        :class="`${contentClass}`"
+        :user="user"
+        :navMode="navigation"
+        :useTabs="useTabs"
+        :themeList="themeList"
+        v-model:show-setting="showSetting"
+        v-model:theme="theme"
+        @themeSelect="configTheme"
+      >
+        <template #headerActions>
+          <HeaderActions @showSetting="showSetting = true" />
+        </template>
+        <template #pageFooter>
+          <PageFooter />
+        </template>
+        <template #themeEditorTab>
+          <a-tab-pane tab="其它" key="other">
+            <Setting />
+          </a-tab-pane>
+        </template>
+      </stepin-view>
+    </ThemeProvider>
+  </a-config-provider>
   <login-modal :unless="['/login']" />
 </template>
 
@@ -72,6 +74,10 @@
       },
     ],
   });
+
+  function getPopupContainer() {
+    return document.querySelector('.stepin-layout');
+  }
 </script>
 
 <style lang="less">
