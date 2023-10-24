@@ -32,7 +32,7 @@
     "pinia": "^2.0.33",
     "qs": "^6.10.1",
     "stepin": "^2.1.50-beta",
-    "vue": "^3.3.4",
+    "vue": "^3.3.6",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
@@ -64,6 +64,6 @@
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.2.1",
     "vitepress": "^1.0.0-alpha.61",
-    "vue-tsc": "^1.0.13"
+    "vue-tsc": "^1.8.20"
   }
 }
