@@ -1,9 +1,12 @@
+import { storeToRefs } from 'pinia';
 import { NavigationGuard, NavigationHookAfter } from 'vue-router';
 import http from '@/store/http';
-import { useAccountStore, useMenuStore } from '@/store';
+import { useAccountStore, useLoadingStore } from '@/store';
 import { useAuthStore } from '@/plugins';
 import NProgress from 'nprogress';
+import { clearPage } from 'stepin/es/tabs-view';
 import 'nprogress/nprogress.css';
+
 NProgress.configure({ showSpinner: false });
 
 interface NaviGuard {
@@ -28,26 +31,35 @@ const ProgressGuard: NaviGuard = {
   },
 };
 
-const AuthGuard: NaviGuard = {
-  before(to, from) {
-    const { hasAuthority } = useAuthStore();
-    if (to.meta?.permission && !hasAuthority(to.meta?.permission)) {
-      return { name: '403', query: { permission: to.meta.permission, path: to.fullPath } };
-    }
-  },
-};
+// const AuthGuard: NaviGuard = {
+//   before(to, from) {
+//     const { hasAuthority } = useAuthStore();
+//     if (to.meta?.permission && !hasAuthority(to.meta?.permission)) {
+//       const { authLoading } = storeToRefs(useLoadingStore());
+//       return {
+//         path: '/403',
+//         query: { permission: to.meta.permission, path: to.fullPath, loading: authLoading.value as any },
+//       };
+//     }
+//   },
+// };
 
+// 403 forbidden
 const ForbiddenGuard: NaviGuard = {
   before(to) {
-    if (to.name === '403' && (to.query.permission || to.query.path)) {
-      to.fullPath = to.fullPath
-        .replace(/permission=[^&=]*&?/, '')
-        .replace(/&?path=[^&=]*&?/, '')
-        .replace(/\?$/, '');
-      to.params.permission = to.query.permission;
-      to.params.path = to.query.path;
-      delete to.query.permission;
-      delete to.query.path;
+    const { hasAuthority } = useAuthStore();
+    if (to.meta?.permission && !hasAuthority(to.meta?.permission)) {
+      const { authLoading } = storeToRefs(useLoadingStore());
+      return {
+        path: '/403',
+        query: { permission: to.meta.permission, path: to.fullPath, loading: authLoading.value as any },
+      };
+    } else if (to.name === '403' && (to.query.permission || to.query.path)) {
+      clearPage(to.query.path as string);
+      const { permission, path, loading } = to.query;
+      to.params.permission = permission;
+      to.params.path = path;
+      to.params.loading = loading;
     }
   },
 };
@@ -55,14 +67,14 @@ const ForbiddenGuard: NaviGuard = {
 // 404 not found
 const NotFoundGuard: NaviGuard = {
   before(to, from) {
-    const { loading } = useMenuStore();
-    if (to.meta._is404Page && loading) {
+    const { pageLoading } = useLoadingStore();
+    if (to.meta._is404Page && pageLoading) {
       to.params.loading = true as any;
     }
   },
 };
 
 export default {
-  before: [ProgressGuard.before, loginGuard, AuthGuard.before, ForbiddenGuard.before, NotFoundGuard.before],
+  before: [ProgressGuard.before, ForbiddenGuard.before, loginGuard, NotFoundGuard.before],
   after: [ProgressGuard.after],
 };

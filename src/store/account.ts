@@ -3,6 +3,7 @@ import http from './http';
 import { Response } from '@/types';
 import { useMenuStore } from './menu';
 import { useAuthStore } from '@/plugins';
+import { useLoadingStore } from './loading';
 
 export interface Profile {
   account: Account;
@@ -52,19 +53,24 @@ export const useAccountStore = defineStore('account', {
       });
     },
     async profile() {
-      return http.request<Account, Response<Profile>>('/account', 'get').then((response) => {
-        if (response.code === 0) {
-          const { setAuthorities } = useAuthStore();
-          const { account, permissions, role } = response.data;
-          this.account = account;
-          this.permissions = permissions;
-          this.role = role;
-          setAuthorities(permissions);
-          return response.data;
-        } else {
-          return Promise.reject(response);
-        }
-      });
+      const { setAuthLoading } = useLoadingStore();
+      setAuthLoading(true);
+      return http
+        .request<Account, Response<Profile>>('/account', 'get')
+        .then((response) => {
+          if (response.code === 0) {
+            const { setAuthorities } = useAuthStore();
+            const { account, permissions, role } = response.data;
+            this.account = account;
+            this.permissions = permissions;
+            this.role = role;
+            setAuthorities(permissions);
+            return response.data;
+          } else {
+            return Promise.reject(response);
+          }
+        })
+        .finally(() => setAuthLoading(false));
     },
     setLogged(logged: boolean) {
       this.logged = logged;

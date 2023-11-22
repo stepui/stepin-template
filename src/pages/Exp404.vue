@@ -11,7 +11,7 @@
   import ReadingLoader from '@/components/loaders/ReadingLoader.vue';
   import { configPage } from 'stepin/es/tabs-view';
   import { useRoute, useRouter } from 'vue-router';
-  import { useMenuStore, storeToRefs } from '@/store';
+  import { useLoadingStore, storeToRefs } from '@/store';
   import { watch } from 'vue';
 
   const props = defineProps({
@@ -19,15 +19,14 @@
   });
   const route = useRoute();
 
-  const { loading: _loading } = storeToRefs(useMenuStore());
+  const { pageLoading } = storeToRefs(useLoadingStore());
 
   const router = useRouter();
-
   if (props.loading) {
-    if (!_loading.value) {
+    if (!pageLoading.value) {
       router.push(route.fullPath);
     } else {
-      watch(_loading, () => {
+      watch(pageLoading, () => {
         router.push(route.fullPath);
       });
     }

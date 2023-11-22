@@ -8,6 +8,7 @@ import { useSettingStore } from './setting';
 import { RouteRecordRaw, RouteMeta } from 'vue-router';
 import { useAuthStore } from '@/plugins';
 import router from '@/router';
+import { useLoadingStore } from '@/store';
 
 export interface MenuProps {
   id?: number;
@@ -100,8 +101,6 @@ const toRoutes = (list: MenuProps[]): RouteOption[] => {
 export const useMenuStore = defineStore('menu', () => {
   const menuList = ref<MenuProps[]>([]);
 
-  const loading = ref(false);
-
   const { filterMenu } = storeToRefs(useSettingStore());
 
   const checkMenuPermission = () => {
@@ -118,7 +117,8 @@ export const useMenuStore = defineStore('menu', () => {
   watch(filterMenu, checkMenuPermission);
 
   async function getMenuList() {
-    loading.value = true;
+    const { setPageLoading } = useLoadingStore();
+    setPageLoading(true);
     return http
       .request<MenuProps[], Response<MenuProps[]>>('/menu', 'GET')
       .then((res) => {
@@ -128,7 +128,7 @@ export const useMenuStore = defineStore('menu', () => {
         checkMenuPermission();
         return data;
       })
-      .finally(() => (loading.value = false));
+      .finally(() => setPageLoading(false));
   }
 
   async function addMenu(menu: MenuProps) {
@@ -161,7 +161,6 @@ export const useMenuStore = defineStore('menu', () => {
   }
 
   return {
-    loading,
     menuList,
     getMenuList,
     addMenu,

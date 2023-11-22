@@ -31,7 +31,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.33",
     "qs": "^6.10.1",
-    "stepin": "^2.1.50-beta",
+    "stepin": "^2.1.51-beta",
     "vue": "^3.3.6",
     "vue-router": "^4.1.6"
   },
