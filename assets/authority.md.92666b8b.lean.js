@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as a,N as l}from"./chunks/framework.936c4080.js";const A=JSON.parse('{"title":"权限管理","description":"","frontmatter":{},"headers":[],"relativePath":"authority.md"}'),p={name:"authority.md"},o=l("",29),e=[o];function t(r,c,y,D,F,i){return n(),a("div",null,e)}const u=s(p,[["render",t]]);export{A as __pageData,u as default};

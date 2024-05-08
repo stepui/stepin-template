@@ -1,0 +1,1 @@
+import{_ as t,o as d,c as s,N as a}from"./chunks/framework.936c4080.js";const F=JSON.parse('{"title":"ThemeProvider","description":"","frontmatter":{},"headers":[],"relativePath":"theme/theme-provider.md"}'),r={name:"theme/theme-provider.md"},n=a("",24),e=[n];function l(o,p,i,c,h,D){return d(),s("div",null,e)}const g=t(r,[["render",l]]);export{F as __pageData,g as default};
