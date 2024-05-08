@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,N as l}from"./chunks/framework.936c4080.js";const A=JSON.parse('{"title":"尺寸与间距","description":"","frontmatter":{},"headers":[],"relativePath":"theme/size.md"}'),p={name:"theme/size.md"},e=l("",13),o=[e];function c(t,r,D,y,i,F){return n(),a("div",null,o)}const b=s(p,[["render",c]]);export{A as __pageData,b as default};

@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,N as l}from"./chunks/framework.936c4080.js";const A=JSON.parse('{"title":"路由&菜单","description":"","frontmatter":{},"headers":[],"relativePath":"router.md"}'),p={name:"router.md"},o=l("",33),e=[o];function t(r,c,D,F,y,C){return n(),a("div",null,e)}const u=s(p,[["render",t]]);export{A as __pageData,u as default};

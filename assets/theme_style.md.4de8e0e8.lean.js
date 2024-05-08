@@ -1,1 +1,0 @@
-import{_ as a,o as e,c as t,N as r}from"./chunks/framework.936c4080.js";const u=JSON.parse('{"title":"风格","description":"","frontmatter":{},"headers":[],"relativePath":"theme/style.md"}'),o={name:"theme/style.md"},s=r("",5),n=[s];function i(c,h,l,_,d,m){return e(),t("div",null,n)}const f=a(o,[["render",i]]);export{u as __pageData,f as default};
