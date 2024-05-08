@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/stepin-template/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Vue + TS</title>
+    <script type="module" crossorigin src="/stepin-template/assets/index-6388fb42.js"></script>
+    <link rel="stylesheet" href="/stepin-template/assets/index.b5ea1f8f.1715140187078.css">
+  </head>
+  <body>
+    <div id="stepin-app">
+      <style>
+        body {
+          height: 100vh;
+          text-align: center;
+          align-items: center;
+          background-color: #003f8c;
+          display: flex;
+          justify-content: center;
+        }
+        .loader {
+          color: rgb(124, 124, 124);
+          font-family: "Poppins",sans-serif;
+          font-weight: 500;
+          font-size: 25px;
+          box-sizing: content-box;
+          height: 40px;
+          padding: 10px 10px;
+          display: flex;
+          border-radius: 8px;
+        }
+
+        .words {
+          overflow: hidden;
+        }
+
+        .word {
+          display: block;
+          height: 100%;
+          padding-left: 6px;
+          color: #ffca29;
+          animation: spin_4991 4s infinite;
+        }
+
+        @keyframes spin_4991 {
+          10% {
+            transform: translateY(-105%);
+          }
+
+          25% {
+            transform: translateY(-100%);
+          }
+
+          35% {
+            transform: translateY(-205%);
+          }
+
+          50% {
+            transform: translateY(-200%);
+          }
+
+          60% {
+            transform: translateY(-305%);
+          }
+
+          75% {
+            transform: translateY(-300%);
+          }
+
+          85% {
+            transform: translateY(-405%);
+          }
+
+          100% {
+            transform: translateY(-400%);
+          }
+        }
+      </style>
+      <img style="margin-bottom: 8px;" width="64px" src="/stepin-template/vite.svg" />
+      <div class="loader">
+        <div>loading</div>
+        <div class="words">
+            <span class="word">buttons</span>
+            <span class="word">forms</span>
+            <span class="word">switches</span>
+            <span class="word">cards</span>
+            <span class="word">buttons</span>
+        </div>
+      </div>
+      <div class="" style="color: rgba(255, 255, 255, 0.35)">首次加载可能较慢，请耐心等待...</div>
+    </div>
+    
+    <script>
+      if (!global) {
+        var global = globalThis;
+      }
+    </script>
+  </body>
+</html>
