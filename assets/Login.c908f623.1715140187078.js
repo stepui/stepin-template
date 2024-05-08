@@ -1,2 +1,0 @@
-import{d as o,D as c,b as t,h as n,f as a,U as r,l as _}from"./index-6388fb42.js";const i={class:"login flex items-center justify-center"},u=o({__name:"Login",setup(l){const e=c();function s(){e.push("/workplace")}return(p,f)=>(t(),n("div",i,[a(r,{class:"shadow-lg",onSuccess:s})]))}}),m=_(u,[["__scopeId","data-v-49017142"]]);export{m as default};
-//# sourceMappingURL=Login.c908f623.1715140187078.js.map
