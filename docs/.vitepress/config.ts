@@ -27,7 +27,7 @@ export default defineConfig({
   },
   title: 'Stepin Template',
   description: 'the documents of stepin template',
-  base: '/stepin-template-docs/',
+  base: '/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

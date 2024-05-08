@@ -4,17 +4,17 @@
   "version": "1.2.0-preview",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "api": "node service/index.js",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -d dist -b pages -r https://gitee.com/stepui/stepin-template.git",
+    "deploy": "yarn build && gh-pages -d dist -b pages -r https://github.com/stepui/stepin-template.git",
     "deploy:github": "yarn build --mode github && gh-pages -d dist -b master -r git@github.com:stepui/stepui.github.io.git",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "docs:preview": "vitepress preview docs",
-    "docs:deploy": "vitepress build docs && gh-pages -d docs/.vitepress/dist -b main -r https://gitee.com/stepui/stepin-template-docs.git"
+    "docs:deploy": "vitepress build docs && gh-pages -d docs/.vitepress/dist -b docs -r https://github.com/stepui/stepin-template.git"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
@@ -31,8 +31,8 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.33",
     "qs": "^6.10.1",
-    "stepin": "2.1.60-beta",
-    "vue": "^3.3.6",
+    "stepin": "^2.1.61-beta",
+    "vue": "^3.3.13",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
