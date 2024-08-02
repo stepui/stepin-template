@@ -3,7 +3,7 @@ import http from './http';
 import { ref, watch } from 'vue';
 import { Response } from '@/types';
 import { RouteOption } from '@/router/interface';
-import { addRoutes, removeRoute } from '@/router/dynamicRoutes';
+import { replaceRoutes, removeRoute } from '@/router/dynamicRoutes';
 import { useSettingStore } from './setting';
 import { RouteRecordRaw, RouteMeta } from 'vue-router';
 import { useAuthStore } from '@/plugins';
@@ -124,7 +124,7 @@ export const useMenuStore = defineStore('menu', () => {
       .then((res) => {
         const { data } = res;
         menuList.value = data;
-        addRoutes(toRoutes(data));
+        replaceRoutes(toRoutes(data), false);
         checkMenuPermission();
         return data;
       })

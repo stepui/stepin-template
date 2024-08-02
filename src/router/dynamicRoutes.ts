@@ -3,6 +3,7 @@ import Pages from '@/pages';
 import { RouteRecordRaw } from 'vue-router';
 import { RouteOption, LazyRouteComponent, RouteRecordLink } from './interface';
 import router from './index';
+import localRoutes from './routes';
 import { initUndefined } from '@/utils/helpers';
 
 // 注册 IframeBox、BlankView 组件
@@ -207,6 +208,27 @@ export function addRoutes(routes: RouteOption[]) {
 }
 
 /**
+ * 替换路由
+ * @param routes 要替换的路由
+ * @param ignoreLocalRoutes 是否忽略本地路由配置(src/router/routes.ts)
+ * true: 只替换为新路由
+ * false: 替换新路由，并保留本地路由(src/router/routes.ts)
+ */
+export function replaceRoutes(routes: RouteOption[], ignoreLocalRoutes: boolean) {
+  const routesRaw: RouteRecordRaw[] = parseRoutes(routes);
+  const flatLocalRoutes = flatRoutes(localRoutes);
+  for (let i = 0; i < router.options.routes.length; i++) {
+    const route = router.options.routes[i];
+    if (ignoreLocalRoutes || flatLocalRoutes.findIndex((r) => r.name === route.name) < 0) {
+      console.log('移出路由', ignoreLocalRoutes, route);
+      router.removeRoute(route.name);
+    }
+  }
+  routesRaw.forEach((routeRaw) => router.addRoute(routeRaw));
+  router.options.routes = ignoreLocalRoutes ? routesRaw : mergeRoutes(localRoutes, routesRaw);
+}
+
+/**
  * 过滤路由配置
  * @param routes 路由配置数组
  * @param filter 过滤条件
@@ -245,4 +267,19 @@ export function appendRoutes(routes: RouteOption[], parentName: string) {
   const routesRaw: RouteRecordRaw[] = parseRoutes(routes);
   routesRaw.forEach((routeRaw) => router.addRoute(parentName, routeRaw));
   parent.children = mergeRoutes(router.options.routes, mergeRoutes(parent.children ?? [], routesRaw));
+}
+
+/**
+ * 扁平化路由配置
+ * @param routes
+ */
+function flatRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
+  const _routes: RouteRecordRaw[] = [];
+  routes.forEach((route) => {
+    _routes.push(route);
+    if (route.children && route.children.length > 0) {
+      _routes.push(...flatRoutes(route.children));
+    }
+  });
+  return _routes;
 }
