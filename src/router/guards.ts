@@ -74,7 +74,36 @@ const NotFoundGuard: NaviGuard = {
   },
 };
 
+// scroll guard.
+// 保证切换路由时，tabs-view 和 layout 的滚动位置不变
+const tabsViewScroll: Record<string, number> = {};
+const layoutScroll: Record<string, number> = {};
+const ScrollGuard: NaviGuard = {
+  before(to, from) {
+    const tabsView = document.body.querySelector('.stepin-tabs-view-content');
+    if (tabsView) {
+      tabsViewScroll[from.fullPath] = tabsView.scrollTop;
+    }
+    const layout = document.body.querySelector('.stepin-layout-content');
+    if (layout) {
+      layoutScroll[from.fullPath] = layout.scrollTop;
+    }
+  },
+  after(to, from) {
+    Promise.resolve().then(() => {
+      const tabsView = document.body.querySelector('.stepin-tabs-view-content');
+      if (tabsView) {
+        tabsView.scrollTop = tabsViewScroll[to.fullPath] ?? 0;
+      }
+      const layout = document.body.querySelector('.stepin-layout-content');
+      if (layout) {
+        layout.scrollTop = layoutScroll[to.fullPath] ?? 0;
+      }
+    });
+  },
+};
+
 export default {
-  before: [ProgressGuard.before, ForbiddenGuard.before, loginGuard, NotFoundGuard.before],
-  after: [ProgressGuard.after],
+  before: [ScrollGuard.before, ProgressGuard.before, ForbiddenGuard.before, loginGuard, NotFoundGuard.before],
+  after: [ProgressGuard.after, ScrollGuard.after],
 };
