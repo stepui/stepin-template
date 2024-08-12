@@ -1,10 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { reactive } from 'vue';
+import { shallowReactive } from 'vue';
 import routes from './routes';
 import guards from './guards';
 
 const router = createRouter(
-  reactive({
+  shallowReactive({
     history: createWebHashHistory(),
     routes,
   })

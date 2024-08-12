@@ -32,8 +32,8 @@
     "pinia": "^2.0.33",
     "qs": "^6.10.1",
     "stepin": "^2.1.61-beta",
-    "vue": "^3.3.13",
-    "vue-router": "4.1.6"
+    "vue": "^3.4.36",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@tailwindcss/container-queries": "^0.1.0",
