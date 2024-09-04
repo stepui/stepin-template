@@ -48,16 +48,19 @@ English | [简体中文](./README.md)
 git clone https://github.com/stepui/stepin-template.git
 ```
 
-### 安装依赖
+### 安装依赖、启动
+yarn
 
-```bash
-yarn install
+```sh
+$ yarn install
+$ yarn dev
 ```
 
-### 启动
+或npm
 
-```
-yarn dev
+```sh
+$ npm install
+$ npm run dev
 ```
 
 ### 预览
