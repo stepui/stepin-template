@@ -48,7 +48,7 @@ function doMenuFilter(routes: Readonly<RouteRecordRaw[]>, parentPermission?: str
     if (required) {
       route.meta = route.meta ?? {};
       setCache(route.meta);
-      route.meta.renderMenu = hasAuthority(route.meta.permission);
+      route.meta.renderMenu = hasAuthority(route.meta.permission)  && route.meta.renderMenu;
     }
     if (route.children) {
       doMenuFilter(route.children, required);
